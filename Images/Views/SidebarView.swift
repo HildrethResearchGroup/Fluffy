@@ -9,9 +9,30 @@ import SwiftUI
 
 struct SidebarView: View {
 	@Binding var selection: Set<Directory>
+
+	var rootDirectory = PersistenceController
+		.shared
+		.loadRootDirectory()
 	
 	var body: some View {
-		SidebarViewController(selection: $selection)
+		switch rootDirectory {
+		case .success(let root):
+			SidebarViewController(rootDirectory: root,
+														selection: $selection)
+		case .failure(let error):
+			ZStack {
+				Image(systemName: "exclamationmark.triangle")
+					.font(.largeTitle)
+				VStack {
+					Spacer()
+					Text("Error: \(error.localizedDescription)")
+						.font(.body)
+				}
+			}
+			.padding()
+			.frame(maxWidth: .infinity, maxHeight: .infinity)
+			.background(VisualEffectView(effect: .behindWindow))
+		}
 	}
 }
 

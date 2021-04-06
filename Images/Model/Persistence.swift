@@ -7,23 +7,13 @@
 
 import CoreData
 
+/// A controller responsible for controlling the application's persistence state.
 struct PersistenceController {
-	/// The name of the Core Data model.
-	private static let dataModelName = "Images"
-	
-	/// The store type for Core Data to use (SQLite).
-	///
-	/// SQLite is used because it is nonatomic, so the whole datagraph doesn't need to be all loaded in memory at all times.
-	private static let storeType = "sqlite"
-	
-	#if DEBUG
-	static let shared = usePreview ? preview : PersistenceController()
-	#else
-	static let shared = PersistenceController()
-	#endif
-	
+	/// The Core Data persistent container.
 	let container: NSPersistentContainer
 	
+	/// Creates a new persistence controller.
+	/// - Parameter inMemory: If `true`, the store is stored in memory, otherwise, the default disk storage method is used (SQLite).
 	init(inMemory: Bool = false) {
 		container = NSPersistentContainer(name: Self.dataModelName)
 		if inMemory {
@@ -55,32 +45,64 @@ struct PersistenceController {
 	}
 }
 
+// MARK: Singleton
+extension PersistenceController {
+	#if DEBUG
+	static let shared = usePreview ? preview : PersistenceController()
+	#else
+	static let shared = PersistenceController()
+	#endif
+}
+
+// MARK: Constants
+extension PersistenceController {
+	/// The name of the Core Data model.
+	private static let dataModelName = "Images"
+	
+	/// The store type for Core Data to use (SQLite).
+	///
+	/// SQLite is used because it is nonatomic, so the whole data-graph doesn't need to be all loaded in memory at all times.
+	private static let storeType = "sqlite"
+}
+
 // MARK: Helper functions
-extension NSManagedObjectContext {
-	func loadRootDirectory() -> Directory {
-		/// A function that creates a new root directory. This is done if there is no root directory yet.
-		func makeRootDirectory() -> Directory {
-			let directory = Directory(context: self)
-			try? self.save()
-			return directory
-		}
-		// Fetch any single directory object
+extension PersistenceController {
+	/// A function that creates a new root directory. This is done if there is no root directory yet.
+	private func makeRootDirectory() throws -> Directory {
+		let directory = Directory(context: container.viewContext)
+		try container.viewContext.save()
+		return directory
+	}
+	
+	private func fetchAnyDirectory() throws -> Directory? {
 		let request = NSFetchRequest<Directory>(entityName: "Directory")
 		request.fetchLimit = 1
 		
-		do {
-			let fetch = try self.fetch(request)
-			guard var child = fetch.first else {
-				// There were no results returned, so make a root directory
-				return makeRootDirectory()
+		return try container
+			.viewContext
+			.fetch(request)
+			.first
+	}
+	
+	/// Loads the root directory in the store, creating one if one does not exist.
+	/// - Returns: The store's root directory instance.
+	func loadRootDirectory() -> Result<Directory, Error> {
+		return .init { () -> Directory in
+			#if DEBUG
+			if forceThrowForLoadRootDirectory {
+				throw DebugError()
 			}
-			// Recursivley set the child to the parent in order to traverse up the tree until there is no parent. The root has no parent
+			#endif
+			
+			guard var child = try fetchAnyDirectory() else {
+				// There were no results returned, so make a root directory
+				return try makeRootDirectory()
+			}
+			// Recursively set the child to the parent in order to traverse up the tree until there is no parent. The root has no parent
 			while let parent = child.parent {
 				child = parent
 			}
 			return child
-		} catch {
-			fatalError("Failed to fetch root directory: \(error)")
 		}
 	}
 }
@@ -91,7 +113,7 @@ extension PersistenceController {
 	///
 	/// A useful utility for deleting all data for debugging purposes. When the data schema is changed, this should be called, or Core Data will fail to read the data. To have this called while in `DEBUG`, simply set `shouldResetCoreData` to `true` in `Debug.swift`.
 	///
-	/// - Warning: This will perminently delete all saved data.
+	/// - Warning: This will permanently delete all saved data.
 	private func deleteStore() {
 		// The file is stored at ~/ApplicationSupport/Graphs/GraphsModel.sqlite
 		let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]

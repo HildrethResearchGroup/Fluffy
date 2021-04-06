@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct SidebarViewController {
+	var rootDirectory: Directory
 	@Binding var selection: Set<Directory>
-	@EnvironmentObject var rootDirectory: Directory
+	@Environment(\.managedObjectContext) var viewContext
 }
 
 // MARK:- NSViewControllerRepresentable {
@@ -60,8 +61,12 @@ extension SidebarViewController {
 // MARK:- Previews
 struct SidebarViewController_Previews: PreviewProvider {
 	@State static var selection: Set<Directory> = []
+	static let rootDirectory = try! PersistenceController
+		.preview
+		.loadRootDirectory()
+		.get()
 	
 	static var previews: some View {
-		SidebarViewController(selection: $selection)
+		SidebarViewController(rootDirectory: rootDirectory, selection: $selection)
 	}
 }

@@ -9,28 +9,35 @@ import SwiftUI
 
 struct PrimaryView: View {
 	@Environment(\.managedObjectContext) private var viewContext
-	
 	@EnvironmentObject var rootDirectory: Directory
 	@State private var sidebarSelection: Set<Directory> = []
 	
 	var body: some View {
-		HSplitView {
+		NavigationView {
 			SidebarView(selection: $sidebarSelection)
-				.frame(minWidth: 150, idealWidth: 200, maxWidth: .infinity)
+				.frame(minWidth: 150, idealWidth: 300, maxWidth: .infinity)
 			ImageCollectionView(selectedDirectories: sidebarSelection)
+		}
+		.toolbar {
+			ToolbarItemGroup(placement: .navigation) {
+				Button {
+					NSApp
+						.keyWindow?
+						.firstResponder?
+						.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)),
+													with: nil)
+				} label: {
+					Image(systemName: "sidebar.left")
+				}
+				
+				Spacer()
+			}
 		}
 	}
 }
 
 struct PrimaryView_Previews: PreviewProvider {
-	static var root = PersistenceController
-		.preview
-		.container
-		.viewContext
-		.loadRootDirectory()
-	
 	static var previews: some View {
 		PrimaryView()
-			.environmentObject(root)
 	}
 }
