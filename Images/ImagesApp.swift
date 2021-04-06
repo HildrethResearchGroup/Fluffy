@@ -9,12 +9,16 @@ import SwiftUI
 
 @main
 struct ImagesApp: App {
-    let persistenceController = PersistenceController.shared
-
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-        }
-    }
+	private var persistenceController = PersistenceController.shared
+	
+	@StateObject var rootDirectory = PersistenceController.shared.container.viewContext.loadRootDirectory()
+	
+	var body: some Scene {
+		WindowGroup {
+			PrimaryView()
+				.environment(\.managedObjectContext,
+										 persistenceController.container.viewContext)
+				.environmentObject(rootDirectory)
+		}
+	}
 }
