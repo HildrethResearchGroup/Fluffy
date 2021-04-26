@@ -11,12 +11,24 @@ struct PrimaryView: View {
 	@Environment(\.managedObjectContext) private var viewContext
 	@EnvironmentObject var rootDirectory: Directory
 	@State private var sidebarSelection: Set<Directory> = []
+	@State private var needsUpdate = false
 	
 	var body: some View {
 		NavigationView {
-			SidebarView(selection: $sidebarSelection)
+			SidebarView(selection: $sidebarSelection, needsUpdate: $needsUpdate)
 				.frame(minWidth: 150, idealWidth: 300, maxWidth: .infinity)
-			ImageCollectionView(selectedDirectories: sidebarSelection)
+			// Hack with need update to force image collection to reload
+			if needsUpdate {
+				ZStack {
+					Text("")
+					ImageCollectionView(selectedDirectories: sidebarSelection)
+				}
+			} else {
+				ZStack {
+					Text(" ")
+					ImageCollectionView(selectedDirectories: sidebarSelection)
+				}
+			}
 		}
 		.toolbar {
 			ToolbarItemGroup(placement: .navigation) {

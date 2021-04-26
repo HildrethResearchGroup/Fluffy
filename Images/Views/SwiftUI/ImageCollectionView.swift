@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ImageCollectionView: View {
+	@Environment(\.managedObjectContext) private var viewContext
 	static let group = "ImageCollectionView"
 	
 	var selectedDirectories: Set<Directory>
@@ -24,6 +25,10 @@ struct ImageCollectionView: View {
 						Text("X")
 					}
 					Text(file.displayName)
+				}
+				.onDrag {
+					let uri = file.objectID.uriRepresentation() as NSURL
+					return NSItemProvider(object: uri)
 				}
 			}
 		}

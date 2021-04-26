@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SidebarView: View {
 	@Binding var selection: Set<Directory>
+	@Binding var needsUpdate: Bool
 
 	var rootDirectory = PersistenceController
 		.shared
@@ -18,7 +19,8 @@ struct SidebarView: View {
 		switch rootDirectory {
 		case .success(let root):
 			SidebarViewController(rootDirectory: root,
-														selection: $selection)
+														selection: $selection,
+														needsUpdate: $needsUpdate)
 		case .failure(let error):
 			ZStack {
 				Image(systemName: "exclamationmark.triangle")
@@ -38,8 +40,9 @@ struct SidebarView: View {
 
 struct SidebarView_Previews: PreviewProvider {
 	@State static var selection: Set<Directory> = []
+	@State static var needsUpdate = false
 	
 	static var previews: some View {
-		SidebarView(selection: $selection)
+		SidebarView(selection: $selection, needsUpdate: $needsUpdate)
 	}
 }

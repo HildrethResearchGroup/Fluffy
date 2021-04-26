@@ -25,6 +25,6 @@ class SidebarOutlineViewController: NSViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		outlineView.registerForDraggedTypes([.directoryRowPasteboardType])
+		outlineView.registerForDraggedTypes([.directoryRowPasteboardType, .URL])
 	}
 }

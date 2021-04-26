@@ -40,9 +40,52 @@ extension SidebarViewController.Coordinator {
 															 onView: outlineView) {
 				result = .move
 			}
+		} else if info.draggingPasteboard
+								.availableType(from: [.imagePasteboardType]) != nil {
+			// Drag source is an internal image
+			// Images cannot be placed in the root directory
+			if dropDirectory != parent.rootDirectory {
+				result = .move
+			}
+		} else if info.draggingPasteboard
+								.availableType(from: [.URL]) != nil {
+			var urls: [URL] = []
+			
+			info.enumerateDraggingItems(options: [],
+																	for: outlineView,
+																	classes: [NSPasteboardItem.self],
+																	searchOptions: [:]) { dragItem, _, _ in
+				
+				guard let dragItem = dragItem.item as? NSPasteboardItem,
+				let propertyList = dragItem.propertyList(forType: .URL),
+				let url = NSURL(pasteboardPropertyList: propertyList,
+												ofType: .URL) as URL?
+				else {
+					return
+				}
+				
+				urls.append(url)
+			}
+			
+			let coreDataObjects: [NSManagedObject] = urls
+				.compactMap { url in
+					guard let objectID = parent.viewContext
+						.persistentStoreCoordinator?
+						.managedObjectID(forURIRepresentation: url)
+					else { return nil }
+					
+					return parent.viewContext.object(with: objectID)
+				}
+			
+			let imageObjects = coreDataObjects
+				.compactMap { $0 as? File }
+			
+			if !imageObjects.isEmpty {
+				result = .move
+			}
 		} else {
-			// TODO: Check for internal image drops and external drops
-		}
+			// TODO: Check for external drops
+		 }
 		
 		return result
 	}
@@ -55,14 +98,59 @@ extension SidebarViewController.Coordinator {
 	) -> Bool {
 		let dropDirectory = directory(fromItem: item) ?? parent.rootDirectory
 		
-		if info.draggingPasteboard.availableType(from: [.directoryRowPasteboardType]) != nil {
-			// The items that are being dragged are internal items
+		if info.draggingPasteboard
+				.availableType(from: [.directoryRowPasteboardType]) != nil {
+			// The items that are being dragged are internal directory items
 			handleInternalDirectoryDrops(outlineView,
 																	 draggingInfo: info,
 																	 dropDirectory: dropDirectory,
 																	 childIndex: index)
+		} else if info.draggingPasteboard
+								.availableType(from: [.imagePasteboardType]) != nil {
+			// The items being dragged are internal image items
+		} else if info.draggingPasteboard
+								.availableType(from: [.URL]) != nil {
+			var urls: [URL] = []
+			
+			info.enumerateDraggingItems(options: [],
+																	for: outlineView,
+																	classes: [NSPasteboardItem.self],
+																	searchOptions: [:]) { dragItem, _, _ in
+				
+				guard let dragItem = dragItem.item as? NSPasteboardItem,
+				let propertyList = dragItem.propertyList(forType: .URL),
+				let url = NSURL(pasteboardPropertyList: propertyList,
+												ofType: .URL) as URL?
+				else {
+					return
+				}
+				
+				urls.append(url)
+			}
+			
+			let coreDataObjects: [NSManagedObject] = urls
+				.compactMap { url in
+					guard let objectID = parent.viewContext
+						.persistentStoreCoordinator?
+						.managedObjectID(forURIRepresentation: url)
+					else { return nil }
+					
+					return parent.viewContext.object(with: objectID)
+				}
+			
+			if dropDirectory != parent.rootDirectory {
+				coreDataObjects
+					.compactMap { $0 as? File }
+					.forEach { image in
+						image.parent?.removeFromFiles(image)
+						dropDirectory.addToFiles(image)
+						image.parent = dropDirectory
+					}
+				
+				parent.needsUpdate.toggle()
+			}
 		} else {
-			// TODO: Handle internal image drops and external drops
+			// TODO: Handle external drops
 		}
 		
 		return true
@@ -150,6 +238,21 @@ extension SidebarViewController.Coordinator {
 		return outlineView?.item(atRow: row) as? Directory
 	}
 	
+	/// Returns the file associated with a given pasteboard item.
+	private func fileFromPasteboardItem(_ item: NSPasteboardItem) -> File? {
+		// Get the row number from the property list
+		guard let plist = item.propertyList(forType: .imagePasteboardType)
+						as? [String: Any],
+					let objectID = plist[ImagePasteboardWriter.UserInfoKeys.objectID]
+						as? NSManagedObjectID,
+					let image = parent.viewContext.object(with: objectID) as? File
+		else {
+			return nil
+		}
+		
+		return image
+	}
+	
 	/// Handles dropping internal items onto the sidebar.
 	/// - Parameters:
 	///   - outlineView: The outline view being dropped onto.
@@ -223,5 +326,35 @@ extension SidebarViewController.Coordinator {
 			}
 		}
 		outlineView.endUpdates()
+	}
+	
+	/// Handles dropping internal files onto the sidebar.
+	/// - Parameters:
+	///   - outlineView: The outline view being dropped onto.
+	///   - draggingInfo: The dragging info.
+	///   - dropDirectory: The directory that the items are being dropped into.
+	///   - index: The child index of the directory that the items are being dropped at.
+	private func handleInternalFileDrops(
+		_ outlineView: NSOutlineView,
+		draggingInfo: NSDraggingInfo,
+		dropDirectory: Directory,
+		childIndex index: Int
+	) {
+		var itemsToMove: [File] = []
+		
+		draggingInfo.enumerateDraggingItems(options: [], for: outlineView, classes: [NSPasteboardItem.self], searchOptions: [:]) { dragItem, _, _ in
+			if let droppedPasteboardItem = dragItem.item as? NSPasteboardItem {
+				if let itemToMove = self.fileFromPasteboardItem(droppedPasteboardItem) {
+					itemsToMove.append(itemToMove)
+				}
+			}
+		}
+		
+		// Move each file
+		itemsToMove.forEach { file in
+			file.parent?.removeFromFiles(file)
+			dropDirectory.addToFiles(file)
+			file.parent = dropDirectory
+		}
 	}
 }

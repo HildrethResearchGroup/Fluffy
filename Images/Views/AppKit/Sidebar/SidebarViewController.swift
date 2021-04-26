@@ -10,6 +10,7 @@ import SwiftUI
 struct SidebarViewController {
 	var rootDirectory: Directory
 	@Binding var selection: Set<Directory>
+	@Binding var needsUpdate: Bool
 	@Environment(\.managedObjectContext) var viewContext
 }
 
@@ -61,12 +62,15 @@ extension SidebarViewController {
 // MARK:- Previews
 struct SidebarViewController_Previews: PreviewProvider {
 	@State static var selection: Set<Directory> = []
+	@State static var needsUpdate = false
 	static let rootDirectory = try! PersistenceController
 		.preview
 		.loadRootDirectory()
 		.get()
 	
 	static var previews: some View {
-		SidebarViewController(rootDirectory: rootDirectory, selection: $selection)
+		SidebarViewController(rootDirectory: rootDirectory,
+													selection: $selection,
+													needsUpdate: $needsUpdate)
 	}
 }
