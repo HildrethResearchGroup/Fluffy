@@ -27,6 +27,7 @@
 		5A8A979E261AF2A900FBE591 /* LazyDiskImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A979D261AF2A900FBE591 /* LazyDiskImage.swift */; };
 		5A9CB74F2637365900D8488E /* SidebarViewController+DragDrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CB74E2637365900D8488E /* SidebarViewController+DragDrop.swift */; };
 		5A9CB7542637380E00D8488E /* DirectoryPasteboardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CB7532637380E00D8488E /* DirectoryPasteboardItem.swift */; };
+		5A9CB759263743C900D8488E /* ImagePasteboardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CB758263743C900D8488E /* ImagePasteboardItem.swift */; };
 		5ACD136425FF3D1400E64523 /* ImageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACD136325FF3D1400E64523 /* ImageCollectionView.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,7 @@
 		5A8A979D261AF2A900FBE591 /* LazyDiskImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyDiskImage.swift; sourceTree = "<group>"; };
 		5A9CB74E2637365900D8488E /* SidebarViewController+DragDrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SidebarViewController+DragDrop.swift"; sourceTree = "<group>"; };
 		5A9CB7532637380E00D8488E /* DirectoryPasteboardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryPasteboardItem.swift; sourceTree = "<group>"; };
+		5A9CB758263743C900D8488E /* ImagePasteboardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePasteboardItem.swift; sourceTree = "<group>"; };
 		5ACD136325FF3D1400E64523 /* ImageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,7 +121,6 @@
 				5A8A978A261ADF6700FBE591 /* SidebarViewController+NSOutlineViewDelegate.swift */,
 				5A1B8C5926092828000B2120 /* SidebarOutlineView.swift */,
 				5A9CB74E2637365900D8488E /* SidebarViewController+DragDrop.swift */,
-				5A9CB7532637380E00D8488E /* DirectoryPasteboardItem.swift */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -190,6 +191,8 @@
 			isa = PBXGroup;
 			children = (
 				5A2F421525E20BE3000D70A8 /* Persistence.swift */,
+				5A9CB7532637380E00D8488E /* DirectoryPasteboardItem.swift */,
+				5A9CB758263743C900D8488E /* ImagePasteboardItem.swift */,
 				5A2F421725E20BE3000D70A8 /* Images.xcdatamodeld */,
 				5A2F424C25E20E08000D70A8 /* Entities */,
 			);
@@ -367,6 +370,7 @@
 				5A2F420D25E20BE1000D70A8 /* ImagesApp.swift in Sources */,
 				5ACD136425FF3D1400E64523 /* ImageCollectionView.swift in Sources */,
 				5A8A979E261AF2A900FBE591 /* LazyDiskImage.swift in Sources */,
+				5A9CB759263743C900D8488E /* ImagePasteboardItem.swift in Sources */,
 				5A1B8C5526091D84000B2120 /* SidebarViewController.swift in Sources */,
 				5A9CB74F2637365900D8488E /* SidebarViewController+DragDrop.swift in Sources */,
 				5A2F424625E20DF8000D70A8 /* Directory.swift in Sources */,

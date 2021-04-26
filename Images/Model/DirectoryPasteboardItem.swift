@@ -20,28 +20,42 @@ class DirectoryPasteboardWriter: NSFilePromiseProvider {
 	}
 	
 	// MARK: NSPasteboardWriting
-	override func writableTypes(for pasteboard: NSPasteboard) -> [NSPasteboard.PasteboardType] {
+	override func writableTypes(
+		for pasteboard: NSPasteboard
+	) -> [NSPasteboard.PasteboardType] {
 		var types = super.writableTypes(for: pasteboard)
-		// As well as promise files, add internal directory pasteboard type and fileURLs.
+		// As well as promise files, add internal directory pasteboard type and
+		// fileURLs
 		types.append(.directoryRowPasteboardType)
 		types.append(.fileURL)
 		return types
 	}
 	
-	override func pasteboardPropertyList(forType type: NSPasteboard.PasteboardType) -> Any? {
+	override func pasteboardPropertyList(
+		forType type: NSPasteboard.PasteboardType
+	) -> Any? {
 		switch type {
 		case .directoryRowPasteboardType:
-			// The pasteboard type is the internal directory drag, use userInfo as the property list
+			// The pasteboard type is the internal directory drag, use userInfo as the
+			// property list
 			return userInfo
 		default:
-			// The pasteboard type could be a file promise, the super class can determine the property list.
+			// The pasteboard type could be a file promise, the super class can
+			// determine the property list
 			return super.pasteboardPropertyList(forType: type)
 		}
 	}
 	
 }
 
-// MARK: Utilities
+// MARK:- Pasteboard Type
+extension NSPasteboard.PasteboardType {
+	static let directoryRowPasteboardType = Self(
+		"com.connorbarnes.fluffy.directoryRowPasteboardType"
+	)
+}
+
+// MARK:- Utilities
 extension DirectoryPasteboardWriter {
 	/// Returns the url of a file promise provider.
 	/// - Parameter filePromiseProvider: The file promise provider.

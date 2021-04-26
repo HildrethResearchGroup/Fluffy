@@ -7,12 +7,6 @@
 
 import Cocoa
 
-extension NSPasteboard.PasteboardType {
-	static let directoryRowPasteboardType = Self(
-		"com.connorbarnes.fluffy.directoryRowPasteboardType"
-	)
-}
-
 extension SidebarViewController.Coordinator {
 	func outlineView(
 		_ outlineView: NSOutlineView,
