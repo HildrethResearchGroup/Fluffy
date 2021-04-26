@@ -117,6 +117,19 @@ extension Directory {
 	var name: String {
 		return customName ?? url?.lastPathComponent ?? ""
 	}
+	
+	/// The recursive parent directories of this directory.
+	var ancestors: Set<Directory> {
+		var ancestors: Set<Directory> = []
+		var parent = self.parent
+		
+		while let nextParent = parent {
+			ancestors.insert(nextParent)
+			parent = nextParent.parent
+		}
+		
+		return ancestors
+	}
 }
 
 // MARK: Identifiable

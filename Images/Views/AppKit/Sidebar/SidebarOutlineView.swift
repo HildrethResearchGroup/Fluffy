@@ -21,4 +21,10 @@ class SidebarOutlineViewController: NSViewController {
 	@IBAction func removeButtonPressed(_ sender: Any) {
 		
 	}
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+		outlineView.registerForDraggedTypes([.directoryRowPasteboardType])
+	}
 }
