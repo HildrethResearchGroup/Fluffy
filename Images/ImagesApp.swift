@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// The Images application.
 @main
 struct ImagesApp: App {
 	/// The app's persistence controller, responsible for the app's CoreData store.

@@ -74,6 +74,9 @@ extension SidebarViewController.Coordinator: NSOutlineViewDelegate {
 
 // MARK:- Helper Functions
 extension SidebarViewController.Coordinator {
+	/// Converts an NSOutlineView item into a directory.
+	/// - Parameter item: The item returned from an NSOutlineView.
+	/// - Returns: The directory represented by the item.
 	func directory(fromItem item: Any?) -> Directory? {
 		// The top level item is given as nil by AppKit.
 		guard let item = item else { return parent.rootDirectory }
@@ -83,6 +86,7 @@ extension SidebarViewController.Coordinator {
 	
 	/// Removes the given directories from the sidebar and updates the model.
 	/// - Parameter directories: The directories to remove.
+	/// - Parameter outlineView: The outline view to update.
 	func remove(
 		directories: [Directory],
 		inOutlineView outlineView: NSOutlineView

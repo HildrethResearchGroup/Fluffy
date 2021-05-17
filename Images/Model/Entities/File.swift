@@ -28,19 +28,21 @@ class File: NSManagedObject {
 	@NSManaged var parent: Directory?
 }
 
-// MARK: Identifiable
+// MARK:- Identifiable
 extension File: Identifiable {
 	public var id: NSManagedObjectID {
 		return self.objectID
 	}
 }
 
-// MARK: Computed properties
+// MARK:- Computed properties
 extension File {
+	/// The display name to show the user for the file.
 	var displayName: String {
 		return customName ?? fileName ?? ""
 	}
 	
+	/// The name of the file as determined from its URL. `nil` if the image has no URL.
 	var fileName: String? {
 		return url?
 			.deletingPathExtension()

@@ -31,6 +31,7 @@
 		5ABE618C2652EA8300308B11 /* ManualUpdatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE618B2652EA8300308B11 /* ManualUpdatableView.swift */; };
 		5ABE618F2652ED8A00308B11 /* ImageCollectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE618E2652ED8A00308B11 /* ImageCollectionListView.swift */; };
 		5ABE61912652F04C00308B11 /* ImageCollectionIconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE61902652F04C00308B11 /* ImageCollectionIconsView.swift */; };
+		5ABE619326531A2900308B11 /* DiskImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE619226531A2900308B11 /* DiskImageView.swift */; };
 		5ACD136425FF3D1400E64523 /* ImageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACD136325FF3D1400E64523 /* ImageCollectionView.swift */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 		5ABE618B2652EA8300308B11 /* ManualUpdatableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualUpdatableView.swift; sourceTree = "<group>"; };
 		5ABE618E2652ED8A00308B11 /* ImageCollectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionListView.swift; sourceTree = "<group>"; };
 		5ABE61902652F04C00308B11 /* ImageCollectionIconsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionIconsView.swift; sourceTree = "<group>"; };
+		5ABE619226531A2900308B11 /* DiskImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskImageView.swift; sourceTree = "<group>"; };
 		5ACD136325FF3D1400E64523 /* ImageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -156,6 +158,7 @@
 			children = (
 				5A2F420C25E20BE1000D70A8 /* ImagesApp.swift */,
 				5A2F427025E22E6A000D70A8 /* Debug.swift */,
+				5ABE619226531A2900308B11 /* DiskImageView.swift */,
 				5A2F424B25E20E03000D70A8 /* Model */,
 				5A2F425925E211EF000D70A8 /* Views */,
 				5A1B8C7226092C7B000B2120 /* Main.storyboard */,
@@ -394,6 +397,7 @@
 				5A9CB74F2637365900D8488E /* SidebarViewController+DragDrop.swift in Sources */,
 				5A2F424625E20DF8000D70A8 /* Directory.swift in Sources */,
 				5ABE61912652F04C00308B11 /* ImageCollectionIconsView.swift in Sources */,
+				5ABE619326531A2900308B11 /* DiskImageView.swift in Sources */,
 				5A8A978B261ADF6700FBE591 /* SidebarViewController+NSOutlineViewDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

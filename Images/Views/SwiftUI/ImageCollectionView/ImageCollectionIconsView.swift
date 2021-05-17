@@ -7,9 +7,15 @@
 
 import SwiftUI
 
+/// A view displaying images as a grid of icons.
 struct ImageCollectionIconsView: View {
+	/// The files to display.
 	var filesToShow: [File]
+	
+	/// The group used for loading the images from disk lazily.
 	var lazyDiskImageGroup: String
+	
+	/// The size of images.
 	@Binding var thumbnailScale: CGFloat
 	
 	init(filesToShow: [File], lazyDiskImageGroup: String, thumbnailScale: Binding<CGFloat>) {
@@ -20,35 +26,53 @@ struct ImageCollectionIconsView: View {
 	}
 	
 	var body: some View {
-		let columns = [
-			GridItem(.adaptive(minimum: thumbnailScale, maximum: thumbnailScale * 2), spacing: 10.0)
-		]
 		ScrollView(.vertical) {
 			LazyVGrid(columns: columns) {
-				ForEach(filesToShow) { file in
-					VStack {
-						if let url = file.url {
-							LazyDiskImage(at: url,
-														in: lazyDiskImageGroup,
-														imageSize: CGSize(width: thumbnailScale * 2, height: thumbnailScale * 2))
-								.scaledToFit()
-						} else {
-							Text("X")
-						}
-						Text(file.displayName)
-							.lineLimit(1)
-					}
-					.onDrag {
-						let uri = file.objectID.uriRepresentation() as NSURL
-						return NSItemProvider(object: uri)
-					}
-				}
+				ForEach(filesToShow, content: view(forFile:))
 			}
 			.padding(10.0)
 		}
 	}
 }
 
+// MARK:- Subviews
+extension ImageCollectionIconsView {
+	/// The view for the given file.
+	/// - Parameter file: The file to display.
+	/// - Returns: The file's view.
+	@ViewBuilder
+	func view(forFile file: File) -> some View {
+		VStack {
+			if let url = file.url {
+				LazyDiskImage(at: url,
+											in: lazyDiskImageGroup,
+											imageSize: CGSize(width: thumbnailScale * 2, height: thumbnailScale * 2))
+					.scaledToFit()
+			} else {
+				Text("X")
+			}
+			Text(file.displayName)
+				.lineLimit(1)
+		}
+		.onDrag {
+			let uri = file.objectID.uriRepresentation() as NSURL
+			return NSItemProvider(object: uri)
+		}
+	}
+}
+
+// MARK:- Helper Functions
+extension ImageCollectionIconsView {
+	/// The grid's columns.
+	var columns: [GridItem] {
+		[
+			GridItem(.adaptive(minimum: thumbnailScale, maximum: thumbnailScale * 2),
+							 spacing: 10.0)
+		]
+	}
+}
+
+// MARK:- Previews
 struct ImageCollectionIconsView_Previews: PreviewProvider {
 	@State static var thumbnailScale: CGFloat = 64.0
 	static var filesToShow: [File] {

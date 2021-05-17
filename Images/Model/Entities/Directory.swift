@@ -37,7 +37,7 @@ public class Directory: NSManagedObject {
 	@NSManaged var files: NSOrderedSet
 }
 
-// MARK: Generated accessors for subdirectories
+// MARK:- Generated accessors for subdirectories
 extension Directory {
 		@objc(insertObject:inSubdirectoriesAtIndex:)
 		@NSManaged func insertIntoSubdirectories(_ value: Directory, at idx: Int)
@@ -71,7 +71,7 @@ extension Directory {
 
 }
 
-// MARK: Generated accessors for files
+// MARK:- Generated accessors for files
 extension Directory {
 		@objc(insertObject:inFilesAtIndex:)
 		@NSManaged func insertIntoFiles(_ value: File, at idx: Int)
@@ -104,8 +104,9 @@ extension Directory {
 		@NSManaged func removeFromFiles(_ values: NSOrderedSet)
 }
 
-// MARK: Computed Properties
+// MARK:- Computed Properties
 extension Directory {
+	/// The directories subdirectories as an array.
 	var subdirectoriesArray: [Directory]? {
 		if subdirectories.count > 0 {
 			return subdirectories.array.map { $0 as! Directory }
@@ -114,6 +115,7 @@ extension Directory {
 		}
 	}
 	
+	/// The name of the directory.
 	var name: String {
 		return customName ?? url?.lastPathComponent ?? ""
 	}
@@ -132,13 +134,15 @@ extension Directory {
 	}
 }
 
-// MARK: Identifiable
+// MARK:- Identifiable
 extension Directory: Identifiable {
 	public var id: NSManagedObjectID {
 		return self.objectID
 	}
 }
 
+// MARK:- Type Identifier
 extension Directory {
+	/// The type identifier for `Directory` entities.
 	static let typeIdentifier = "com.connorbarnes.images.directory"
 }

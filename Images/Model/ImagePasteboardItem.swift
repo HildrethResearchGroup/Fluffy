@@ -15,7 +15,6 @@ class ImagePasteboardWriter: NSFilePromiseProvider {
 		static let objectID = "objectID"
 	}
 	
-	// MARK: NSPasteboardWriting
 	override func writableTypes(
 		for pasteboard: NSPasteboard
 	) -> [NSPasteboard.PasteboardType] {

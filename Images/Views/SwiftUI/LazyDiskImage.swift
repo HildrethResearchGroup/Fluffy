@@ -6,15 +6,20 @@
 //
 
 import SwiftUI
-import Combine
-import QuickLook
 
+/// A view for lazily displaying an image from disk.
 struct LazyDiskImage: View {
+	/// The instance for loading the image from disk.
 	@ObservedObject private var imageLoader: DiskImageLoader
+	
+	/// The size of the image.
 	var imageSize: CGSize
 	
-	var placeholder = Image(systemName: "photo")
-	var failedPlaceholder = Image(systemName: "exclamationmark.triangle")
+	init(at url: URL, in group: String, imageSize: CGSize) {
+		self.imageSize = imageSize
+		imageLoader = DiskImageLoader(imageSize: imageSize)
+		imageLoader.loadImage(at: url, in: group)
+	}
 	
 	var body: some View {
 		if let image = imageLoader.loadedImage {
@@ -33,92 +38,18 @@ struct LazyDiskImage: View {
 			}
 		}
 	}
-	
-	init(at url: URL, in group: String, imageSize: CGSize) {
-		self.imageSize = imageSize
-		imageLoader = DiskImageLoader(imageSize: imageSize)
-		imageLoader.loadImage(at: url, in: group)
-	}
 }
 
-// MARK:- Image Loader
-class DiskImageLoader: ObservableObject {
-	static var queues: [String : DispatchQueue] = [:]
-	static var isClearing: [String : Bool] = [:]
-	var imageSize: CGSize
-	
-	@Published var loadedImage: NSImage?
-	@Published var state = State.queued
-	
-	init(imageSize: CGSize) {
-		self.imageSize = imageSize
+// MARK:- Subviews
+extension LazyDiskImage {
+	/// The placeholder to display while the image loads.
+	var placeholder: some View {
+		Image(systemName: "photo")
 	}
 	
-	static func clearQueue(for group: String) {
-		isClearing[group] = true
-		
-		queues[group]?.async {
-			isClearing[group] = false
-		}
-	}
-	
-	func loadImage(at url: URL, in group: String) {
-		let queue: DispatchQueue
-		
-		if let savedQueue = Self.queues[group] {
-			queue = savedQueue
-		} else {
-			queue = DispatchQueue(label: "com.connorbarnes.images.DiskImageLoaderQueue.\(group)",
-														qos: .userInitiated)
-			
-			Self.queues[group] = queue
-			Self.isClearing[group] = false
-		}
-		
-		// Multiply by 2 for retina
-		let thumbnailSize = CGSize(width: round(imageSize.width * 2.0),
-															 height: round(imageSize.height * 2.0))
-		
-		guard Self.isClearing[group] != true else { return }
-		
-		queue.async {
-			DispatchQueue.main.async { [weak self] in
-				self?.state = .loading
-			}
-			
-			// Try to create a thumbnail from QuickLook
-			let options = [kQLThumbnailOptionIconModeKey: true]
-			let thumbnail = QLThumbnailImageCreate(kCFAllocatorDefault,
-																						 url as CFURL,
-																						 thumbnailSize,
-																						 options as CFDictionary)
-			
-			let rawImage: NSImage
-			
-			if let thumbnail = thumbnail {
-				let bitmapImageRep = NSBitmapImageRep(cgImage: thumbnail.takeUnretainedValue())
-				
-				rawImage = NSImage(size: bitmapImageRep.size)
-				rawImage.addRepresentation(bitmapImageRep)
-				thumbnail.release()
-			} else {
-				// QuickLook failed, use Finder icon instead
-				rawImage = NSWorkspace.shared.icon(forFile: url.path)
-				rawImage.size = thumbnailSize
-			}
-			
-			DispatchQueue.main.async { [weak self] in
-				self?.loadedImage = rawImage
-				self?.state = .loaded
-			}
-			
-		}
-	}
-	
-	enum State {
-		case queued
-		case loading
-		case loaded
+	/// The placeholder to display if the image could not be loaded.
+	var failedPlaceholder: some View {
+		Image(systemName: "exclamationmark.triangle")
 	}
 }
 

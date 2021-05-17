@@ -15,6 +15,7 @@ let usePreview = true
 /// Setting this value to `true` will simulate the root directory failing to load.
 let forceThrowForLoadRootDirectory = false
 
+/// A custom error used for simulating errors while debugging.
 struct DebugError: Error, CustomStringConvertible {
 	var description: String {
 		return "Simulated Error"

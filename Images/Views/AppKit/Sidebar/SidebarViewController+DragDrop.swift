@@ -188,11 +188,13 @@ extension SidebarViewController.Coordinator {
 	}
 }
 
+// MARK:- Helper Functions
 extension SidebarViewController.Coordinator {
 	/// Returns true if the directories being dragged can be dropped at the given location. This checks to make sure that a directory is not placed inside one of its children.
 	/// - Parameters:
 	///   - draggingInfo: The dragging info passed to the delegate method.
 	///   - destinationItem: The directory that is being dropped onto.
+	///   - view: The view being dropped on.
 	/// - Returns: True if the drop is okay, and false otherwise.
 	private func okayToDropDirectories(
 		draggingInfo: NSDraggingInfo,
@@ -228,6 +230,7 @@ extension SidebarViewController.Coordinator {
 	
 	/// Extracts the directory from an NSPasteboardItem instance.
 	/// - Parameter item: The pasteboard item.
+	/// - Parameter outlineView: The outline view being dragged from.
 	/// - Returns: The directory associated with the pasteboard item if there is one.
 	private func directoryFromPasteboardItem(
 		_ item: NSPasteboardItem,
@@ -241,6 +244,8 @@ extension SidebarViewController.Coordinator {
 	}
 	
 	/// Returns the file associated with a given pasteboard item.
+	/// - Parameter item: The pasteboard item.
+	/// - Returns: The file if it exists, otherwise `nil`.
 	private func fileFromPasteboardItem(_ item: NSPasteboardItem) -> File? {
 		// Get the row number from the property list
 		guard let plist = item.propertyList(forType: .imagePasteboardType)

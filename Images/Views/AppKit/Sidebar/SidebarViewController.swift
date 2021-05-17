@@ -7,10 +7,20 @@
 
 import SwiftUI
 
+/// The view controller for managing the app's sidebar.
 struct SidebarViewController {
+	/// The app's root directory.
 	var rootDirectory: Directory
+	
+	/// The currently selected directories.
 	@Binding var selection: Set<Directory>
+	
+	/// An updater instance.
+	///
+	/// Used for manually updating parent views when dragging in new files.
 	@Binding var updater: Updater
+	
+	/// The Core Data view context.
 	@Environment(\.managedObjectContext) var viewContext
 }
 
@@ -50,9 +60,13 @@ extension SidebarViewController: NSViewControllerRepresentable {
 // MARK:- Coordinator
 extension SidebarViewController {
 	final class Coordinator: NSObject {
+		/// The view controller owning the coordinator.
 		var parent: SidebarViewController
+		/// The AppKit view controller.
 		var controller: SidebarOutlineViewController!
 		
+		/// Creates a coordinator from a parent `SidebarViewController`
+		/// - Parameter sidebarViewController: The parent.
 		init(_ sidebarViewController: SidebarViewController) {
 			parent = sidebarViewController
 		}

@@ -28,7 +28,7 @@ struct PersistenceController {
 		
 		container.loadPersistentStores(completionHandler: { (storeDescription, error) in
 			if let error = error as NSError? {
-				// Replace this implementation with code to handle the error appropriately.
+				// TODO: Replace this implementation with code to handle the error appropriately.
 				// fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
 				
 				/*
@@ -45,16 +45,18 @@ struct PersistenceController {
 	}
 }
 
-// MARK: Singleton
+// MARK:- Singleton
 extension PersistenceController {
 	#if DEBUG
+	/// The shared persistence controller for the app.
 	static let shared = usePreview ? preview : PersistenceController()
 	#else
+	/// The shared persistence controller for the app.
 	static let shared = PersistenceController()
 	#endif
 }
 
-// MARK: Constants
+// MARK:- Constants
 extension PersistenceController {
 	/// The name of the Core Data model.
 	private static let dataModelName = "Images"
@@ -65,7 +67,7 @@ extension PersistenceController {
 	private static let storeType = "sqlite"
 }
 
-// MARK: Helper functions
+// MARK:- Helper functions
 extension PersistenceController {
 	/// A function that creates a new root directory. This is done if there is no root directory yet.
 	private func makeRootDirectory() throws -> Directory {
@@ -74,6 +76,9 @@ extension PersistenceController {
 		return directory
 	}
 	
+	/// Fetches any directory in the store (if one exists).
+	/// - Throws: If the fetch failed.
+	/// - Returns: A directory in the store.
 	private func fetchAnyDirectory() throws -> Directory? {
 		let request = NSFetchRequest<Directory>(entityName: "Directory")
 		request.fetchLimit = 1
@@ -107,7 +112,7 @@ extension PersistenceController {
 	}
 }
 
-// MARK: Store management
+// MARK:- Store management
 extension PersistenceController {
 	/// Deletes the store.
 	///
@@ -138,8 +143,9 @@ extension PersistenceController {
 	}
 }
 
-// MARK: Preview
+// MARK:- Preview
 extension PersistenceController {
+	/// A persistence controller used for previewing views.
 	static var preview: PersistenceController = {
 		let result = PersistenceController(inMemory: true)
 		let viewContext = result.container.viewContext

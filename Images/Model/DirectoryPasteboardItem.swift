@@ -19,7 +19,6 @@ class DirectoryPasteboardWriter: NSFilePromiseProvider {
 		static let url = "urlKey"
 	}
 	
-	// MARK: NSPasteboardWriting
 	override func writableTypes(
 		for pasteboard: NSPasteboard
 	) -> [NSPasteboard.PasteboardType] {

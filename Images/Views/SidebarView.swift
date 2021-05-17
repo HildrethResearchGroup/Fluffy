@@ -7,14 +7,16 @@
 
 import SwiftUI
 
+/// The app's sidebar view, which displays the imported directories.
 struct SidebarView: View {
+	/// The selected directories in the sidebar.
 	@Binding var selection: Set<Directory>
+	
+	/// An updater instance for manual updating.
+	///
+	/// This is needed to force updating when images have been dragged onto a directory.
 	@Binding var updater: Updater
 
-	var rootDirectory = PersistenceController
-		.shared
-		.loadRootDirectory()
-	
 	var body: some View {
 		switch rootDirectory {
 		case .success(let root):
@@ -22,22 +24,44 @@ struct SidebarView: View {
 														selection: $selection,
 														updater: $updater)
 		case .failure(let error):
-			ZStack {
-				Image(systemName: "exclamationmark.triangle")
-					.font(.largeTitle)
-				VStack {
-					Spacer()
-					Text("Error: \(error.localizedDescription)")
-						.font(.body)
-				}
-			}
-			.padding()
-			.frame(maxWidth: .infinity, maxHeight: .infinity)
-			.background(VisualEffectView(effect: .behindWindow, material: .sidebar))
+			failureView(forError: error)
 		}
 	}
 }
 
+// MARK:- Subviews
+extension SidebarView {
+	/// The view to display when loading the root directory failed.
+	/// - Parameter error: The error that was thrown.
+	/// - Returns: The failure view.
+	@ViewBuilder
+	func failureView(forError error: Error) -> some View {
+		ZStack {
+			Image(systemName: "exclamationmark.triangle")
+				.font(.largeTitle)
+			VStack {
+				Spacer()
+				Text("Error: \(error.localizedDescription)")
+					.font(.body)
+			}
+		}
+		.padding()
+		.frame(maxWidth: .infinity, maxHeight: .infinity)
+		.background(VisualEffectView(effect: .behindWindow, material: .sidebar))
+	}
+}
+
+// MARK:- Helper Functions
+extension SidebarView {
+	/// The app's root directory.
+	var rootDirectory: Result<Directory, Error> {
+		PersistenceController
+			.shared
+			.loadRootDirectory()
+	}
+}
+
+// MARK:- Previews
 struct SidebarView_Previews: PreviewProvider {
 	@State static var selection: Set<Directory> = []
 	@State static var updater = Updater()

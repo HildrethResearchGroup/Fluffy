@@ -7,12 +7,31 @@
 
 import SwiftUI
 
+/// The view for displaying the collection of images in the selected directories.
 struct ImageCollectionView: View {
+	/// The Core Data view context.
 	@Environment(\.managedObjectContext) private var viewContext
-	@Binding var imageViewType: ImageViewType
+	
+	/// The view type for displaying the images.
+	@Binding var style: ImageCollectionViewStyle
+	
+	/// The size of thumbnails when displaying images as icons.
 	@State var thumbnailScale: CGFloat = 64.0
-	static let group = "ImageCollectionView"
+	
+	/// The group used for loading images from disk lazily.
+	static let lazyDiskImageGroup = "ImageCollectionView"
+	
+	/// The currently selected directories.
 	var selectedDirectories: Set<Directory>
+	
+	init(
+		selectedDirectories: Set<Directory>,
+		imageViewType: Binding<ImageCollectionViewStyle>
+	) {
+		self.selectedDirectories = selectedDirectories
+		_style = imageViewType
+		DiskImageLoader.clearQueue(for: Self.lazyDiskImageGroup)
+	}
 	
 	var body: some View {
 		VStack(spacing: 0.0) {
@@ -21,19 +40,11 @@ struct ImageCollectionView: View {
 			bottomBar
 		}
 	}
-	
-	init(
-		selectedDirectories: Set<Directory>,
-		imageViewType: Binding<ImageViewType>
-	) {
-		self.selectedDirectories = selectedDirectories
-		_imageViewType = imageViewType
-		DiskImageLoader.clearQueue(for: Self.group)
-	}
 }
 
-// MARK: Subviews
+// MARK:- Subviews
 extension ImageCollectionView {
+	/// The bottom bar view.
 	@ViewBuilder
 	var bottomBar: some View {
 		ZStack {
@@ -43,7 +54,7 @@ extension ImageCollectionView {
 				Spacer()
 				Text("\(filesToShow.count) Items")
 				Spacer()
-				if (imageViewType == .asIcons) {
+				if (style == .asIcons) {
 					Slider(value: $thumbnailScale, in: 32.0...128.0)
 						.frame(maxWidth: 64.0, alignment: .trailing)
 				}
@@ -52,22 +63,33 @@ extension ImageCollectionView {
 		}.frame(height: 26.0)
 	}
 	
+	/// The content view containing the images.
 	@ViewBuilder
 	var contentView: some View {
-		switch imageViewType {
+		switch style {
 		case .asList:
 			ImageCollectionListView(filesToShow: filesToShow,
-															lazyDiskImageGroup: Self.group)
+															lazyDiskImageGroup: Self.lazyDiskImageGroup)
 		case .asIcons:
 			ImageCollectionIconsView(filesToShow: filesToShow,
-															 lazyDiskImageGroup: Self.group,
+															 lazyDiskImageGroup: Self.lazyDiskImageGroup,
 															 thumbnailScale: $thumbnailScale)
 		}
 	}
 }
 
-// MARK: Helper Functions
+// MARK:- ImageViewType
+/// The style for displaying the image selection view.
+enum ImageCollectionViewStyle: Hashable {
+	/// Displays the images as a list.
+	case asList
+	/// Displays the images as a grid of icons.
+	case asIcons
+}
+
+// MARK:- Helper Functions
 extension ImageCollectionView {
+	/// The files to show based off the currently selected directories.
 	var filesToShow: [File] {
 		func filesToShow(in directory: Directory) -> [File] {
 			directory.files
@@ -96,10 +118,10 @@ extension ImageCollectionView {
 	}
 }
 
-// MARK: Previews
+// MARK:- Previews
 struct ImageCollectionView_Previews: PreviewProvider {
 	@State static var selectedDirectories: Set<Directory> = makeSelectedDirectories()
-	@State static var imageViewType = ImageViewType.asList
+	@State static var imageViewType = ImageCollectionViewStyle.asList
 	
 	static func makeSelectedDirectories() -> Set<Directory> {
 		let fetchRequest: NSFetchRequest<Directory> = Directory.fetchRequest()

@@ -7,11 +7,23 @@
 
 import SwiftUI
 
+/// The app's primary view. This view contains all the app's subviews.
 struct PrimaryView: View {
+	/// The Core Data view context.
 	@Environment(\.managedObjectContext) private var viewContext
+	
+	/// The app's root directory.
 	@EnvironmentObject var rootDirectory: Directory
+	
+	/// The currently selected directories in the sidebar.
 	@State private var sidebarSelection: Set<Directory> = []
-	@State private var imageViewType = ImageViewType.asList
+	
+	/// The style for displaying the image collection.
+	@State private var imageCollectionViewStyle = ImageCollectionViewStyle.asList
+	
+	/// An updater instance.
+	///
+	/// This is included to allow manually updating this view when the sidebar has files dragged onto it.
 	@State private var updater = Updater()
 	
 	var body: some View {
@@ -19,7 +31,7 @@ struct PrimaryView: View {
 			SidebarView(selection: $sidebarSelection, updater: $updater)
 				.frame(minWidth: 150, idealWidth: 300, maxWidth: .infinity)
 			ImageCollectionView(selectedDirectories: sidebarSelection,
-													imageViewType: $imageViewType)
+													imageViewType: $imageCollectionViewStyle)
 				.manualUpdater($updater)
 		}
 		.toolbar(id: "Test") {
@@ -32,6 +44,7 @@ struct PrimaryView: View {
 
 // MARK: Toolbar Items
 extension PrimaryView {
+	/// The toolbar item for hiding/showing the sidebar.
 	var sidebarToolbarItem: some CustomizableToolbarContent {
 		ToolbarItem(id: "Sidebar", placement: .navigation) {
 			Button {
@@ -46,26 +59,22 @@ extension PrimaryView {
 		}
 	}
 	
+	/// The toolbar item for selecting the view style for the image collection.
 	var viewAsToolbarItem: some CustomizableToolbarContent {
 		ToolbarItem(id: "View") {
-			Picker(selection: $imageViewType, label: Text("View")) {
-				Image(systemName: "list.bullet").tag(ImageViewType.asList)
-				Image(systemName: "square.grid.2x2").tag(ImageViewType.asIcons)
+			Picker(selection: $imageCollectionViewStyle, label: Text("View")) {
+				Image(systemName: "list.bullet").tag(ImageCollectionViewStyle.asList)
+				Image(systemName: "square.grid.2x2").tag(ImageCollectionViewStyle.asIcons)
 			}.pickerStyle(InlinePickerStyle())
 		}
 	}
 	
+	/// The flexible space toolbar item.
 	var flexibleSpaceToolbarItem: some CustomizableToolbarContent {
-		ToolbarItem(id: "Spacer", showsByDefault: false) {
+		ToolbarItem(id: "Flexible Space", showsByDefault: false) {
 			Spacer()
 		}
 	}
-}
-
-// MARK:- ImageViewType
-enum ImageViewType: Hashable {
-	case asList
-	case asIcons
 }
 
 // MARK:- Previews
