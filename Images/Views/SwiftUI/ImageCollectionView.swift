@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ImageCollectionView: View {
 	@Environment(\.managedObjectContext) private var viewContext
+	@Binding var imageViewType: ImageViewType
 	static let group = "ImageCollectionView"
 	
 	var selectedDirectories: Set<Directory>
@@ -34,8 +35,12 @@ struct ImageCollectionView: View {
 		}
 	}
 	
-	init(selectedDirectories: Set<Directory>) {
+	init(
+		selectedDirectories: Set<Directory>,
+		imageViewType: Binding<ImageViewType>
+	) {
 		self.selectedDirectories = selectedDirectories
+		_imageViewType = imageViewType
 		DiskImageLoader.clearQueue(for: Self.group)
 	}
 }
@@ -57,6 +62,7 @@ extension ImageCollectionView {
 // MARK: Previews
 struct ImageCollectionView_Previews: PreviewProvider {
 	@State static var selectedDirectories: Set<Directory> = makeSelectedDirectories()
+	@State static var imageViewType = ImageViewType.asList
 	
 	static func makeSelectedDirectories() -> Set<Directory> {
 		let fetchRequest: NSFetchRequest<Directory> = Directory.fetchRequest()
@@ -72,6 +78,7 @@ struct ImageCollectionView_Previews: PreviewProvider {
 	}
 	
 	static var previews: some View {
-		ImageCollectionView(selectedDirectories: selectedDirectories)
+		ImageCollectionView(selectedDirectories: selectedDirectories,
+												imageViewType: $imageViewType)
 	}
 }

@@ -106,7 +106,7 @@ extension SidebarViewController.Coordinator {
 																	 dropDirectory: dropDirectory,
 																	 childIndex: index)
 			
-			parent.needsUpdate.toggle()
+			parent.updater.update()
 		} else if info.draggingPasteboard
 								.availableType(from: [.imagePasteboardType]) != nil {
 			// The items being dragged are internal image items
@@ -149,7 +149,7 @@ extension SidebarViewController.Coordinator {
 						image.parent = dropDirectory
 					}
 				
-				parent.needsUpdate.toggle()
+				parent.updater.update()
 			}
 		} else {
 			// TODO: Handle external drops
