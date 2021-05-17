@@ -26,6 +26,7 @@ struct ManualUpdatingView<Content: View>: View {
 	}
 }
 
+// MARK:- Updater
 struct Updater {
 	fileprivate var _base = false
 	mutating func update() {
@@ -33,6 +34,7 @@ struct Updater {
 	}
 }
 
+// MARK:- View Modifier
 extension View {
 	func manualUpdater(_ updater: Binding<Updater>) -> some View {
 		return ManualUpdatingView(content: self, updater: updater)

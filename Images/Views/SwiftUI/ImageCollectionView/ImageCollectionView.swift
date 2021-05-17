@@ -11,27 +11,21 @@ struct ImageCollectionView: View {
 	@Environment(\.managedObjectContext) private var viewContext
 	@Binding var imageViewType: ImageViewType
 	static let group = "ImageCollectionView"
-	
 	var selectedDirectories: Set<Directory>
 	
 	var body: some View {
-		List {
-			ForEach(filesToShow) { file in
-				HStack {
-					if let url = file.url {
-						LazyDiskImage(at: url, in: Self.group)
-							.scaledToFit()
-							.frame(width: 24, height: 24)
-					} else {
-						Text("X")
+		ZStack(alignment: .bottom) {
+			contentView
+			VStack(spacing: 0.0) {
+				Divider()
+				ZStack {
+					VisualEffectView(effect: .withinWindow, material: .titlebar)
+						.frame(height: 26.0)
+					HStack {
+						Text("\(filesToShow.count) Items")
 					}
-					Text(file.displayName)
 				}
-				.onDrag {
-					let uri = file.objectID.uriRepresentation() as NSURL
-					return NSItemProvider(object: uri)
-				}
-			}
+			}.frame(height: 26.0)
 		}
 	}
 	
@@ -45,6 +39,22 @@ struct ImageCollectionView: View {
 	}
 }
 
+// MARK: Subviews
+extension ImageCollectionView {
+	@ViewBuilder
+	var contentView: some View {
+		switch imageViewType {
+		case .asList:
+			ImageCollectionListView(filesToShow: filesToShow,
+															lazyDiskImageGroup: Self.group)
+		case .asIcons:
+			ImageCollectionIconsView(filesToShow: filesToShow,
+															 lazyDiskImageGroup: Self.group)
+		}
+	}
+}
+
+// MARK: Helper Functions
 extension ImageCollectionView {
 	var filesToShow: [File] {
 		func filesToShow(in directory: Directory) -> [File] {

@@ -10,7 +10,8 @@ import Combine
 import QuickLook
 
 struct LazyDiskImage: View {
-	@ObservedObject private var imageLoader = DiskImageLoader()
+	@ObservedObject private var imageLoader: DiskImageLoader
+	var imageSize: CGSize
 	
 	var placeholder = Image(systemName: "photo")
 	var failedPlaceholder = Image(systemName: "exclamationmark.triangle")
@@ -33,7 +34,9 @@ struct LazyDiskImage: View {
 		}
 	}
 	
-	init(at url: URL, in group: String) {
+	init(at url: URL, in group: String, imageSize: CGSize) {
+		self.imageSize = imageSize
+		imageLoader = DiskImageLoader(imageSize: imageSize)
 		imageLoader.loadImage(at: url, in: group)
 	}
 }
@@ -41,11 +44,15 @@ struct LazyDiskImage: View {
 // MARK:- Image Loader
 class DiskImageLoader: ObservableObject {
 	static var queues: [String : DispatchQueue] = [:]
-		
 	static var isClearing: [String : Bool] = [:]
+	var imageSize: CGSize
 	
 	@Published var loadedImage: NSImage?
 	@Published var state = State.queued
+	
+	init(imageSize: CGSize) {
+		self.imageSize = imageSize
+	}
 	
 	static func clearQueue(for group: String) {
 		isClearing[group] = true
@@ -68,6 +75,10 @@ class DiskImageLoader: ObservableObject {
 			Self.isClearing[group] = false
 		}
 		
+		// Multiply by 2 for retina
+		let thumbnailSize = CGSize(width: imageSize.width * 2.0,
+															 height: imageSize.height * 2.0)
+		
 		queue.async {
 			guard Self.isClearing[group] != true else { return }
 			
@@ -77,7 +88,6 @@ class DiskImageLoader: ObservableObject {
 			
 			// Try to create a thumbnail from QuickLook
 			let options = [kQLThumbnailOptionIconModeKey: true]
-			let thumbnailSize = CGSize(width: 100.0, height: 100.0)
 			let thumbnail = QLThumbnailImageCreate(kCFAllocatorDefault,
 																						 url as CFURL,
 																						 thumbnailSize,
@@ -117,6 +127,8 @@ struct LazyDiskImage_Previews: PreviewProvider {
 	static let imageURL = URL(fileURLWithPath: "/Users/connorbarnes/Desktop/Examples/Images/Eiffel.jpg")
 	
 	static var previews: some View {
-		LazyDiskImage(at: imageURL, in: "PreviewGroup")
+		LazyDiskImage(at: imageURL,
+									in: "PreviewGroup",
+									imageSize: CGSize(width: 100.0, height: 100.0))
 	}
 }

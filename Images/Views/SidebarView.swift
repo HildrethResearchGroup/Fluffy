@@ -33,7 +33,7 @@ struct SidebarView: View {
 			}
 			.padding()
 			.frame(maxWidth: .infinity, maxHeight: .infinity)
-			.background(VisualEffectView(effect: .behindWindow))
+			.background(VisualEffectView(effect: .behindWindow, material: .sidebar))
 		}
 	}
 }
