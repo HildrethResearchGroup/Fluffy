@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import QuickLook
 
 struct LazyDiskImage: View {
 	@ObservedObject private var imageLoader = DiskImageLoader()
@@ -74,33 +75,33 @@ class DiskImageLoader: ObservableObject {
 				self?.state = .loading
 			}
 			
-			let rawImage = NSImage(contentsOf: url)
+			// Try to create a thumbnail from QuickLook
+			let options = [kQLThumbnailOptionIconModeKey: true]
+			let thumbnailSize = CGSize(width: 100.0, height: 100.0)
+			let thumbnail = QLThumbnailImageCreate(kCFAllocatorDefault,
+																						 url as CFURL,
+																						 thumbnailSize,
+																						 options as CFDictionary)
 			
-			if let rawImage = rawImage {
-				let image = NSImage(size: NSSize(width: 256, height: 256))
+			let rawImage: NSImage
+			
+			if let thumbnail = thumbnail {
+				let bitmapImageRep = NSBitmapImageRep(cgImage: thumbnail.takeUnretainedValue())
 				
-				image.lockFocus()
-				rawImage.draw(in: NSRect(x: 0,
-																	y: 0,
-																	width: 256,
-																	height: 256),
-											 from: NSRect(origin: CGPoint(x: 0,
-																										y: 0),
-																		size: rawImage.size),
-											 operation: .copy,
-											 fraction: 1.0)
-				
-				image.unlockFocus()
-				
-				DispatchQueue.main.async { [weak self] in
-					self?.loadedImage = image
-					self?.state = .loaded
-				}
+				rawImage = NSImage(size: bitmapImageRep.size)
+				rawImage.addRepresentation(bitmapImageRep)
+				thumbnail.release()
 			} else {
-				DispatchQueue.main.async { [weak self] in
-					self?.state = .loaded
-				}
+				// QuickLook failed, use Finder icon instead
+				rawImage = NSWorkspace.shared.icon(forFile: url.path)
+				rawImage.size = thumbnailSize
 			}
+			
+			DispatchQueue.main.async { [weak self] in
+				self?.loadedImage = rawImage
+				self?.state = .loaded
+			}
+			
 		}
 	}
 	
