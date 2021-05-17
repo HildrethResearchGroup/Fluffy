@@ -76,8 +76,8 @@ class DiskImageLoader: ObservableObject {
 		}
 		
 		// Multiply by 2 for retina
-		let thumbnailSize = CGSize(width: imageSize.width * 2.0,
-															 height: imageSize.height * 2.0)
+		let thumbnailSize = CGSize(width: round(imageSize.width * 2.0),
+															 height: round(imageSize.height * 2.0))
 		
 		queue.async {
 			guard Self.isClearing[group] != true else { return }

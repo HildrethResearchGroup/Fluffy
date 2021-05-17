@@ -10,22 +10,15 @@ import SwiftUI
 struct ImageCollectionView: View {
 	@Environment(\.managedObjectContext) private var viewContext
 	@Binding var imageViewType: ImageViewType
+	@State var thumbnailScale: CGFloat = 64.0
 	static let group = "ImageCollectionView"
 	var selectedDirectories: Set<Directory>
 	
 	var body: some View {
-		ZStack(alignment: .bottom) {
+		VStack(spacing: 0.0) {
 			contentView
-			VStack(spacing: 0.0) {
-				Divider()
-				ZStack {
-					VisualEffectView(effect: .withinWindow, material: .titlebar)
-						.frame(height: 26.0)
-					HStack {
-						Text("\(filesToShow.count) Items")
-					}
-				}
-			}.frame(height: 26.0)
+			Divider()
+			bottomBar
 		}
 	}
 	
@@ -42,6 +35,22 @@ struct ImageCollectionView: View {
 // MARK: Subviews
 extension ImageCollectionView {
 	@ViewBuilder
+	var bottomBar: some View {
+		ZStack {
+			VisualEffectView(effect: .withinWindow, material: .titlebar)
+				.frame(height: 26.0)
+			HStack {
+				Spacer()
+				Text("\(filesToShow.count) Items")
+				Spacer()
+				Slider(value: $thumbnailScale, in: 32.0...512.0)
+					.frame(maxWidth: 64.0, alignment: .trailing)
+			}
+			.padding([.leading, .trailing])
+		}.frame(height: 26.0)
+	}
+	
+	@ViewBuilder
 	var contentView: some View {
 		switch imageViewType {
 		case .asList:
@@ -49,7 +58,8 @@ extension ImageCollectionView {
 															lazyDiskImageGroup: Self.group)
 		case .asIcons:
 			ImageCollectionIconsView(filesToShow: filesToShow,
-															 lazyDiskImageGroup: Self.group)
+															 lazyDiskImageGroup: Self.group,
+															 thumbnailScale: $thumbnailScale)
 		}
 	}
 }

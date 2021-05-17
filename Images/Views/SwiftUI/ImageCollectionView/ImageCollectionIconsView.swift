@@ -10,11 +10,11 @@ import SwiftUI
 struct ImageCollectionIconsView: View {
 	var filesToShow: [File]
 	var lazyDiskImageGroup: String
-	var scale: CGFloat = 64.0
+	@Binding var thumbnailScale: CGFloat
 	
 	var body: some View {
 		let columns = [
-			GridItem(.adaptive(minimum: scale, maximum: scale * 2), spacing: 10.0)
+			GridItem(.adaptive(minimum: thumbnailScale, maximum: thumbnailScale * 2), spacing: 10.0)
 		]
 		ScrollView(.vertical) {
 			LazyVGrid(columns: columns) {
@@ -23,7 +23,7 @@ struct ImageCollectionIconsView: View {
 						if let url = file.url {
 							LazyDiskImage(at: url,
 														in: lazyDiskImageGroup,
-														imageSize: CGSize(width: scale * 2, height: scale * 2))
+														imageSize: CGSize(width: thumbnailScale * 2, height: thumbnailScale * 2))
 								.scaledToFit()
 						} else {
 							Text("X")
@@ -43,6 +43,7 @@ struct ImageCollectionIconsView: View {
 }
 
 struct ImageCollectionIconsView_Previews: PreviewProvider {
+	@State static var thumbnailScale: CGFloat = 64.0
 	static var filesToShow: [File] {
 		let fetchRequest: NSFetchRequest<Directory> = Directory.fetchRequest()
 		
@@ -59,6 +60,7 @@ struct ImageCollectionIconsView_Previews: PreviewProvider {
 	
 	static var previews: some View {
 		ImageCollectionIconsView(filesToShow: filesToShow,
-														lazyDiskImageGroup: "Preview")
+														 lazyDiskImageGroup: "Preview",
+														 thumbnailScale: $thumbnailScale)
 	}
 }
