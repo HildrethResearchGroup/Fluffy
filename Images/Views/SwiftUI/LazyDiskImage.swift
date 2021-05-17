@@ -79,9 +79,9 @@ class DiskImageLoader: ObservableObject {
 		let thumbnailSize = CGSize(width: round(imageSize.width * 2.0),
 															 height: round(imageSize.height * 2.0))
 		
+		guard Self.isClearing[group] != true else { return }
+		
 		queue.async {
-			guard Self.isClearing[group] != true else { return }
-			
 			DispatchQueue.main.async { [weak self] in
 				self?.state = .loading
 			}

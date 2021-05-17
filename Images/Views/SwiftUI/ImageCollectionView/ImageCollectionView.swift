@@ -43,8 +43,10 @@ extension ImageCollectionView {
 				Spacer()
 				Text("\(filesToShow.count) Items")
 				Spacer()
-				Slider(value: $thumbnailScale, in: 32.0...512.0)
-					.frame(maxWidth: 64.0, alignment: .trailing)
+				if (imageViewType == .asIcons) {
+					Slider(value: $thumbnailScale, in: 32.0...128.0)
+						.frame(maxWidth: 64.0, alignment: .trailing)
+				}
 			}
 			.padding([.leading, .trailing])
 		}.frame(height: 26.0)

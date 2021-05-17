@@ -12,6 +12,13 @@ struct ImageCollectionIconsView: View {
 	var lazyDiskImageGroup: String
 	@Binding var thumbnailScale: CGFloat
 	
+	init(filesToShow: [File], lazyDiskImageGroup: String, thumbnailScale: Binding<CGFloat>) {
+		self.filesToShow = filesToShow
+		self.lazyDiskImageGroup = lazyDiskImageGroup
+		_thumbnailScale = thumbnailScale
+		DiskImageLoader.clearQueue(for: lazyDiskImageGroup)
+	}
+	
 	var body: some View {
 		let columns = [
 			GridItem(.adaptive(minimum: thumbnailScale, maximum: thumbnailScale * 2), spacing: 10.0)
