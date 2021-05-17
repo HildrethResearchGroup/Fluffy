@@ -76,7 +76,22 @@ extension ImageCollectionView {
 				.flatMap { filesToShow(in: $0 as! Directory) }
 		}
 		
+		func ancestor(
+			of directory: Directory,
+			isContainedIn set: Set<Directory>
+		) -> Bool {
+			var parent = directory.parent
+			while let nextParent = parent {
+				if set.contains(nextParent) {
+					return true
+				}
+				parent = nextParent.parent
+			}
+			return false
+		}
+		
 		return selectedDirectories
+			.filter { !ancestor(of: $0, isContainedIn: selectedDirectories) }
 			.flatMap { filesToShow(in: $0) }
 	}
 }
