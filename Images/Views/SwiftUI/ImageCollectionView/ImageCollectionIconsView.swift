@@ -12,26 +12,55 @@ struct ImageCollectionIconsView: View {
 	/// The files to display.
 	var filesToShow: [File]
 	
+	@Binding var fileSelection: Set<File>
+	
 	/// The group used for loading the images from disk lazily.
 	var lazyDiskImageGroup: String
 	
 	/// The size of images.
 	@Binding var thumbnailScale: CGFloat
 	
-	init(filesToShow: [File], lazyDiskImageGroup: String, thumbnailScale: Binding<CGFloat>) {
+	init(
+		filesToShow: [File],
+		fileSelection: Binding<Set<File>>,
+		lazyDiskImageGroup: String,
+		thumbnailScale: Binding<CGFloat>
+	) {
 		self.filesToShow = filesToShow
 		self.lazyDiskImageGroup = lazyDiskImageGroup
 		_thumbnailScale = thumbnailScale
+		_fileSelection = fileSelection
 		DiskImageLoader.clearQueue(for: lazyDiskImageGroup)
 	}
 	
 	var body: some View {
 		ScrollView(.vertical) {
 			LazyVGrid(columns: columns) {
-				ForEach(filesToShow, content: view(forFile:))
+				ForEach(filesToShow) { file in
+					view(forFile: file)
+						
+						.onShiftTapGesture {
+							if fileSelection.contains(file) {
+								fileSelection.remove(file)
+							} else {
+								fileSelection.insert(file)
+							}
+						}
+						.onCommandTapGesture {
+							if fileSelection.contains(file) {
+								fileSelection.remove(file)
+							} else {
+								fileSelection.insert(file)
+							}
+						}
+						.onTapGesture {
+							fileSelection = [file]
+						}
+				}
 			}
 			.padding(10.0)
 		}
+		.background(Color(NSColor.controlBackgroundColor))
 	}
 }
 
@@ -42,17 +71,41 @@ extension ImageCollectionIconsView {
 	/// - Returns: The file's view.
 	@ViewBuilder
 	func view(forFile file: File) -> some View {
+		let isSelected = fileSelection.contains(file)
+		let imageHighlightColor = isSelected
+			? Color(NSColor.unemphasizedSelectedContentBackgroundColor)
+			: Color.clear
+		
+		let textHighlightColor = isSelected
+			? Color(NSColor.selectedContentBackgroundColor)
+			: Color.clear
+		
+		let textColor = isSelected
+			? Color(NSColor.alternateSelectedControlTextColor)
+			: Color(NSColor.textColor)
+		
 		VStack {
 			if let url = file.url {
 				LazyDiskImage(at: url,
 											in: lazyDiskImageGroup,
 											imageSize: CGSize(width: thumbnailScale * 2, height: thumbnailScale * 2))
 					.scaledToFit()
+					.padding(4.0)
+					.background(
+						RoundedRectangle(cornerRadius: 4.0)
+							.foregroundColor(imageHighlightColor)
+					)
 			} else {
 				Text("X")
 			}
 			Text(file.displayName)
 				.lineLimit(1)
+				.foregroundColor(textColor)
+				.padding([.leading, .trailing], 4.0)
+				.background(
+					RoundedRectangle(cornerRadius: 4.0)
+						.foregroundColor(textHighlightColor)
+				)
 		}
 		.onDrag {
 			let uri = file.objectID.uriRepresentation() as NSURL
@@ -75,6 +128,7 @@ extension ImageCollectionIconsView {
 // MARK:- Previews
 struct ImageCollectionIconsView_Previews: PreviewProvider {
 	@State static var thumbnailScale: CGFloat = 64.0
+	@State static var fileSelection: Set<File> = []
 	static var filesToShow: [File] {
 		let fetchRequest: NSFetchRequest<Directory> = Directory.fetchRequest()
 		
@@ -90,8 +144,11 @@ struct ImageCollectionIconsView_Previews: PreviewProvider {
 	}
 	
 	static var previews: some View {
-		ImageCollectionIconsView(filesToShow: filesToShow,
-														 lazyDiskImageGroup: "Preview",
-														 thumbnailScale: $thumbnailScale)
+		ImageCollectionIconsView(
+			filesToShow: filesToShow,
+			fileSelection: $fileSelection,
+			lazyDiskImageGroup: "Preview",
+			thumbnailScale: $thumbnailScale
+		)
 	}
 }

@@ -78,9 +78,12 @@ extension ImageCollectionView {
 				lazyDiskImageGroup: Self.lazyDiskImageGroup
 			)
 		case .asIcons:
-			ImageCollectionIconsView(filesToShow: filesToShow,
-															 lazyDiskImageGroup: Self.lazyDiskImageGroup,
-															 thumbnailScale: $thumbnailScale)
+			ImageCollectionIconsView(
+				filesToShow: filesToShow,
+				fileSelection: $fileSelection,
+				lazyDiskImageGroup: Self.lazyDiskImageGroup,
+				thumbnailScale: $thumbnailScale
+			)
 		}
 	}
 }

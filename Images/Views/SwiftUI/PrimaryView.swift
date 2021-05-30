@@ -58,7 +58,7 @@ extension PrimaryView {
 	var detailView: some View {
 		switch fileSelection.count {
 		case 0:
-			Text("Multiple Selection")
+			Text("No Selection")
 		case 1:
 			DetailView(file: fileSelection.first!)
 		default:
