@@ -12,12 +12,17 @@ struct ImageCollectionListView: View {
 	/// The files to display.
 	var filesToShow: [File]
 	
+	@Binding var fileSelection: Set<File>
+	
 	/// The group used for lazily loading images from disk.
 	var lazyDiskImageGroup: String
 	
 	var body: some View {
-		List {
-			ForEach(filesToShow, content: view(forFile:))
+		List(selection: $fileSelection) {
+			ForEach(filesToShow, id: \.self) {
+				view(forFile: $0)
+					.tag($0)
+			}
 		}
 	}
 }
@@ -64,8 +69,13 @@ struct ImageCollectionListView_Previews: PreviewProvider {
 			.flatMap { $0.files.compactMap { $0 as? File } }
 	}
 	
+	@State static var fileSelection: Set<File> = []
+	
 	static var previews: some View {
-		ImageCollectionListView(filesToShow: filesToShow,
-														lazyDiskImageGroup: "Preview")
+		ImageCollectionListView(
+			filesToShow: filesToShow,
+			fileSelection: $fileSelection,
+			lazyDiskImageGroup: "Preview"
+		)
 	}
 }

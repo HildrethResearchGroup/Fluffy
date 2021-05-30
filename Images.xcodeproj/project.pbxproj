@@ -22,6 +22,7 @@
 		5A2F426C25E2297C000D70A8 /* PrimaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2F426B25E2297C000D70A8 /* PrimaryView.swift */; };
 		5A2F427125E22E6A000D70A8 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2F427025E22E6A000D70A8 /* Debug.swift */; };
 		5A2F427925E23245000D70A8 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2F427825E23245000D70A8 /* VisualEffectView.swift */; };
+		5A484B5A266423FF0007D565 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A484B59266423FF0007D565 /* DetailView.swift */; };
 		5A8A978B261ADF6700FBE591 /* SidebarViewController+NSOutlineViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A978A261ADF6700FBE591 /* SidebarViewController+NSOutlineViewDelegate.swift */; };
 		5A8A9790261AE6BA00FBE591 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A978F261AE6BA00FBE591 /* SidebarView.swift */; };
 		5A8A979E261AF2A900FBE591 /* LazyDiskImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A979D261AF2A900FBE591 /* LazyDiskImage.swift */; };
@@ -75,6 +76,7 @@
 		5A2F426B25E2297C000D70A8 /* PrimaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryView.swift; sourceTree = "<group>"; };
 		5A2F427025E22E6A000D70A8 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		5A2F427825E23245000D70A8 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
+		5A484B59266423FF0007D565 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		5A8A978A261ADF6700FBE591 /* SidebarViewController+NSOutlineViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SidebarViewController+NSOutlineViewDelegate.swift"; sourceTree = "<group>"; };
 		5A8A978F261AE6BA00FBE591 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SidebarView.swift; path = ../../SidebarView.swift; sourceTree = "<group>"; };
 		5A8A979D261AF2A900FBE591 /* LazyDiskImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyDiskImage.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 			children = (
 				5ABE618D2652ED6E00308B11 /* ImageCollectionView */,
 				5A2F426B25E2297C000D70A8 /* PrimaryView.swift */,
+				5A484B59266423FF0007D565 /* DetailView.swift */,
 				5ABE618B2652EA8300308B11 /* ManualUpdatableView.swift */,
 				5A8A979D261AF2A900FBE591 /* LazyDiskImage.swift */,
 				5A2F427825E23245000D70A8 /* VisualEffectView.swift */,
@@ -311,7 +314,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					5A2F420825E20BE1000D70A8 = {
 						CreatedOnToolsVersion = 12.4;
@@ -383,6 +386,7 @@
 				5A2F424525E20DF8000D70A8 /* File.swift in Sources */,
 				5A8A9790261AE6BA00FBE591 /* SidebarView.swift in Sources */,
 				5A2F426C25E2297C000D70A8 /* PrimaryView.swift in Sources */,
+				5A484B5A266423FF0007D565 /* DetailView.swift in Sources */,
 				5A2F427125E22E6A000D70A8 /* Debug.swift in Sources */,
 				5A2F427925E23245000D70A8 /* VisualEffectView.swift in Sources */,
 				5A1B8C5A26092828000B2120 /* SidebarOutlineView.swift in Sources */,
@@ -555,6 +559,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Images/Images.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Images/Preview Content\"";
@@ -579,6 +584,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Images/Images.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Images/Preview Content\"";

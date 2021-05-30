@@ -15,6 +15,8 @@ struct ImageCollectionView: View {
 	/// The view type for displaying the images.
 	@Binding var style: ImageCollectionViewStyle
 	
+	@Binding var fileSelection: Set<File>
+	
 	/// The size of thumbnails when displaying images as icons.
 	@State var thumbnailScale: CGFloat = 64.0
 	
@@ -26,10 +28,12 @@ struct ImageCollectionView: View {
 	
 	init(
 		selectedDirectories: Set<Directory>,
+		fileSelection: Binding<Set<File>>,
 		imageViewType: Binding<ImageCollectionViewStyle>
 	) {
 		self.selectedDirectories = selectedDirectories
 		_style = imageViewType
+		_fileSelection = fileSelection
 		DiskImageLoader.clearQueue(for: Self.lazyDiskImageGroup)
 	}
 	
@@ -68,8 +72,11 @@ extension ImageCollectionView {
 	var contentView: some View {
 		switch style {
 		case .asList:
-			ImageCollectionListView(filesToShow: filesToShow,
-															lazyDiskImageGroup: Self.lazyDiskImageGroup)
+			ImageCollectionListView(
+				filesToShow: filesToShow,
+				fileSelection: $fileSelection,
+				lazyDiskImageGroup: Self.lazyDiskImageGroup
+			)
 		case .asIcons:
 			ImageCollectionIconsView(filesToShow: filesToShow,
 															 lazyDiskImageGroup: Self.lazyDiskImageGroup,
@@ -122,6 +129,7 @@ extension ImageCollectionView {
 struct ImageCollectionView_Previews: PreviewProvider {
 	@State static var selectedDirectories: Set<Directory> = makeSelectedDirectories()
 	@State static var imageViewType = ImageCollectionViewStyle.asList
+	@State static var fileSelection: Set<File> = []
 	
 	static func makeSelectedDirectories() -> Set<Directory> {
 		let fetchRequest: NSFetchRequest<Directory> = Directory.fetchRequest()
@@ -138,6 +146,7 @@ struct ImageCollectionView_Previews: PreviewProvider {
 	
 	static var previews: some View {
 		ImageCollectionView(selectedDirectories: selectedDirectories,
+												fileSelection: $fileSelection,
 												imageViewType: $imageViewType)
 	}
 }

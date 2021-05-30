@@ -18,6 +18,8 @@ struct PrimaryView: View {
 	/// The currently selected directories in the sidebar.
 	@State private var sidebarSelection: Set<Directory> = []
 	
+	@State private var fileSelection: Set<File> = []
+	
 	/// The style for displaying the image collection.
 	@State private var imageCollectionViewStyle = ImageCollectionViewStyle.asList
 	
@@ -30,9 +32,17 @@ struct PrimaryView: View {
 		NavigationView {
 			SidebarView(selection: $sidebarSelection, updater: $updater)
 				.frame(minWidth: 150, idealWidth: 300, maxWidth: .infinity)
-			ImageCollectionView(selectedDirectories: sidebarSelection,
-													imageViewType: $imageCollectionViewStyle)
+			VSplitView {
+				ImageCollectionView(
+					selectedDirectories: sidebarSelection,
+					fileSelection: $fileSelection,
+					imageViewType: $imageCollectionViewStyle
+				)
 				.manualUpdater($updater)
+				detailView
+					.frame(maxWidth: .infinity,
+								 maxHeight: .infinity)
+			}
 		}
 		.toolbar(id: "Test") {
 			sidebarToolbarItem
@@ -42,7 +52,22 @@ struct PrimaryView: View {
 	}
 }
 
-// MARK: Toolbar Items
+// MARK:- Subviews
+extension PrimaryView {
+	@ViewBuilder
+	var detailView: some View {
+		switch fileSelection.count {
+		case 0:
+			Text("Multiple Selection")
+		case 1:
+			DetailView(file: fileSelection.first!)
+		default:
+			Text("Multiple Selection")
+		}
+	}
+}
+
+// MARK:- Toolbar Items
 extension PrimaryView {
 	/// The toolbar item for hiding/showing the sidebar.
 	var sidebarToolbarItem: some CustomizableToolbarContent {
