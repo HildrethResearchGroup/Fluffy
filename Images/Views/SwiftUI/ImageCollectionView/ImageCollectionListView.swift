@@ -14,8 +14,7 @@ struct ImageCollectionListView: View {
 	
 	@Binding var fileSelection: Set<File>
 	
-	/// The group used for lazily loading images from disk.
-	var lazyDiskImageGroup: String
+	@State var diskImageGroup: DiskImageLoaderGroup
 	
 	var body: some View {
 		List(selection: $fileSelection) {
@@ -24,6 +23,16 @@ struct ImageCollectionListView: View {
 					.tag($0)
 			}
 		}
+	}
+	
+	init(filesToShow: [File], fileSelection: Binding<Set<File>>) {
+		self.filesToShow = filesToShow
+		_fileSelection = fileSelection
+		diskImageGroup = .named(
+			name: "ListView",
+			cacheMegabyteCapacity: 128,
+			imageSize: CGSize(width: 24, height: 24)
+		)
 	}
 }
 
@@ -37,7 +46,7 @@ extension ImageCollectionListView {
 		HStack {
 			if let url = file.url {
 				LazyDiskImage(at: url,
-											in: lazyDiskImageGroup,
+											in: diskImageGroup,
 											imageSize: CGSize(width: 24.0, height: 24.0))
 					.scaledToFit()
 					.frame(width: 24.0, height: 24.0)
@@ -69,13 +78,18 @@ struct ImageCollectionListView_Previews: PreviewProvider {
 			.flatMap { $0.files.compactMap { $0 as? File } }
 	}
 	
+	static let group = DiskImageLoaderGroup.named(
+		name: "Preview",
+		cacheMegabyteCapacity: 512,
+		imageSize: CGSize(width: 256, height: 256)
+	)
+	
 	@State static var fileSelection: Set<File> = []
 	
 	static var previews: some View {
 		ImageCollectionListView(
 			filesToShow: filesToShow,
-			fileSelection: $fileSelection,
-			lazyDiskImageGroup: "Preview"
+			fileSelection: $fileSelection
 		)
 	}
 }

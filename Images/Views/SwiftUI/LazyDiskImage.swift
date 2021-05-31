@@ -15,10 +15,10 @@ struct LazyDiskImage: View {
 	/// The size of the image.
 	var imageSize: CGSize
 	
-	init(at url: URL, in group: String, imageSize: CGSize) {
+	init(at url: URL, in group: DiskImageLoaderGroup, imageSize: CGSize) {
 		self.imageSize = imageSize
-		imageLoader = DiskImageLoader(imageSize: imageSize)
-		imageLoader.loadImage(at: url, in: group)
+		imageLoader = DiskImageLoader(imageSize: imageSize, group: group)
+		imageLoader.loadImage(at: url)
 	}
 	
 	var body: some View {
@@ -55,11 +55,18 @@ extension LazyDiskImage {
 
 // MARK:- Previews
 struct LazyDiskImage_Previews: PreviewProvider {
-	static let imageURL = URL(fileURLWithPath: "/Users/connorbarnes/Desktop/Examples/Images/Eiffel.jpg")
+	static let imageURL = URL(
+		fileURLWithPath: "/Users/connorbarnes/Desktop/Examples/Images/Eiffel.jpg"
+	)
+	static let group = DiskImageLoaderGroup.named(
+		name: "Preview",
+		cacheMegabyteCapacity: 512,
+		imageSize: CGSize(width: 100, height: 100)
+	)
 	
 	static var previews: some View {
 		LazyDiskImage(at: imageURL,
-									in: "PreviewGroup",
+									in: group,
 									imageSize: CGSize(width: 100.0, height: 100.0))
 	}
 }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -33,8 +33,10 @@
 		5ABE618C2652EA8300308B11 /* ManualUpdatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE618B2652EA8300308B11 /* ManualUpdatableView.swift */; };
 		5ABE618F2652ED8A00308B11 /* ImageCollectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE618E2652ED8A00308B11 /* ImageCollectionListView.swift */; };
 		5ABE61912652F04C00308B11 /* ImageCollectionIconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE61902652F04C00308B11 /* ImageCollectionIconsView.swift */; };
-		5ABE619326531A2900308B11 /* DiskImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE619226531A2900308B11 /* DiskImageView.swift */; };
+		5ABE619326531A2900308B11 /* DiskImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE619226531A2900308B11 /* DiskImageLoader.swift */; };
 		5ACD136425FF3D1400E64523 /* ImageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACD136325FF3D1400E64523 /* ImageCollectionView.swift */; };
+		5ADDED19266472F500CF87B7 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADDED18266472F500CF87B7 /* ImageCache.swift */; };
+		5ADDED1C266477C500CF87B7 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 5ADDED1B266477C500CF87B7 /* Collections */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,8 +90,9 @@
 		5ABE618B2652EA8300308B11 /* ManualUpdatableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualUpdatableView.swift; sourceTree = "<group>"; };
 		5ABE618E2652ED8A00308B11 /* ImageCollectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionListView.swift; sourceTree = "<group>"; };
 		5ABE61902652F04C00308B11 /* ImageCollectionIconsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionIconsView.swift; sourceTree = "<group>"; };
-		5ABE619226531A2900308B11 /* DiskImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskImageView.swift; sourceTree = "<group>"; };
+		5ABE619226531A2900308B11 /* DiskImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskImageLoader.swift; sourceTree = "<group>"; };
 		5ACD136325FF3D1400E64523 /* ImageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionView.swift; sourceTree = "<group>"; };
+		5ADDED18266472F500CF87B7 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5ADDED1C266477C500CF87B7 /* Collections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,8 +166,7 @@
 			children = (
 				5A2F420C25E20BE1000D70A8 /* ImagesApp.swift */,
 				5A2F427025E22E6A000D70A8 /* Debug.swift */,
-				5ABE619226531A2900308B11 /* DiskImageView.swift */,
-				5A484B5B266431340007D565 /* ModifierGestures.swift */,
+				5ADDED17266472B800CF87B7 /* Utilities */,
 				5A2F424B25E20E03000D70A8 /* Model */,
 				5A2F425925E211EF000D70A8 /* Views */,
 				5A1B8C7226092C7B000B2120 /* Main.storyboard */,
@@ -254,6 +257,16 @@
 			path = ImageCollectionView;
 			sourceTree = "<group>";
 		};
+		5ADDED17266472B800CF87B7 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				5ABE619226531A2900308B11 /* DiskImageLoader.swift */,
+				5A484B5B266431340007D565 /* ModifierGestures.swift */,
+				5ADDED18266472F500CF87B7 /* ImageCache.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -270,6 +283,9 @@
 			dependencies = (
 			);
 			name = Images;
+			packageProductDependencies = (
+				5ADDED1B266477C500CF87B7 /* Collections */,
+			);
 			productName = Images;
 			productReference = 5A2F420925E20BE1000D70A8 /* Images.app */;
 			productType = "com.apple.product-type.application";
@@ -341,6 +357,9 @@
 				Base,
 			);
 			mainGroup = 5A2F420025E20BE1000D70A8;
+			packageReferences = (
+				5ADDED1A266477C500CF87B7 /* XCRemoteSwiftPackageReference "swift-collections" */,
+			);
 			productRefGroup = 5A2F420A25E20BE1000D70A8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -402,10 +421,11 @@
 				5A9CB759263743C900D8488E /* ImagePasteboardItem.swift in Sources */,
 				5ABE618F2652ED8A00308B11 /* ImageCollectionListView.swift in Sources */,
 				5A1B8C5526091D84000B2120 /* SidebarViewController.swift in Sources */,
+				5ADDED19266472F500CF87B7 /* ImageCache.swift in Sources */,
 				5A9CB74F2637365900D8488E /* SidebarViewController+DragDrop.swift in Sources */,
 				5A2F424625E20DF8000D70A8 /* Directory.swift in Sources */,
 				5ABE61912652F04C00308B11 /* ImageCollectionIconsView.swift in Sources */,
-				5ABE619326531A2900308B11 /* DiskImageView.swift in Sources */,
+				5ABE619326531A2900308B11 /* DiskImageLoader.swift in Sources */,
 				5A8A978B261ADF6700FBE591 /* SidebarViewController+NSOutlineViewDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -731,6 +751,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5ADDED1A266477C500CF87B7 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections";
+			requirement = {
+				kind = exactVersion;
+				version = 0.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5ADDED1B266477C500CF87B7 /* Collections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5ADDED1A266477C500CF87B7 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = Collections;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		5A2F421725E20BE3000D70A8 /* Images.xcdatamodeld */ = {

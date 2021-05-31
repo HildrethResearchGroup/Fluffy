@@ -14,23 +14,22 @@ struct ImageCollectionIconsView: View {
 	
 	@Binding var fileSelection: Set<File>
 	
-	/// The group used for loading the images from disk lazily.
-	var lazyDiskImageGroup: String
-	
 	/// The size of images.
 	@Binding var thumbnailScale: CGFloat
+	
+	@State var diskImageGroup: DiskImageLoaderGroup
 	
 	init(
 		filesToShow: [File],
 		fileSelection: Binding<Set<File>>,
-		lazyDiskImageGroup: String,
 		thumbnailScale: Binding<CGFloat>
 	) {
 		self.filesToShow = filesToShow
-		self.lazyDiskImageGroup = lazyDiskImageGroup
 		_thumbnailScale = thumbnailScale
 		_fileSelection = fileSelection
-		DiskImageLoader.clearQueue(for: lazyDiskImageGroup)
+		diskImageGroup = .named(name: "IconsView",
+														cacheMegabyteCapacity: 512,
+														imageSize: CGSize(width: 256, height: 256))
 	}
 	
 	var body: some View {
@@ -87,7 +86,7 @@ extension ImageCollectionIconsView {
 		VStack {
 			if let url = file.url {
 				LazyDiskImage(at: url,
-											in: lazyDiskImageGroup,
+											in: diskImageGroup,
 											imageSize: CGSize(width: thumbnailScale * 2, height: thumbnailScale * 2))
 					.scaledToFit()
 					.padding(4.0)
@@ -147,7 +146,6 @@ struct ImageCollectionIconsView_Previews: PreviewProvider {
 		ImageCollectionIconsView(
 			filesToShow: filesToShow,
 			fileSelection: $fileSelection,
-			lazyDiskImageGroup: "Preview",
 			thumbnailScale: $thumbnailScale
 		)
 	}

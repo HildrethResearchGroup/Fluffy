@@ -34,7 +34,6 @@ struct ImageCollectionView: View {
 		self.selectedDirectories = selectedDirectories
 		_style = imageViewType
 		_fileSelection = fileSelection
-		DiskImageLoader.clearQueue(for: Self.lazyDiskImageGroup)
 	}
 	
 	var body: some View {
@@ -74,14 +73,12 @@ extension ImageCollectionView {
 		case .asList:
 			ImageCollectionListView(
 				filesToShow: filesToShow,
-				fileSelection: $fileSelection,
-				lazyDiskImageGroup: Self.lazyDiskImageGroup
+				fileSelection: $fileSelection
 			)
 		case .asIcons:
 			ImageCollectionIconsView(
 				filesToShow: filesToShow,
 				fileSelection: $fileSelection,
-				lazyDiskImageGroup: Self.lazyDiskImageGroup,
 				thumbnailScale: $thumbnailScale
 			)
 		}
