@@ -134,6 +134,36 @@ extension Directory {
 	}
 }
 
+// MARK:- Methods
+extension Directory {
+	static func files(inSelection selection: Set<Directory>) -> [File] {
+		func filesToShow(in directory: Directory) -> [File] {
+			directory.files
+				.map { $0 as! File }
+				+ directory.subdirectories
+				.flatMap { filesToShow(in: $0 as! Directory) }
+		}
+		
+		func ancestor(
+			of directory: Directory,
+			isContainedIn set: Set<Directory>
+		) -> Bool {
+			var parent = directory.parent
+			while let nextParent = parent {
+				if set.contains(nextParent) {
+					return true
+				}
+				parent = nextParent.parent
+			}
+			return false
+		}
+		
+		return selection
+			.filter { !ancestor(of: $0, isContainedIn: selection) }
+			.flatMap { filesToShow(in: $0) }
+	}
+}
+
 // MARK:- Identifiable
 extension Directory: Identifiable {
 	public var id: NSManagedObjectID {

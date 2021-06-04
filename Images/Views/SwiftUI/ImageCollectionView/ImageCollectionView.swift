@@ -23,52 +23,19 @@ struct ImageCollectionView: View {
 	/// The group used for loading images from disk lazily.
 	static let lazyDiskImageGroup = "ImageCollectionView"
 	
-	/// The currently selected directories.
-	var selectedDirectories: Set<Directory>
+	var filesToShow: [File]
 	
 	init(
-		selectedDirectories: Set<Directory>,
+		filesToShow: [File],
 		fileSelection: Binding<Set<File>>,
 		imageViewType: Binding<ImageCollectionViewStyle>
 	) {
-		self.selectedDirectories = selectedDirectories
+		self.filesToShow = filesToShow
 		_style = imageViewType
 		_fileSelection = fileSelection
 	}
 	
 	var body: some View {
-		VStack(spacing: 0.0) {
-			contentView
-			Divider()
-			bottomBar
-		}
-	}
-}
-
-// MARK:- Subviews
-extension ImageCollectionView {
-	/// The bottom bar view.
-	@ViewBuilder
-	var bottomBar: some View {
-		ZStack {
-			VisualEffectView(effect: .withinWindow, material: .titlebar)
-				.frame(height: 26.0)
-			HStack {
-				Spacer()
-				Text("\(filesToShow.count) Items")
-				Spacer()
-				if (style == .asIcons) {
-					Slider(value: $thumbnailScale, in: 32.0...128.0)
-						.frame(maxWidth: 64.0, alignment: .trailing)
-				}
-			}
-			.padding([.leading, .trailing])
-		}.frame(height: 26.0)
-	}
-	
-	/// The content view containing the images.
-	@ViewBuilder
-	var contentView: some View {
 		switch style {
 		case .asList:
 			ImageCollectionListView(
@@ -94,44 +61,12 @@ enum ImageCollectionViewStyle: Hashable {
 	case asIcons
 }
 
-// MARK:- Helper Functions
-extension ImageCollectionView {
-	/// The files to show based off the currently selected directories.
-	var filesToShow: [File] {
-		func filesToShow(in directory: Directory) -> [File] {
-			directory.files
-				.map { $0 as! File }
-				+ directory.subdirectories
-				.flatMap { filesToShow(in: $0 as! Directory) }
-		}
-		
-		func ancestor(
-			of directory: Directory,
-			isContainedIn set: Set<Directory>
-		) -> Bool {
-			var parent = directory.parent
-			while let nextParent = parent {
-				if set.contains(nextParent) {
-					return true
-				}
-				parent = nextParent.parent
-			}
-			return false
-		}
-		
-		return selectedDirectories
-			.filter { !ancestor(of: $0, isContainedIn: selectedDirectories) }
-			.flatMap { filesToShow(in: $0) }
-	}
-}
-
 // MARK:- Previews
 struct ImageCollectionView_Previews: PreviewProvider {
-	@State static var selectedDirectories: Set<Directory> = makeSelectedDirectories()
-	@State static var imageViewType = ImageCollectionViewStyle.asList
-	@State static var fileSelection: Set<File> = []
+	@State private static var imageViewType = ImageCollectionViewStyle.asList
+	@State private static var fileSelection: Set<File> = []
 	
-	static func makeSelectedDirectories() -> Set<Directory> {
+	private static func makeFilesToShow() -> [File] {
 		let fetchRequest: NSFetchRequest<Directory> = Directory.fetchRequest()
 		
 		let viewContext = PersistenceController
@@ -141,11 +76,13 @@ struct ImageCollectionView_Previews: PreviewProvider {
 		
 		let fetchResult = try! viewContext.fetch(fetchRequest)
 		
-		return Set(fetchResult)
+		let directories = Set(fetchResult)
+		
+		return Directory.files(inSelection: directories)
 	}
 	
 	static var previews: some View {
-		ImageCollectionView(selectedDirectories: selectedDirectories,
+		ImageCollectionView(filesToShow: makeFilesToShow(),
 												fileSelection: $fileSelection,
 												imageViewType: $imageViewType)
 	}

@@ -23,25 +23,39 @@ struct PrimaryView: View {
 	/// The style for displaying the image collection.
 	@State private var imageCollectionViewStyle = ImageCollectionViewStyle.asList
 	
+	@State private var thumbnailScale = 64.0
+	
 	/// An updater instance.
 	///
 	/// This is included to allow manually updating this view when the sidebar has files dragged onto it.
 	@State private var updater = Updater()
 	
 	var body: some View {
+		// Used multiple times, so calculate only once
+		let filesToShow = Directory.files(inSelection: sidebarSelection)
+		
 		NavigationView {
 			SidebarView(selection: $sidebarSelection, updater: $updater)
 				.frame(minWidth: 150, idealWidth: 300, maxWidth: .infinity)
-			VSplitView {
-				ImageCollectionView(
-					selectedDirectories: sidebarSelection,
-					fileSelection: $fileSelection,
-					imageViewType: $imageCollectionViewStyle
+			VStack(spacing: 0) {
+				VSplitView {
+					ImageCollectionView(
+						filesToShow: filesToShow,
+						fileSelection: $fileSelection,
+						imageViewType: $imageCollectionViewStyle
+					)
+					.manualUpdater($updater)
+					detailView
+						.frame(maxWidth: .infinity,
+									 maxHeight: .infinity)
+				}
+				Divider()
+				BottomBarView(
+					numberOfFilesSelected: fileSelection.count,
+					numberOfFilesShown: filesToShow.count,
+					numberOfDirectoriesSelected: sidebarSelection.count,
+					thumbnailScale: thumbnailScaleBinding
 				)
-				.manualUpdater($updater)
-				detailView
-					.frame(maxWidth: .infinity,
-								 maxHeight: .infinity)
 			}
 		}
 		.toolbar(id: "Test") {
@@ -98,6 +112,18 @@ extension PrimaryView {
 	var flexibleSpaceToolbarItem: some CustomizableToolbarContent {
 		ToolbarItem(id: "Flexible Space", showsByDefault: false) {
 			Spacer()
+		}
+	}
+}
+
+// MARK:- Helper Functions
+extension PrimaryView {
+	var thumbnailScaleBinding: Binding<Double>? {
+		switch imageCollectionViewStyle {
+		case .asList:
+			return nil
+		case .asIcons:
+			return $thumbnailScale
 		}
 	}
 }
