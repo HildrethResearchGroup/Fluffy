@@ -55,6 +55,17 @@ extension ImageCollectionListView {
 			}
 			Text(file.displayName)
 		}
+		// TODO: Add proper shift clicking
+		.onCommandTapGesture {
+			if fileSelection.contains(file) {
+				fileSelection.remove(file)
+			} else {
+				fileSelection.insert(file)
+			}
+		}
+		.onTapGesture {
+			fileSelection = [file]
+		}
 		.onDrag {
 			let uri = file.objectID.uriRepresentation() as NSURL
 			return NSItemProvider(object: uri)
