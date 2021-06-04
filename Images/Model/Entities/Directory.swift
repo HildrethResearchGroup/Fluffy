@@ -160,6 +160,7 @@ extension Directory {
 		
 		return selection
 			.filter { !ancestor(of: $0, isContainedIn: selection) }
+			.sorted { $0.name < $1.name }
 			.flatMap { filesToShow(in: $0) }
 	}
 }
