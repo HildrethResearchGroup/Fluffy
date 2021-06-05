@@ -23,7 +23,7 @@ struct PrimaryView: View {
 	/// The style for displaying the image collection.
 	@State private var imageCollectionViewStyle = ImageCollectionViewStyle.asList
 	
-	@State private var thumbnailScale = 64.0
+	@State private var thumbnailScale = Double(C.defaultIconThumbnailSize)
 	
 	/// An updater instance.
 	///
@@ -42,7 +42,8 @@ struct PrimaryView: View {
 					ImageCollectionView(
 						filesToShow: filesToShow,
 						fileSelection: $fileSelection,
-						imageViewType: $imageCollectionViewStyle
+						imageViewType: $imageCollectionViewStyle,
+						thumbnailSize: $thumbnailScale
 					)
 					.manualUpdater($updater)
 					detailView

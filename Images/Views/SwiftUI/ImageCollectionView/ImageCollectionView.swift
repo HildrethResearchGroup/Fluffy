@@ -18,21 +18,20 @@ struct ImageCollectionView: View {
 	@Binding var fileSelection: Set<File>
 	
 	/// The size of thumbnails when displaying images as icons.
-	@State var thumbnailScale: CGFloat = 64.0
-	
-	/// The group used for loading images from disk lazily.
-	static let lazyDiskImageGroup = "ImageCollectionView"
+	@Binding var thumbnailScale: Double
 	
 	var filesToShow: [File]
 	
 	init(
 		filesToShow: [File],
 		fileSelection: Binding<Set<File>>,
-		imageViewType: Binding<ImageCollectionViewStyle>
+		imageViewType: Binding<ImageCollectionViewStyle>,
+		thumbnailSize: Binding<Double>
 	) {
 		self.filesToShow = filesToShow
 		_style = imageViewType
 		_fileSelection = fileSelection
+		_thumbnailScale = thumbnailSize
 	}
 	
 	var body: some View {
@@ -65,6 +64,7 @@ enum ImageCollectionViewStyle: Hashable {
 struct ImageCollectionView_Previews: PreviewProvider {
 	@State private static var imageViewType = ImageCollectionViewStyle.asList
 	@State private static var fileSelection: Set<File> = []
+	@State private static var thumbnailSize = C.defaultIconThumbnailSize
 	
 	private static func makeFilesToShow() -> [File] {
 		let fetchRequest: NSFetchRequest<Directory> = Directory.fetchRequest()
@@ -75,15 +75,14 @@ struct ImageCollectionView_Previews: PreviewProvider {
 			.viewContext
 		
 		let fetchResult = try! viewContext.fetch(fetchRequest)
-		
 		let directories = Set(fetchResult)
-		
 		return Directory.files(inSelection: directories)
 	}
 	
 	static var previews: some View {
 		ImageCollectionView(filesToShow: makeFilesToShow(),
 												fileSelection: $fileSelection,
-												imageViewType: $imageViewType)
+												imageViewType: $imageViewType,
+												thumbnailSize: $thumbnailSize)
 	}
 }

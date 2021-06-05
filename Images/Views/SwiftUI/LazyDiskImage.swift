@@ -12,12 +12,8 @@ struct LazyDiskImage: View {
 	/// The instance for loading the image from disk.
 	@ObservedObject private var imageLoader: DiskImageLoader
 	
-	/// The size of the image.
-	var imageSize: CGSize
-	
-	init(at url: URL, in group: DiskImageLoaderGroup, imageSize: CGSize) {
-		self.imageSize = imageSize
-		imageLoader = DiskImageLoader(imageSize: imageSize, group: group)
+	init(at url: URL, using imageLoader: DiskImageLoader) {
+		self.imageLoader = imageLoader
 		imageLoader.loadImage(at: url)
 	}
 	
@@ -25,6 +21,7 @@ struct LazyDiskImage: View {
 		if let image = imageLoader.loadedImage {
 			Image(nsImage: image)
 				.resizable()
+				.aspectRatio(contentMode: .fit)
 		} else {
 			switch imageLoader.state {
 			case .queued:
@@ -32,7 +29,7 @@ struct LazyDiskImage: View {
 			case .loading:
 				ProgressView()
 					.controlSize(.mini)
-			case .loaded:
+			case .loaded, .failed:
 				// image was nil
 				failedPlaceholder
 			}
@@ -59,14 +56,17 @@ struct LazyDiskImage_Previews: PreviewProvider {
 		fileURLWithPath: "/Users/connorbarnes/Desktop/Examples/Images/Eiffel.jpg"
 	)
 	static let group = DiskImageLoaderGroup.named(
-		name: "Preview",
-		cacheMegabyteCapacity: 512,
-		imageSize: CGSize(width: 100, height: 100)
+		"Preview",
+		cacheMegabyteCapacity: 512
 	)
 	
 	static var previews: some View {
-		LazyDiskImage(at: imageURL,
-									in: group,
-									imageSize: CGSize(width: 100.0, height: 100.0))
+		LazyDiskImage(
+			at: imageURL,
+			using: ThumbnailDiskImageLoader(
+				in: group,
+				imageSize: CGSize(width: 100.0, height: 100.0)
+			)
+		)
 	}
 }

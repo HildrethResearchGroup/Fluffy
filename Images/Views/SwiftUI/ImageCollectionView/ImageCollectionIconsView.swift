@@ -15,21 +15,20 @@ struct ImageCollectionIconsView: View {
 	@Binding var fileSelection: Set<File>
 	
 	/// The size of images.
-	@Binding var thumbnailScale: CGFloat
+	@Binding var thumbnailScale: Double
 	
-	@State var diskImageGroup: DiskImageLoaderGroup
+	var diskImageGroup: DiskImageLoaderGroup
 	
 	init(
 		filesToShow: [File],
 		fileSelection: Binding<Set<File>>,
-		thumbnailScale: Binding<CGFloat>
+		thumbnailScale: Binding<Double>
 	) {
 		self.filesToShow = filesToShow
 		_thumbnailScale = thumbnailScale
 		_fileSelection = fileSelection
-		diskImageGroup = .named(name: "IconsView",
-														cacheMegabyteCapacity: 512,
-														imageSize: CGSize(width: 256, height: 256))
+		diskImageGroup = .named("IconsView",
+														cacheMegabyteCapacity: 512)
 	}
 	
 	var body: some View {
@@ -85,9 +84,14 @@ extension ImageCollectionIconsView {
 		
 		VStack {
 			if let url = file.url {
+				let imageLoader = ThumbnailDiskImageLoader(
+					in: diskImageGroup,
+					imageSize: CGSize(width: C.maximumIconThumbnailSize,
+														height: C.maximumIconThumbnailSize)
+				)
+				
 				LazyDiskImage(at: url,
-											in: diskImageGroup,
-											imageSize: CGSize(width: thumbnailScale * 2, height: thumbnailScale * 2))
+											using: imageLoader)
 					.scaledToFit()
 					.padding(4.0)
 					.background(
@@ -118,7 +122,8 @@ extension ImageCollectionIconsView {
 	/// The grid's columns.
 	var columns: [GridItem] {
 		[
-			GridItem(.adaptive(minimum: thumbnailScale, maximum: thumbnailScale * 2),
+			GridItem(.adaptive(minimum: CGFloat(thumbnailScale),
+												 maximum: CGFloat(thumbnailScale) * 2),
 							 spacing: 10.0)
 		]
 	}
@@ -126,7 +131,7 @@ extension ImageCollectionIconsView {
 
 // MARK:- Previews
 struct ImageCollectionIconsView_Previews: PreviewProvider {
-	@State static var thumbnailScale: CGFloat = 64.0
+	@State static var thumbnailScale = C.defaultIconThumbnailSize
 	@State static var fileSelection: Set<File> = []
 	static var filesToShow: [File] {
 		let fetchRequest: NSFetchRequest<Directory> = Directory.fetchRequest()

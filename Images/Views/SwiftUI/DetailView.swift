@@ -10,16 +10,26 @@ import SwiftUI
 struct DetailView: View {
 	var file: File
 	
+	var diskImageLoaderGroup: DiskImageLoaderGroup
+	
+	init(file: File) {
+		self.file = file
+		diskImageLoaderGroup = .named("DetailGroup", cacheMegabyteCapacity: 512)
+	}
+	
 	var body: some View {
-		if let url = file.url,
-			 let image = NSImage(contentsOf: url) {
-			Image(nsImage: image)
-				.resizable()
-				.aspectRatio(contentMode: .fit)
+		if let url = file.url {
+			let loader = DiskImageLoader(in: diskImageLoaderGroup)
+			LazyDiskImage(at: url, using: loader)
 		} else {
-			Text("Failed to load image")
+			Text("No URL for image")
 		}
 	}
+}
+
+// MARK:- Helper Functions
+extension DetailView {
+	
 }
 
 // MARK:- Preview

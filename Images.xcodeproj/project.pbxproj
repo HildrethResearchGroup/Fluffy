@@ -27,6 +27,9 @@
 		5A8A978B261ADF6700FBE591 /* SidebarViewController+NSOutlineViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A978A261ADF6700FBE591 /* SidebarViewController+NSOutlineViewDelegate.swift */; };
 		5A8A9790261AE6BA00FBE591 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A978F261AE6BA00FBE591 /* SidebarView.swift */; };
 		5A8A979E261AF2A900FBE591 /* LazyDiskImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A979D261AF2A900FBE591 /* LazyDiskImage.swift */; };
+		5A8E6966266AE3CA00F7748B /* DiskImageLoaderGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8E6965266AE3CA00F7748B /* DiskImageLoaderGroup.swift */; };
+		5A8E6968266AE62000F7748B /* ThumbnailDiskImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8E6967266AE62000F7748B /* ThumbnailDiskImageLoader.swift */; };
+		5A8E696B266AEB5E00F7748B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8E696A266AEB5E00F7748B /* Constants.swift */; };
 		5A9CB74F2637365900D8488E /* SidebarViewController+DragDrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CB74E2637365900D8488E /* SidebarViewController+DragDrop.swift */; };
 		5A9CB7542637380E00D8488E /* DirectoryPasteboardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CB7532637380E00D8488E /* DirectoryPasteboardItem.swift */; };
 		5A9CB759263743C900D8488E /* ImagePasteboardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9CB758263743C900D8488E /* ImagePasteboardItem.swift */; };
@@ -85,6 +88,9 @@
 		5A8A978A261ADF6700FBE591 /* SidebarViewController+NSOutlineViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SidebarViewController+NSOutlineViewDelegate.swift"; sourceTree = "<group>"; };
 		5A8A978F261AE6BA00FBE591 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SidebarView.swift; path = ../../SidebarView.swift; sourceTree = "<group>"; };
 		5A8A979D261AF2A900FBE591 /* LazyDiskImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyDiskImage.swift; sourceTree = "<group>"; };
+		5A8E6965266AE3CA00F7748B /* DiskImageLoaderGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskImageLoaderGroup.swift; sourceTree = "<group>"; };
+		5A8E6967266AE62000F7748B /* ThumbnailDiskImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailDiskImageLoader.swift; sourceTree = "<group>"; };
+		5A8E696A266AEB5E00F7748B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5A9CB74E2637365900D8488E /* SidebarViewController+DragDrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SidebarViewController+DragDrop.swift"; sourceTree = "<group>"; };
 		5A9CB7532637380E00D8488E /* DirectoryPasteboardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryPasteboardItem.swift; sourceTree = "<group>"; };
 		5A9CB758263743C900D8488E /* ImagePasteboardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePasteboardItem.swift; sourceTree = "<group>"; };
@@ -250,6 +256,17 @@
 			path = SwiftUI;
 			sourceTree = "<group>";
 		};
+		5A8E6969266AE64800F7748B /* ImageLoading */ = {
+			isa = PBXGroup;
+			children = (
+				5ABE619226531A2900308B11 /* DiskImageLoader.swift */,
+				5A8E6967266AE62000F7748B /* ThumbnailDiskImageLoader.swift */,
+				5A8E6965266AE3CA00F7748B /* DiskImageLoaderGroup.swift */,
+				5ADDED18266472F500CF87B7 /* ImageCache.swift */,
+			);
+			path = ImageLoading;
+			sourceTree = "<group>";
+		};
 		5ABE618D2652ED6E00308B11 /* ImageCollectionView */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,9 +280,9 @@
 		5ADDED17266472B800CF87B7 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				5ABE619226531A2900308B11 /* DiskImageLoader.swift */,
+				5A8E6969266AE64800F7748B /* ImageLoading */,
 				5A484B5B266431340007D565 /* ModifierGestures.swift */,
-				5ADDED18266472F500CF87B7 /* ImageCache.swift */,
+				5A8E696A266AEB5E00F7748B /* Constants.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -417,6 +434,9 @@
 				5A2F427925E23245000D70A8 /* VisualEffectView.swift in Sources */,
 				5A1B8C5A26092828000B2120 /* SidebarOutlineView.swift in Sources */,
 				5A2F421925E20BE3000D70A8 /* Images.xcdatamodeld in Sources */,
+				5A8E696B266AEB5E00F7748B /* Constants.swift in Sources */,
+				5A8E6968266AE62000F7748B /* ThumbnailDiskImageLoader.swift in Sources */,
+				5A8E6966266AE3CA00F7748B /* DiskImageLoaderGroup.swift in Sources */,
 				5A484B5C266431340007D565 /* ModifierGestures.swift in Sources */,
 				5ABE618C2652EA8300308B11 /* ManualUpdatableView.swift in Sources */,
 				5A2F420D25E20BE1000D70A8 /* ImagesApp.swift in Sources */,

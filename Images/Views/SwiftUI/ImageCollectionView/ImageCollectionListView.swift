@@ -29,9 +29,8 @@ struct ImageCollectionListView: View {
 		self.filesToShow = filesToShow
 		_fileSelection = fileSelection
 		diskImageGroup = .named(
-			name: "ListView",
-			cacheMegabyteCapacity: 128,
-			imageSize: CGSize(width: 24, height: 24)
+			"ListView",
+			cacheMegabyteCapacity: 128
 		)
 	}
 }
@@ -45,11 +44,17 @@ extension ImageCollectionListView {
 	func view(forFile file: File) -> some View {
 		HStack {
 			if let url = file.url {
+				let imageLoader = ThumbnailDiskImageLoader(
+					in: diskImageGroup,
+					imageSize: CGSize(width: C.listThumbnailSize,
+														height: C.listThumbnailSize)
+				)
+				
 				LazyDiskImage(at: url,
-											in: diskImageGroup,
-											imageSize: CGSize(width: 24.0, height: 24.0))
+											using: imageLoader)
 					.scaledToFit()
-					.frame(width: 24.0, height: 24.0)
+					.frame(width: C.listThumbnailSize,
+								 height: C.listThumbnailSize)
 			} else {
 				Text("X")
 			}
@@ -90,9 +95,8 @@ struct ImageCollectionListView_Previews: PreviewProvider {
 	}
 	
 	static let group = DiskImageLoaderGroup.named(
-		name: "Preview",
-		cacheMegabyteCapacity: 512,
-		imageSize: CGSize(width: 256, height: 256)
+		"Preview",
+		cacheMegabyteCapacity: 512
 	)
 	
 	@State static var fileSelection: Set<File> = []
