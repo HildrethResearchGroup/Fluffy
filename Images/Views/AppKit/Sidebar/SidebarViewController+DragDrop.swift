@@ -47,6 +47,10 @@ extension SidebarViewController.Coordinator {
 			if dropDirectory != parent.rootDirectory {
 				result = .move
 			}
+		} else if info.draggingPasteboard.availableType(from: [.fileURL]) != nil {
+			if !(item == nil && externalDropContainsFiles(draggingInfo: info)) {
+				result = .link
+			}
 		} else if info.draggingPasteboard
 								.availableType(from: [.URL]) != nil {
 			var urls: [URL] = []
@@ -84,8 +88,9 @@ extension SidebarViewController.Coordinator {
 				result = .move
 			}
 		} else {
-			// TODO: Check for external drops
-		 }
+			// Drag source is from outside the app, likely a file promise, so copy
+			result = .copy
+		}
 		
 		return result
 	}
@@ -110,6 +115,15 @@ extension SidebarViewController.Coordinator {
 		} else if info.draggingPasteboard
 								.availableType(from: [.imagePasteboardType]) != nil {
 			// The items being dragged are internal image items
+		} else if info.draggingPasteboard
+								.availableType(from: [.fileURL]) != nil {
+			// The user has dropped items from Finder
+			handleExternalDrops(
+				outlineView,
+				draggingInfo: info,
+				dropDirectory: dropDirectory,
+				childIndex: index
+			)
 		} else if info.draggingPasteboard
 								.availableType(from: [.URL]) != nil {
 			var urls: [URL] = []
@@ -151,8 +165,6 @@ extension SidebarViewController.Coordinator {
 				
 				parent.updater.update()
 			}
-		} else {
-			// TODO: Handle external drops
 		}
 		
 		return true
@@ -363,5 +375,108 @@ extension SidebarViewController.Coordinator {
 			dropDirectory.addToFiles(file)
 			file.parent = dropDirectory
 		}
+	}
+	
+	private func externalDropContainsFiles(draggingInfo: NSDraggingInfo) -> Bool {
+		// We look for file promises and urls
+		let supportedClasses = [NSFilePromiseReceiver.self, NSURL.self]
+		// For items dragged from outside the application, we want to seach for readable URLs
+		let searchOptions: [NSPasteboard.ReadingOptionKey: Any] = [.urlReadingFileURLsOnly: true]
+		var droppedURLs: [URL] = []
+		// Process all pasteboard items that are being dropped
+		draggingInfo.enumerateDraggingItems(options: [], for: nil, classes: supportedClasses, searchOptions: searchOptions) { draggingItem, _, _ in
+			switch draggingItem.item {
+			// TODO: Support file promises
+//			case let filePromiseReceiver as NSFilePromiseReceiver:
+				// The drag item is a file promise, so it isn't a directory
+//				break
+			case let fileURL as URL:
+				// The drag item is a URL reference (not a file promise)
+				droppedURLs.append(fileURL)
+			default:
+				break
+			}
+		}
+		
+		return droppedURLs.contains { url in
+			return !url.isFolder
+		}
+	}
+	
+	/// Handles dropping external items onto the sidebar.
+	/// - Parameters:
+	///   - outlineView: The outlineview being dropped onto.
+	///   - draggingInfo: The dragging info.
+	///   - dropDirectory: The directory that the items are being dropped into.
+	///   - index: The child index of the directory that the items are being dropped at.
+	private func handleExternalDrops(_ outlineView: NSOutlineView, draggingInfo: NSDraggingInfo, dropDirectory: Directory, childIndex index: Int) {
+		// We look for file promises and urls
+		let supportedClasses = [NSFilePromiseReceiver.self, NSURL.self]
+		// For items dragged from outside the application, we want to search for
+		// readable URLs
+		let searchOptions: [NSPasteboard.ReadingOptionKey: Any] = [
+			.urlReadingFileURLsOnly: true
+		]
+		
+		var droppedURLs: [URL] = []
+		// Process all pasteboard items that are being dropped
+		draggingInfo.enumerateDraggingItems(
+			options: [],
+			for: nil,
+			classes: supportedClasses,
+			searchOptions: searchOptions
+		) { draggingItem, _, _ in
+			switch draggingItem.item {
+			case _ as NSFilePromiseReceiver:
+				// TODO: Implement file promises
+				break
+			case let fileURL as URL:
+				// The drag item is a URL reference (not a file promise)
+				droppedURLs.append(fileURL)
+			default:
+				break
+			}
+		}
+		
+		importURLs(droppedURLs,
+							 in: outlineView,
+							 dropDirectory: dropDirectory,
+							 childIndex: index,
+							 includeSubdirectories: true)
+	}
+	
+	/// Inserts files/directories in the given directory.
+	/// - Parameters:
+	///   - urls: The urls of the files and directories to add.
+	///   - outlineView: The outlineview that is being dragged into.
+	///   - dropDirectory: The directory that files are being added to. If `nil`, the root directory is used.
+	///   - childIndex: The index of the child inside the directory that files are being added at. If `nil`, the items are added to the end of the directory.
+	///   - includeSubdirectories: Whether or not to include subdirectories of the selection.
+	private func importURLs(
+		_ urls: [URL],
+		in outlineView: NSOutlineView,
+		dropDirectory: Directory?,
+		childIndex: Int?,
+		includeSubdirectories: Bool
+	) {
+		let rootDirectory = parent.rootDirectory
+		// If no drop directory is specified then add it to the root directory
+		let dropDirectory = dropDirectory ?? rootDirectory
+		// If no child index is specified then append it
+		let childIndex = childIndex ?? dropDirectory.subdirectories.count
+		dropDirectory.insertFileSystemObjects(
+			at: urls,
+			index: childIndex,
+			includeSubdirectories: includeSubdirectories
+		)
+		
+		// Animate
+		let outlineParent = dropDirectory == rootDirectory ? nil : dropDirectory
+		let folderCount = urls.lazy.filter { $0.isFolder } .count
+		let insertionIndexSet = IndexSet(integersIn: childIndex..<(childIndex + folderCount))
+		outlineView.insertItems(at: insertionIndexSet, inParent: outlineParent, withAnimation: .slideDown)
+		
+		// File selection may have changed
+		parent.updater.update()
 	}
 }

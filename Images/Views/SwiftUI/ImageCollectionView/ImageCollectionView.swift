@@ -13,7 +13,7 @@ struct ImageCollectionView: View {
 	@Environment(\.managedObjectContext) private var viewContext
 	
 	/// The view type for displaying the images.
-	@Binding var style: ImageCollectionViewStyle
+	var style: ImageCollectionViewStyle
 	
 	@Binding var fileSelection: Set<File>
 	
@@ -25,11 +25,11 @@ struct ImageCollectionView: View {
 	init(
 		filesToShow: [File],
 		fileSelection: Binding<Set<File>>,
-		imageViewType: Binding<ImageCollectionViewStyle>,
+		imageViewType: ImageCollectionViewStyle,
 		thumbnailSize: Binding<Double>
 	) {
 		self.filesToShow = filesToShow
-		_style = imageViewType
+		style = imageViewType
 		_fileSelection = fileSelection
 		_thumbnailScale = thumbnailSize
 	}
@@ -62,7 +62,6 @@ enum ImageCollectionViewStyle: Hashable {
 
 // MARK:- Previews
 struct ImageCollectionView_Previews: PreviewProvider {
-	@State private static var imageViewType = ImageCollectionViewStyle.asList
 	@State private static var fileSelection: Set<File> = []
 	@State private static var thumbnailSize = C.defaultIconThumbnailSize
 	
@@ -82,7 +81,7 @@ struct ImageCollectionView_Previews: PreviewProvider {
 	static var previews: some View {
 		ImageCollectionView(filesToShow: makeFilesToShow(),
 												fileSelection: $fileSelection,
-												imageViewType: $imageViewType,
+												imageViewType: .asList,
 												thumbnailSize: $thumbnailSize)
 	}
 }

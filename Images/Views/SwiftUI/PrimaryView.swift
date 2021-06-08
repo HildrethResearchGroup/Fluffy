@@ -23,61 +23,26 @@ struct PrimaryView: View {
 	/// The style for displaying the image collection.
 	@State private var imageCollectionViewStyle = ImageCollectionViewStyle.asList
 	
-	@State private var thumbnailScale = Double(C.defaultIconThumbnailSize)
-	
 	/// An updater instance.
 	///
 	/// This is included to allow manually updating this view when the sidebar has files dragged onto it.
 	@State private var updater = Updater()
 	
 	var body: some View {
-		// Used multiple times, so calculate only once
-		let filesToShow = Directory.files(inSelection: sidebarSelection)
-		
 		NavigationView {
 			SidebarView(selection: $sidebarSelection, updater: $updater)
 				.frame(minWidth: 150, idealWidth: 300, maxWidth: .infinity)
-			VStack(spacing: 0) {
-				VSplitView {
-					ImageCollectionView(
-						filesToShow: filesToShow,
-						fileSelection: $fileSelection,
-						imageViewType: $imageCollectionViewStyle,
-						thumbnailSize: $thumbnailScale
-					)
-					.manualUpdater($updater)
-					detailView
-						.frame(maxWidth: .infinity,
-									 maxHeight: .infinity)
-				}
-				Divider()
-				BottomBarView(
-					numberOfFilesSelected: fileSelection.count,
-					numberOfFilesShown: filesToShow.count,
-					numberOfDirectoriesSelected: sidebarSelection.count,
-					thumbnailScale: thumbnailScaleBinding
-				)
-			}
+			CenterView(
+				fileSelection: $fileSelection,
+				sidebarSelection: $sidebarSelection,
+				imageCollectionViewStyle: imageCollectionViewStyle
+			)
+			.manualUpdater($updater)
 		}
-		.toolbar(id: "Test") {
+		.toolbar(id: "PrimaryToolbar") {
 			sidebarToolbarItem
 			viewAsToolbarItem
 			flexibleSpaceToolbarItem
-		}
-	}
-}
-
-// MARK:- Subviews
-extension PrimaryView {
-	@ViewBuilder
-	var detailView: some View {
-		switch fileSelection.count {
-		case 0:
-			Text("No Selection")
-		case 1:
-			DetailView(file: fileSelection.first!)
-		default:
-			Text("Multiple Selection")
 		}
 	}
 }
@@ -113,18 +78,6 @@ extension PrimaryView {
 	var flexibleSpaceToolbarItem: some CustomizableToolbarContent {
 		ToolbarItem(id: "Flexible Space", showsByDefault: false) {
 			Spacer()
-		}
-	}
-}
-
-// MARK:- Helper Functions
-extension PrimaryView {
-	var thumbnailScaleBinding: Binding<Double>? {
-		switch imageCollectionViewStyle {
-		case .asList:
-			return nil
-		case .asIcons:
-			return $thumbnailScale
 		}
 	}
 }

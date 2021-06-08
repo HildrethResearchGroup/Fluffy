@@ -10,7 +10,7 @@
 let shouldResetCoreData = false
 
 /// Setting this value to `true` will use the preview store instead of the disk store.
-let usePreview = true
+let usePreview = false
 
 /// Setting this value to `true` will simulate the root directory failing to load.
 let forceThrowForLoadRootDirectory = false
