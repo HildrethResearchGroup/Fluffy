@@ -36,7 +36,6 @@ struct ImageCollectionIconsView: View {
 			LazyVGrid(columns: columns) {
 				ForEach(filesToShow) { file in
 					view(forFile: file)
-						
 						.onShiftTapGesture {
 							if fileSelection.contains(file) {
 								fileSelection.remove(file)

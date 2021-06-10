@@ -19,5 +19,9 @@ struct ImagesApp: App {
 				.environment(\.managedObjectContext,
 										 persistenceController.container.viewContext)
 		}
+		Settings {
+			SettingsView()
+				.navigationTitle("Preferences")
+		}
 	}
 }

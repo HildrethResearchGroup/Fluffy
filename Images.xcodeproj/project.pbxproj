@@ -10,6 +10,8 @@
 		5A1B8C5526091D84000B2120 /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1B8C5426091D84000B2120 /* SidebarViewController.swift */; };
 		5A1B8C5A26092828000B2120 /* SidebarOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1B8C5926092828000B2120 /* SidebarOutlineView.swift */; };
 		5A1B8C7326092C7B000B2120 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A1B8C7226092C7B000B2120 /* Main.storyboard */; };
+		5A1E2DD12671EE550080EF8B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E2DD02671EE550080EF8B /* SettingsView.swift */; };
+		5A1E2DD32671EFBA0080EF8B /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1E2DD22671EFBA0080EF8B /* Array.swift */; };
 		5A2BAE35266DABFB006DD01C /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2BAE34266DABFB006DD01C /* URL.swift */; };
 		5A2BAE37266EFB07006DD01C /* CenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2BAE36266EFB07006DD01C /* CenterView.swift */; };
 		5A2F420D25E20BE1000D70A8 /* ImagesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2F420C25E20BE1000D70A8 /* ImagesApp.swift */; };
@@ -66,6 +68,8 @@
 		5A1B8C5426091D84000B2120 /* SidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarViewController.swift; sourceTree = "<group>"; };
 		5A1B8C5926092828000B2120 /* SidebarOutlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarOutlineView.swift; sourceTree = "<group>"; };
 		5A1B8C7226092C7B000B2120 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		5A1E2DD02671EE550080EF8B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5A1E2DD22671EFBA0080EF8B /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		5A2BAE34266DABFB006DD01C /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		5A2BAE36266EFB07006DD01C /* CenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenterView.swift; sourceTree = "<group>"; };
 		5A2F420925E20BE1000D70A8 /* Images.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Images.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -251,6 +255,7 @@
 			children = (
 				5ABE618D2652ED6E00308B11 /* ImageCollectionView */,
 				5A2F426B25E2297C000D70A8 /* PrimaryView.swift */,
+				5A1E2DD02671EE550080EF8B /* SettingsView.swift */,
 				5A2BAE36266EFB07006DD01C /* CenterView.swift */,
 				5A484B59266423FF0007D565 /* DetailView.swift */,
 				5AEE3145266ABE1700495FD6 /* BottomBarView.swift */,
@@ -287,6 +292,7 @@
 			children = (
 				5A8E6969266AE64800F7748B /* ImageLoading */,
 				5A484B5B266431340007D565 /* ModifierGestures.swift */,
+				5A1E2DD22671EFBA0080EF8B /* Array.swift */,
 				5A8E696A266AEB5E00F7748B /* Constants.swift */,
 				5A2BAE34266DABFB006DD01C /* URL.swift */,
 			);
@@ -434,6 +440,7 @@
 				5A9CB7542637380E00D8488E /* DirectoryPasteboardItem.swift in Sources */,
 				5A2F424525E20DF8000D70A8 /* File.swift in Sources */,
 				5AEE3146266ABE1700495FD6 /* BottomBarView.swift in Sources */,
+				5A1E2DD32671EFBA0080EF8B /* Array.swift in Sources */,
 				5A8A9790261AE6BA00FBE591 /* SidebarView.swift in Sources */,
 				5A2F426C25E2297C000D70A8 /* PrimaryView.swift in Sources */,
 				5A484B5A266423FF0007D565 /* DetailView.swift in Sources */,
@@ -458,6 +465,7 @@
 				5A2F424625E20DF8000D70A8 /* Directory.swift in Sources */,
 				5ABE61912652F04C00308B11 /* ImageCollectionIconsView.swift in Sources */,
 				5ABE619326531A2900308B11 /* DiskImageLoader.swift in Sources */,
+				5A1E2DD12671EE550080EF8B /* SettingsView.swift in Sources */,
 				5A8A978B261ADF6700FBE591 /* SidebarViewController+NSOutlineViewDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -615,7 +623,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Images/Images.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Images/Preview Content\"";
@@ -640,7 +648,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Images/Images.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Images/Preview Content\"";
