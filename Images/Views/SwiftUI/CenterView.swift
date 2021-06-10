@@ -10,13 +10,29 @@ import SwiftUI
 struct CenterView: View {
 	@Binding var fileSelection: Set<File>
 	@Binding var sidebarSelection: Set<Directory>
-	@State var thumbnailScale = C.defaultIconThumbnailSize
+	@State private var thumbnailScale = C.defaultIconThumbnailSize
+	@AppStorage("filterFileTypes") private var filterFileTypes = true
+	@AppStorage("fileTypes") private var fileTypes = [
+		"png",
+		"jpg",
+		"jpeg",
+		"tiff",
+		"gif"
+	]
 	
 	/// The style for displaying the image collection.
 	var imageCollectionViewStyle: ImageCollectionViewStyle
 	
 	var body: some View {
 		let filesToShow = Directory.files(inSelection: sidebarSelection)
+			.filter { file in
+				if filterFileTypes {
+					let `extension` = file.url?.pathExtension ?? ""
+					return fileTypes.contains(`extension`)
+				} else {
+					return true
+				}
+			}
 		
 		VStack(spacing: 0) {
 			VSplitView {
@@ -77,7 +93,6 @@ struct CenterView_Previews: PreviewProvider {
 		CenterView(
 			fileSelection: $fileSelection,
 			sidebarSelection: $sidebarSelection,
-			thumbnailScale: C.defaultIconThumbnailSize,
 			imageCollectionViewStyle: .asList
 		)
 	}
