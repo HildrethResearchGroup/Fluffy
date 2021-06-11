@@ -8,8 +8,8 @@
 import Foundation
 
 enum C {
-	static let minimumIconThumbnailSize = 32.0
-	static let maximumIconThumbnailSize = 128.0
-	static let defaultIconThumbnailSize = 64.0
+	static let minimumIconThumbnailSize = 48.0
+	static let maximumIconThumbnailSize = 200.0
+	static let defaultIconThumbnailSize = 120.0
 	static let listThumbnailSize: CGFloat = 24.0
 }

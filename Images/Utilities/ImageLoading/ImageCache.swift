@@ -34,9 +34,10 @@ extension ImageCache {
 extension ImageCache {
 	mutating func insert(image: NSImage, at url: URL) {
 		cache[url] = image
+		images.append((url, image))
 		byteSize += image.byteSize
 		
-		while byteSize > byteCapacity && cache.count > 1 {
+		while byteSize > byteCapacity && images.count > 1 {
 			// Remove the oldest image
 			let (url, image) = images.removeFirst()
 			cache[url] = nil

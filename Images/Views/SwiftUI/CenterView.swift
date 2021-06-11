@@ -10,7 +10,7 @@ import SwiftUI
 struct CenterView: View {
 	@Binding var fileSelection: Set<File>
 	@Binding var sidebarSelection: Set<Directory>
-	@State private var thumbnailScale = C.defaultIconThumbnailSize
+	@AppStorage("thumbnailScale") private var thumbnailScale = C.defaultIconThumbnailSize
 	@AppStorage("filterFileTypes") private var filterFileTypes = true
 	@AppStorage("fileTypes") private var fileTypes = [
 		"png",

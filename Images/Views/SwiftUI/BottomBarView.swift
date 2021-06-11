@@ -22,7 +22,8 @@ struct BottomBarView: View {
 				Text(bottomText)
 				Spacer()
 				if let binding = thumbnailScale {
-					Slider(value: binding, in: 32.0...128.0)
+					Slider(value: binding,
+								 in: C.minimumIconThumbnailSize...C.maximumIconThumbnailSize)
 						.frame(maxWidth: 64.0, alignment: .trailing)
 				}
 			}

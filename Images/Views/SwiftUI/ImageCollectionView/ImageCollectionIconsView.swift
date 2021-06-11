@@ -15,9 +15,11 @@ struct ImageCollectionIconsView: View {
 	@Binding var fileSelection: Set<File>
 	
 	/// The size of images.
-	var thumbnailScale: Double
+	let thumbnailScale: Double
 	
-	var diskImageGroup: DiskImageLoaderGroup
+	let diskImageGroup: DiskImageLoaderGroup
+	
+	let sizeGroup: Int
 	
 	init(
 		filesToShow: [File],
@@ -27,7 +29,9 @@ struct ImageCollectionIconsView: View {
 		self.filesToShow = filesToShow
 		self.thumbnailScale = thumbnailScale
 		_fileSelection = fileSelection
-		diskImageGroup = .named("IconsView",
+		sizeGroup = Int(log2(thumbnailScale)) + 1
+		
+		diskImageGroup = .named("IconsView\(sizeGroup)",
 														cacheMegabyteCapacity: 512)
 	}
 	
@@ -113,11 +117,13 @@ extension ImageCollectionIconsView {
 	@ViewBuilder
 	func thumbnail(forFile file: File) -> some View {
 		if let url = file.url {
+			let size = pow(2.0, CGFloat(sizeGroup))
+			
 			let imageLoader = ThumbnailDiskImageLoader(
 				in: diskImageGroup,
 				imageSize: CGSize(
-					width: C.maximumIconThumbnailSize,
-					height: C.maximumIconThumbnailSize
+					width: size,
+					height: size
 				)
 			)
 			
@@ -135,10 +141,14 @@ extension ImageCollectionIconsView {
 	/// The grid's columns.
 	var columns: [GridItem] {
 		[
-			GridItem(.adaptive(minimum: CGFloat(thumbnailScale),
-												 maximum: CGFloat(thumbnailScale) * 2),
-							 spacing: 10.0,
-							 alignment: .top)
+			GridItem(
+				.adaptive(
+					minimum: max(96.0, CGFloat(thumbnailScale)),
+					maximum: CGFloat(thumbnailScale) * 2
+				),
+				spacing: 24.0,
+				alignment: .top
+			)
 		]
 	}
 }
