@@ -45,7 +45,7 @@ struct ImageCollectionView: View {
 			ImageCollectionIconsView(
 				filesToShow: filesToShow,
 				fileSelection: $fileSelection,
-				thumbnailScale: $thumbnailScale
+				thumbnailScale: thumbnailScale
 			)
 		}
 	}

@@ -15,17 +15,17 @@ struct ImageCollectionIconsView: View {
 	@Binding var fileSelection: Set<File>
 	
 	/// The size of images.
-	@Binding var thumbnailScale: Double
+	var thumbnailScale: Double
 	
 	var diskImageGroup: DiskImageLoaderGroup
 	
 	init(
 		filesToShow: [File],
 		fileSelection: Binding<Set<File>>,
-		thumbnailScale: Binding<Double>
+		thumbnailScale: Double
 	) {
 		self.filesToShow = filesToShow
-		_thumbnailScale = thumbnailScale
+		self.thumbnailScale = thumbnailScale
 		_fileSelection = fileSelection
 		diskImageGroup = .named("IconsView",
 														cacheMegabyteCapacity: 512)
@@ -82,7 +82,7 @@ extension ImageCollectionIconsView {
 			? Color(.alternateSelectedControlTextColor)
 			: Color(.textColor)
 		
-		VStack {
+		VStack(spacing: 4.0) {
 			thumbnail(forFile: file)
 				.padding(4.0)
 				.frame(width: CGFloat(thumbnailScale),
@@ -94,7 +94,9 @@ extension ImageCollectionIconsView {
 				)
 			
 			Text(file.displayName)
-				.lineLimit(1)
+				.lineLimit(2)
+				.fixedSize(horizontal: false, vertical: true)
+				.multilineTextAlignment(.center)
 				.foregroundColor(textColor)
 				.padding([.leading, .trailing], 4.0)
 				.background(
@@ -135,14 +137,14 @@ extension ImageCollectionIconsView {
 		[
 			GridItem(.adaptive(minimum: CGFloat(thumbnailScale),
 												 maximum: CGFloat(thumbnailScale) * 2),
-							 spacing: 10.0)
+							 spacing: 10.0,
+							 alignment: .top)
 		]
 	}
 }
 
 // MARK:- Previews
 struct ImageCollectionIconsView_Previews: PreviewProvider {
-	@State static var thumbnailScale = C.defaultIconThumbnailSize
 	@State static var fileSelection: Set<File> = []
 	static var filesToShow: [File] {
 		let fetchRequest: NSFetchRequest<Directory> = Directory.fetchRequest()
@@ -162,7 +164,7 @@ struct ImageCollectionIconsView_Previews: PreviewProvider {
 		ImageCollectionIconsView(
 			filesToShow: filesToShow,
 			fileSelection: $fileSelection,
-			thumbnailScale: $thumbnailScale
+			thumbnailScale: C.defaultIconThumbnailSize
 		)
 	}
 }
