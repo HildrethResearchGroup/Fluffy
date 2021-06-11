@@ -37,6 +37,10 @@ extension SidebarViewController: NSViewControllerRepresentable {
 			as NSViewController?
 			as! NSViewControllerType
 		
+		viewController.coordinator = context.coordinator
+		
+		context.coordinator.controller = viewController
+		
 		return viewController
 	}
 	

@@ -1,5 +1,5 @@
 //
-//  SidebarOutlineView.swift
+//  SidebarOutlineViewController.swift
 //  Images
 //
 //  Created by Connor Barnes on 3/22/21.
@@ -11,6 +11,8 @@ import Combine
 
 /// The AppKit view controller for the app's sidebar.
 class SidebarOutlineViewController: NSViewController {
+	weak var coordinator: SidebarViewController.Coordinator!
+	
 	/// The outline view.
 	@IBOutlet weak var outlineView: NSOutlineView!
 	
@@ -19,22 +21,20 @@ class SidebarOutlineViewController: NSViewController {
 	
 	/// The remove button.
 	@IBOutlet weak var removeButton: NSButton!
-
-	/// Called when the add button is pressed.
-	/// - Parameter sender: The sender.
-	@IBAction func addButtonPressed(_ sender: Any) {
-		
+	
+	@IBAction func addNewDirectory(_ sender: Any?) {
+		coordinator.addNewDirectory()
 	}
 	
-	/// Called when the remove button is pressed.
-	/// - Parameter sender: The sender.
-	@IBAction func removeButtonPressed(_ sender: Any) {
-		
+	@IBAction func removeSelectedDirectories(_ sender: Any?) {
+		coordinator.removeSelectedDirectories()
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		outlineView.registerForDraggedTypes([.directoryRowPasteboardType, .URL])
+		outlineView.registerForDraggedTypes(
+			[.directoryRowPasteboardType, .URL]
+		)
 	}
 }

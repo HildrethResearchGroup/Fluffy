@@ -106,7 +106,7 @@
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
                                                 <connections>
-                                                    <action selector="addButtonPressed:" target="pa2-Oy-BdR" id="Rj8-q9-iiz"/>
+                                                    <action selector="addNewDirectory:" target="pa2-Oy-BdR" id="NeW-sD-f65"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -131,7 +131,7 @@
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
                                                 <connections>
-                                                    <action selector="removeButtonPressed:" target="pa2-Oy-BdR" id="INb-e0-KVZ"/>
+                                                    <action selector="removeSelectedDirectories:" target="pa2-Oy-BdR" id="Sje-4a-5D8"/>
                                                 </connections>
                                             </button>
                                         </subviews>
