@@ -69,37 +69,30 @@ extension ImageCollectionIconsView {
 	@ViewBuilder
 	func view(forFile file: File) -> some View {
 		let isSelected = fileSelection.contains(file)
+		
 		let imageHighlightColor = isSelected
-			? Color(NSColor.unemphasizedSelectedContentBackgroundColor)
+			? Color(.unemphasizedSelectedContentBackgroundColor)
 			: Color.clear
 		
 		let textHighlightColor = isSelected
-			? Color(NSColor.selectedContentBackgroundColor)
+			? Color(.selectedContentBackgroundColor)
 			: Color.clear
 		
 		let textColor = isSelected
-			? Color(NSColor.alternateSelectedControlTextColor)
-			: Color(NSColor.textColor)
+			? Color(.alternateSelectedControlTextColor)
+			: Color(.textColor)
 		
 		VStack {
-			if let url = file.url {
-				let imageLoader = ThumbnailDiskImageLoader(
-					in: diskImageGroup,
-					imageSize: CGSize(width: C.maximumIconThumbnailSize,
-														height: C.maximumIconThumbnailSize)
+			thumbnail(forFile: file)
+				.padding(4.0)
+				.frame(width: CGFloat(thumbnailScale),
+							 height: CGFloat(thumbnailScale),
+							 alignment: .center)
+				.background(
+					RoundedRectangle(cornerRadius: 4.0)
+						.foregroundColor(imageHighlightColor)
 				)
-				
-				LazyDiskImage(at: url,
-											using: imageLoader)
-					.scaledToFit()
-					.padding(4.0)
-					.background(
-						RoundedRectangle(cornerRadius: 4.0)
-							.foregroundColor(imageHighlightColor)
-					)
-			} else {
-				Text("X")
-			}
+			
 			Text(file.displayName)
 				.lineLimit(1)
 				.foregroundColor(textColor)
@@ -112,6 +105,25 @@ extension ImageCollectionIconsView {
 		.onDrag {
 			let uri = file.objectID.uriRepresentation() as NSURL
 			return NSItemProvider(object: uri)
+		}
+	}
+	
+	@ViewBuilder
+	func thumbnail(forFile file: File) -> some View {
+		if let url = file.url {
+			let imageLoader = ThumbnailDiskImageLoader(
+				in: diskImageGroup,
+				imageSize: CGSize(
+					width: C.maximumIconThumbnailSize,
+					height: C.maximumIconThumbnailSize
+				)
+			)
+			
+			LazyDiskImage(at: url,
+										using: imageLoader)
+				.scaledToFit()
+		} else {
+			Text("X")
 		}
 	}
 }
