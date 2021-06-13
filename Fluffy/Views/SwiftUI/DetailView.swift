@@ -21,6 +21,7 @@ struct DetailView: View {
 		if let url = file.url {
 			let loader = DiskImageLoader(in: diskImageLoaderGroup)
 			LazyDiskImage(at: url, using: loader)
+				.id("DetailImage")
 		} else {
 			Text("No URL for image")
 		}

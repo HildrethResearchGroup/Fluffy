@@ -12,9 +12,28 @@ struct LazyDiskImage: View {
 	/// The instance for loading the image from disk.
 	@ObservedObject private var imageLoader: DiskImageLoader
 	
+	private var url: URL
+	
+	private var id: AnyHashable?
+	
 	init(at url: URL, using imageLoader: DiskImageLoader) {
 		self.imageLoader = imageLoader
+		self.url = url
 		imageLoader.loadImage(at: url)
+		
+	}
+	
+	private init<ID>(at url: URL,
+									 using imageLoader: DiskImageLoader,
+									 id: ID) where ID : Hashable {
+		self.init(at: url, using: imageLoader)
+		self.id = AnyHashable(id)
+	}
+	
+	func id<ID>(_ id: ID) -> some View where ID : Hashable {
+		LazyDiskImage(at: self.url,
+									using: self.imageLoader,
+									id: id)
 	}
 	
 	var body: some View {
@@ -22,20 +41,25 @@ struct LazyDiskImage: View {
 			Image(nsImage: image)
 				.resizable()
 				.aspectRatio(contentMode: .fit)
+				.id(id ?? AnyHashable(url))
 		} else {
 			switch imageLoader.state {
 			case .queued:
 				placeholder
+					.id(id ?? AnyHashable(url))
 			case .loading:
 				ProgressView()
 					.controlSize(.mini)
+					.id(id ?? AnyHashable(url))
 			case .loaded, .failed:
 				// image was nil
 				failedPlaceholder
+					.id(id ?? AnyHashable(url))
 			}
 		}
 	}
 }
+
 
 // MARK:- Subviews
 extension LazyDiskImage {
