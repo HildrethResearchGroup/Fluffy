@@ -38,6 +38,10 @@ struct PrimaryView: View {
 				imageCollectionViewStyle: imageCollectionViewStyle
 			)
 			.manualUpdater($updater)
+			InspectorView(
+				fileSelection: fileSelection,
+				directorySelection: sidebarSelection
+			)
 		}
 		.toolbar(id: "PrimaryToolbar") {
 			sidebarToolbarItem

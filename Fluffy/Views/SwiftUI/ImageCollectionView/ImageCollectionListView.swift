@@ -19,7 +19,7 @@ struct ImageCollectionListView: View {
 	var body: some View {
 		List(selection: $fileSelection) {
 			ForEach(filesToShow, id: \.self) {
-				view(forFile: $0)
+				item(forFile: $0)
 					.tag($0)
 			}
 		}
@@ -37,44 +37,56 @@ struct ImageCollectionListView: View {
 
 // MARK:- Subviews
 extension ImageCollectionListView {
+	struct Item: View {
+		@ObservedObject var file: File
+		@Binding var fileSelection: Set<File>
+		let diskImageGroup: DiskImageLoaderGroup
+		
+		var body: some View {
+			HStack {
+				if let url = file.url {
+					let imageLoader = ThumbnailDiskImageLoader(
+						in: diskImageGroup,
+						imageSize: CGSize(width: C.listThumbnailSize,
+															height: C.listThumbnailSize)
+					)
+					
+					LazyDiskImage(at: url,
+												using: imageLoader)
+						.scaledToFit()
+						.frame(width: C.listThumbnailSize,
+									 height: C.listThumbnailSize)
+				} else {
+					Text("X")
+				}
+				Text(file.displayName)
+			}
+			// TODO: Add proper shift clicking
+			.onCommandTapGesture {
+				if fileSelection.contains(file) {
+					fileSelection.remove(file)
+				} else {
+					fileSelection.insert(file)
+				}
+			}
+			.onTapGesture {
+				fileSelection = [file]
+			}
+			.onDrag {
+				let uri = file.objectID.uriRepresentation() as NSURL
+				return NSItemProvider(object: uri)
+			}
+		}
+	}
+	
 	/// The view for the given file.
 	/// - Parameter file: The file to display.
 	/// - Returns: The file's view.
 	@ViewBuilder
-	func view(forFile file: File) -> some View {
-		HStack {
-			if let url = file.url {
-				let imageLoader = ThumbnailDiskImageLoader(
-					in: diskImageGroup,
-					imageSize: CGSize(width: C.listThumbnailSize,
-														height: C.listThumbnailSize)
-				)
-				
-				LazyDiskImage(at: url,
-											using: imageLoader)
-					.scaledToFit()
-					.frame(width: C.listThumbnailSize,
-								 height: C.listThumbnailSize)
-			} else {
-				Text("X")
-			}
-			Text(file.displayName)
-		}
-		// TODO: Add proper shift clicking
-		.onCommandTapGesture {
-			if fileSelection.contains(file) {
-				fileSelection.remove(file)
-			} else {
-				fileSelection.insert(file)
-			}
-		}
-		.onTapGesture {
-			fileSelection = [file]
-		}
-		.onDrag {
-			let uri = file.objectID.uriRepresentation() as NSURL
-			return NSItemProvider(object: uri)
-		}
+	func item(forFile file: File) -> some View {
+		Item(file: file,
+				 fileSelection: $fileSelection,
+				 diskImageGroup: diskImageGroup)
 	}
 }
 

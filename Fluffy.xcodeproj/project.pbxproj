@@ -26,6 +26,9 @@
 		5A2F426C25E2297C000D70A8 /* PrimaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2F426B25E2297C000D70A8 /* PrimaryView.swift */; };
 		5A2F427125E22E6A000D70A8 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2F427025E22E6A000D70A8 /* Debug.swift */; };
 		5A2F427925E23245000D70A8 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2F427825E23245000D70A8 /* VisualEffectView.swift */; };
+		5A36FAA126759B070033C41B /* FileInspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A36FAA026759B070033C41B /* FileInspectorView.swift */; };
+		5A36FAA42675A8250033C41B /* InspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A36FAA32675A8250033C41B /* InspectorView.swift */; };
+		5A36FAA62675ABCA0033C41B /* ImageTabItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A36FAA52675ABCA0033C41B /* ImageTabItemView.swift */; };
 		5A484B5A266423FF0007D565 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A484B59266423FF0007D565 /* DetailView.swift */; };
 		5A484B5C266431340007D565 /* ModifierGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A484B5B266431340007D565 /* ModifierGestures.swift */; };
 		5A8A978B261ADF6700FBE591 /* Coordinator+NSOutlineViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A978A261ADF6700FBE591 /* Coordinator+NSOutlineViewDelegate.swift */; };
@@ -93,6 +96,9 @@
 		5A2F426B25E2297C000D70A8 /* PrimaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryView.swift; sourceTree = "<group>"; };
 		5A2F427025E22E6A000D70A8 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		5A2F427825E23245000D70A8 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
+		5A36FAA026759B070033C41B /* FileInspectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileInspectorView.swift; sourceTree = "<group>"; };
+		5A36FAA32675A8250033C41B /* InspectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorView.swift; sourceTree = "<group>"; };
+		5A36FAA52675ABCA0033C41B /* ImageTabItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTabItemView.swift; sourceTree = "<group>"; };
 		5A484B59266423FF0007D565 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		5A484B5B266431340007D565 /* ModifierGestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifierGestures.swift; sourceTree = "<group>"; };
 		5A8A978A261ADF6700FBE591 /* Coordinator+NSOutlineViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Coordinator+NSOutlineViewDelegate.swift"; sourceTree = "<group>"; };
@@ -255,10 +261,21 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		5A36FAA226759B0A0033C41B /* Inspectors */ = {
+			isa = PBXGroup;
+			children = (
+				5A36FAA32675A8250033C41B /* InspectorView.swift */,
+				5A36FAA52675ABCA0033C41B /* ImageTabItemView.swift */,
+				5A36FAA026759B070033C41B /* FileInspectorView.swift */,
+			);
+			path = Inspectors;
+			sourceTree = "<group>";
+		};
 		5A4098AC261C3C44007F07D6 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
 				5ABE618D2652ED6E00308B11 /* ImageCollectionView */,
+				5A36FAA226759B0A0033C41B /* Inspectors */,
 				5A2F426B25E2297C000D70A8 /* PrimaryView.swift */,
 				5A1E2DD02671EE550080EF8B /* SettingsView.swift */,
 				5A2BAE36266EFB07006DD01C /* CenterView.swift */,
@@ -447,12 +464,14 @@
 				5A2F424525E20DF8000D70A8 /* File.swift in Sources */,
 				5AEE3146266ABE1700495FD6 /* BottomBarView.swift in Sources */,
 				5A1E2DD32671EFBA0080EF8B /* Array.swift in Sources */,
+				5A36FAA62675ABCA0033C41B /* ImageTabItemView.swift in Sources */,
 				5AC1F3D926731C9A009B6366 /* Coordinator+FirstResponder.swift in Sources */,
 				5A8A9790261AE6BA00FBE591 /* SidebarView.swift in Sources */,
 				5A2F426C25E2297C000D70A8 /* PrimaryView.swift in Sources */,
 				5A484B5A266423FF0007D565 /* DetailView.swift in Sources */,
 				5A2F427125E22E6A000D70A8 /* Debug.swift in Sources */,
 				5A2F427925E23245000D70A8 /* VisualEffectView.swift in Sources */,
+				5A36FAA42675A8250033C41B /* InspectorView.swift in Sources */,
 				5A1B8C5A26092828000B2120 /* SidebarOutlineViewController.swift in Sources */,
 				5A2F421925E20BE3000D70A8 /* Fluffy.xcdatamodeld in Sources */,
 				5A8E696B266AEB5E00F7748B /* Constants.swift in Sources */,
@@ -471,6 +490,7 @@
 				5A9CB74F2637365900D8488E /* Coordinator+DragDrop.swift in Sources */,
 				5A2F424625E20DF8000D70A8 /* Directory.swift in Sources */,
 				5AC1F3D7267317CF009B6366 /* Commands.swift in Sources */,
+				5A36FAA126759B070033C41B /* FileInspectorView.swift in Sources */,
 				5ABE61912652F04C00308B11 /* ImageCollectionIconsView.swift in Sources */,
 				5ABE619326531A2900308B11 /* DiskImageLoader.swift in Sources */,
 				5A1E2DD12671EE550080EF8B /* SettingsView.swift in Sources */,

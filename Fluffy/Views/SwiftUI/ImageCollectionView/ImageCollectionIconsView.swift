@@ -39,7 +39,7 @@ struct ImageCollectionIconsView: View {
 		ScrollView(.vertical) {
 			LazyVGrid(columns: columns) {
 				ForEach(filesToShow) { file in
-					view(forFile: file)
+					item(forFile: file)
 						.onShiftTapGesture {
 							if fileSelection.contains(file) {
 								fileSelection.remove(file)
@@ -67,72 +67,83 @@ struct ImageCollectionIconsView: View {
 
 // MARK:- Subviews
 extension ImageCollectionIconsView {
-	/// The view for the given file.
-	/// - Parameter file: The file to display.
-	/// - Returns: The file's view.
-	@ViewBuilder
-	func view(forFile file: File) -> some View {
-		let isSelected = fileSelection.contains(file)
+	struct Item: View {
+		@ObservedObject var file: File
+		let isSelected: Bool
+		let sizeGroup: Int
+		let thumbnailScale: Double
+		let diskImageGroup: DiskImageLoaderGroup
 		
-		let imageHighlightColor = isSelected
-			? Color(.unemphasizedSelectedContentBackgroundColor)
-			: Color.clear
-		
-		let textHighlightColor = isSelected
-			? Color(.selectedContentBackgroundColor)
-			: Color.clear
-		
-		let textColor = isSelected
-			? Color(.alternateSelectedControlTextColor)
-			: Color(.textColor)
-		
-		VStack(spacing: 4.0) {
-			thumbnail(forFile: file)
-				.padding(4.0)
-				.frame(width: CGFloat(thumbnailScale),
-							 height: CGFloat(thumbnailScale),
-							 alignment: .center)
-				.background(
-					RoundedRectangle(cornerRadius: 4.0)
-						.foregroundColor(imageHighlightColor)
-				)
+		var body: some View {
+			let imageHighlightColor = isSelected
+				? Color(.unemphasizedSelectedContentBackgroundColor)
+				: Color.clear
 			
-			Text(file.displayName)
-				.lineLimit(2)
-				.fixedSize(horizontal: false, vertical: true)
-				.multilineTextAlignment(.center)
-				.foregroundColor(textColor)
-				.padding([.leading, .trailing], 4.0)
-				.background(
-					RoundedRectangle(cornerRadius: 4.0)
-						.foregroundColor(textHighlightColor)
-				)
+			let textHighlightColor = isSelected
+				? Color(.selectedContentBackgroundColor)
+				: Color.clear
+			
+			let textColor = isSelected
+				? Color(.alternateSelectedControlTextColor)
+				: Color(.textColor)
+			
+			VStack(spacing: 4.0) {
+				thumbnail
+					.padding(4.0)
+					.frame(width: CGFloat(thumbnailScale),
+								 height: CGFloat(thumbnailScale),
+								 alignment: .center)
+					.background(
+						RoundedRectangle(cornerRadius: 4.0)
+							.foregroundColor(imageHighlightColor)
+					)
+				
+				Text(file.displayName)
+					.lineLimit(2)
+					.fixedSize(horizontal: false, vertical: true)
+					.multilineTextAlignment(.center)
+					.foregroundColor(textColor)
+					.padding([.leading, .trailing], 4.0)
+					.background(
+						RoundedRectangle(cornerRadius: 4.0)
+							.foregroundColor(textHighlightColor)
+					)
+			}
+			.onDrag {
+				let uri = file.objectID.uriRepresentation() as NSURL
+				return NSItemProvider(object: uri)
+			}
 		}
-		.onDrag {
-			let uri = file.objectID.uriRepresentation() as NSURL
-			return NSItemProvider(object: uri)
+		
+		@ViewBuilder
+		var thumbnail: some View {
+			if let url = file.url {
+				let size = pow(2.0, CGFloat(sizeGroup))
+				
+				let imageLoader = ThumbnailDiskImageLoader(
+					in: diskImageGroup,
+					imageSize: CGSize(
+						width: size,
+						height: size
+					)
+				)
+				
+				LazyDiskImage(at: url,
+											using: imageLoader)
+					.scaledToFit()
+			} else {
+				Text("X")
+			}
 		}
 	}
 	
 	@ViewBuilder
-	func thumbnail(forFile file: File) -> some View {
-		if let url = file.url {
-			let size = pow(2.0, CGFloat(sizeGroup))
-			
-			let imageLoader = ThumbnailDiskImageLoader(
-				in: diskImageGroup,
-				imageSize: CGSize(
-					width: size,
-					height: size
-				)
-			)
-			
-			LazyDiskImage(at: url,
-										using: imageLoader)
-				.scaledToFit()
-		} else {
-			Text("X")
-		}
+	func item(forFile file: File) -> some View {
+		Item(file: file,
+					 isSelected: fileSelection.contains(file),
+					 sizeGroup: sizeGroup,
+					 thumbnailScale: thumbnailScale,
+					 diskImageGroup: diskImageGroup)
 	}
 }
 
