@@ -10,6 +10,7 @@ import SwiftUI
 struct CenterView: View {
 	@Binding var fileSelection: Set<File>
 	@Binding var sidebarSelection: Set<Directory>
+	@Binding var updater: Updater
 	@AppStorage("thumbnailScale") private var thumbnailScale = C.defaultIconThumbnailSize
 	@AppStorage("filterFileTypes") private var filterFileTypes = true
 	@AppStorage("fileTypes") private var fileTypes = [
@@ -39,6 +40,7 @@ struct CenterView: View {
 				ImageCollectionView(
 					filesToShow: filesToShow,
 					fileSelection: $fileSelection,
+					updater: $updater,
 					imageViewType: imageCollectionViewStyle,
 					thumbnailSize: $thumbnailScale
 				)
@@ -64,10 +66,12 @@ extension CenterView {
 		switch fileSelection.count {
 		case 0:
 			Text("No Selection")
+				.id("DetailImage")
 		case 1:
 			DetailView(file: fileSelection.first!)
 		default:
 			Text("Multiple Selection")
+				.id("DetailImage")
 		}
 	}
 }
@@ -93,6 +97,7 @@ struct CenterView_Previews: PreviewProvider {
 		CenterView(
 			fileSelection: $fileSelection,
 			sidebarSelection: $sidebarSelection,
+			updater: .constant(Updater()),
 			imageCollectionViewStyle: .asList
 		)
 	}

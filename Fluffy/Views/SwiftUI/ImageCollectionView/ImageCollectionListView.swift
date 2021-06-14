@@ -14,20 +14,27 @@ struct ImageCollectionListView: View {
 	
 	@Binding var fileSelection: Set<File>
 	
+	@Binding var updater: Updater
+	
 	@State var diskImageGroup: DiskImageLoaderGroup
 	
 	var body: some View {
 		List(selection: $fileSelection) {
-			ForEach(filesToShow, id: \.self) {
-				item(forFile: $0)
-					.tag($0)
+			ForEach(filesToShow, id: \.self) { file in
+				item(forFile: file)
+					.tag(file)
 			}
 		}
 	}
 	
-	init(filesToShow: [File], fileSelection: Binding<Set<File>>) {
+	init(
+		filesToShow: [File],
+		fileSelection: Binding<Set<File>>,
+		updater: Binding<Updater>
+	) {
 		self.filesToShow = filesToShow
 		_fileSelection = fileSelection
+		_updater = updater
 		diskImageGroup = .named(
 			"ListView",
 			cacheMegabyteCapacity: 128
@@ -87,6 +94,13 @@ extension ImageCollectionListView {
 		Item(file: file,
 				 fileSelection: $fileSelection,
 				 diskImageGroup: diskImageGroup)
+			.contextMenu {
+				ImageCollectionItemContextMenu(
+					file: file,
+					fileSelection: $fileSelection,
+					updater: $updater
+				)
+			}
 	}
 }
 
@@ -116,7 +130,8 @@ struct ImageCollectionListView_Previews: PreviewProvider {
 	static var previews: some View {
 		ImageCollectionListView(
 			filesToShow: filesToShow,
-			fileSelection: $fileSelection
+			fileSelection: $fileSelection,
+			updater: .constant(Updater())
 		)
 	}
 }

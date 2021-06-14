@@ -14,6 +14,8 @@ struct ImageCollectionIconsView: View {
 	
 	@Binding var fileSelection: Set<File>
 	
+	@Binding var updater: Updater
+	
 	/// The size of images.
 	let thumbnailScale: Double
 	
@@ -24,11 +26,13 @@ struct ImageCollectionIconsView: View {
 	init(
 		filesToShow: [File],
 		fileSelection: Binding<Set<File>>,
+		updater: Binding<Updater>,
 		thumbnailScale: Double
 	) {
 		self.filesToShow = filesToShow
 		self.thumbnailScale = thumbnailScale
 		_fileSelection = fileSelection
+		_updater = updater
 		sizeGroup = Int(log2(thumbnailScale)) + 1
 		
 		diskImageGroup = .named("IconsView\(sizeGroup)",
@@ -144,6 +148,13 @@ extension ImageCollectionIconsView {
 					 sizeGroup: sizeGroup,
 					 thumbnailScale: thumbnailScale,
 					 diskImageGroup: diskImageGroup)
+			.contextMenu {
+				ImageCollectionItemContextMenu(
+					file: file,
+					fileSelection: $fileSelection,
+					updater: $updater
+				)
+			}
 	}
 }
 
@@ -185,6 +196,7 @@ struct ImageCollectionIconsView_Previews: PreviewProvider {
 		ImageCollectionIconsView(
 			filesToShow: filesToShow,
 			fileSelection: $fileSelection,
+			updater: .constant(Updater()),
 			thumbnailScale: C.defaultIconThumbnailSize
 		)
 	}

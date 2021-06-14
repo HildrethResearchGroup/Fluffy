@@ -35,6 +35,7 @@ struct PrimaryView: View {
 			CenterView(
 				fileSelection: $fileSelection,
 				sidebarSelection: $sidebarSelection,
+				updater: $updater,
 				imageCollectionViewStyle: imageCollectionViewStyle
 			)
 			.manualUpdater($updater)

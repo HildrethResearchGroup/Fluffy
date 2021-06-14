@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A1B1D5226774FD7002FF636 /* ImageCollectionItemContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1B1D5126774FD7002FF636 /* ImageCollectionItemContextMenu.swift */; };
 		5A1B8C5526091D84000B2120 /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1B8C5426091D84000B2120 /* SidebarViewController.swift */; };
 		5A1B8C5A26092828000B2120 /* SidebarOutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1B8C5926092828000B2120 /* SidebarOutlineViewController.swift */; };
 		5A1B8C7326092C7B000B2120 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A1B8C7226092C7B000B2120 /* Main.storyboard */; };
@@ -70,6 +71,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5A1B1D5126774FD7002FF636 /* ImageCollectionItemContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionItemContextMenu.swift; sourceTree = "<group>"; };
 		5A1B8C5426091D84000B2120 /* SidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarViewController.swift; sourceTree = "<group>"; };
 		5A1B8C5926092828000B2120 /* SidebarOutlineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarOutlineViewController.swift; sourceTree = "<group>"; };
 		5A1B8C7226092C7B000B2120 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				5ACD136325FF3D1400E64523 /* ImageCollectionView.swift */,
 				5ABE61902652F04C00308B11 /* ImageCollectionIconsView.swift */,
 				5ABE618E2652ED8A00308B11 /* ImageCollectionListView.swift */,
+				5A1B1D5126774FD7002FF636 /* ImageCollectionItemContextMenu.swift */,
 			);
 			path = ImageCollectionView;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				5A8E696B266AEB5E00F7748B /* Constants.swift in Sources */,
 				5A8E6968266AE62000F7748B /* ThumbnailDiskImageLoader.swift in Sources */,
 				5A8E6966266AE3CA00F7748B /* DiskImageLoaderGroup.swift in Sources */,
+				5A1B1D5226774FD7002FF636 /* ImageCollectionItemContextMenu.swift in Sources */,
 				5A484B5C266431340007D565 /* ModifierGestures.swift in Sources */,
 				5ABE618C2652EA8300308B11 /* ManualUpdatableView.swift in Sources */,
 				5A2F420D25E20BE1000D70A8 /* FluffyApp.swift in Sources */,
