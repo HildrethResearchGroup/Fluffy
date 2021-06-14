@@ -8,6 +8,7 @@
 import Cocoa
 
 extension SidebarViewController.Coordinator {
+	/// Adds a new directory to the currently selected directory, or the root directory if there is no selected directory.
 	func addNewDirectory() {
 		let parentDirectory = insertionDirectory()
 		
@@ -48,6 +49,7 @@ extension SidebarViewController.Coordinator {
 		view?.textField?.becomeFirstResponder()
 	}
 	
+	/// Removes the selected directories.
 	func removeSelectedDirectories() {
 		let outlineView = controller.outlineView!
 		let selection = outlineView.selectedRowIndexes
@@ -81,10 +83,12 @@ extension SidebarViewController.Coordinator {
 				return
 			}
 			
-			// Top level directories are a member of the root directory. However, NSOutlineView represents the item of the top level as nil, so if the parent is the root directory, change it to nil.
+			// Top level directories are a member of the root directory. However,
+			// NSOutlineView represents the item of the top level as nil, so if the
+			// parent is the root directory, change it to nil.
 			let outlineViewParent = parentDirectory == parent.rootDirectory
 				? nil
-				: parent
+				: parentDirectory
 			
 			outlineView.removeItems(at: IndexSet(integer: childIndex),
 															inParent: outlineViewParent,
@@ -101,7 +105,9 @@ extension SidebarViewController.Coordinator {
 }
 
 // MARK: Helper Functions
-extension SidebarViewController.Coordinator {
+private extension SidebarViewController.Coordinator {
+	/// The directory that should be inserted into.
+	/// - Returns: A directory.
 	func insertionDirectory() -> Directory {
 		let outlineView = controller.outlineView!
 		

@@ -21,7 +21,7 @@
                                         <rect key="frame" x="0.0" y="28" width="450" height="272"/>
                                         <clipView key="contentView" drawsBackground="NO" id="Zhi-cw-t8C">
                                             <rect key="frame" x="0.0" y="0.0" width="450" height="272"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" tableStyle="sourceList" selectionHighlightStyle="sourceList" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowHeight="28" rowSizeStyle="systemDefault" viewBased="YES" indentationPerLevel="13" outlineTableColumn="50s-mm-lDa" id="Q3L-Lz-a5Y">
                                                     <rect key="frame" x="0.0" y="0.0" width="450" height="272"/>
@@ -43,7 +43,7 @@
                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             <prototypeCellViews>
                                                                 <tableCellView identifier="SidebarFolderTableViewCell" translatesAutoresizingMaskIntoConstraints="NO" id="e3Z-jQ-ggC">
-                                                                    <rect key="frame" x="11" y="0.0" width="427" height="24"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="427" height="24"/>
                                                                     <subviews>
                                                                         <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="jq0-YB-DUa">
                                                                             <rect key="frame" x="25" y="4" width="402" height="16"/>
@@ -164,7 +164,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="addbutton" destination="f1z-qy-y4l" id="JeJ-bq-FNL"/>
+                        <outlet property="addButton" destination="f1z-qy-y4l" id="JeJ-bq-FNL"/>
                         <outlet property="outlineView" destination="Q3L-Lz-a5Y" id="qh0-uB-35z"/>
                         <outlet property="removeButton" destination="jVe-4i-Ln4" id="LDF-Jp-HGf"/>
                     </connections>

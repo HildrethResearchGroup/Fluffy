@@ -17,6 +17,7 @@ struct SidebarView: View {
 	/// This is needed to force updating when images have been dragged onto a directory.
 	@Binding var updater: Updater
 	
+	/// The managed object context.
 	@Environment(\.managedObjectContext) var viewContext
 
 	var body: some View {

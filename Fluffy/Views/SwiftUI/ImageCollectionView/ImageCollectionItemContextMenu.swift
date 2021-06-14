@@ -26,11 +26,9 @@ extension ImageCollectionItemContextMenu {
 		if fileSelection.count > 1
 				&& fileSelection.contains(file) {
 			Button {
-				let urls = fileSelection
+				fileSelection
 					.compactMap(\.url)
-				
-				NSWorkspace.shared
-					.activateFileViewerSelecting(urls)
+					.showInFinder()
 			} label: {
 				Text("Show \(fileSelection.count) Files in Finder")
 			}

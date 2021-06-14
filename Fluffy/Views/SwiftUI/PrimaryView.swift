@@ -13,17 +13,19 @@ struct PrimaryView: View {
 	@Environment(\.managedObjectContext) private var viewContext
 	
 	/// The app's root directory.
-	@EnvironmentObject var rootDirectory: Directory
+	@EnvironmentObject private var rootDirectory: Directory
 	
 	/// The currently selected directories in the sidebar.
 	@State private var sidebarSelection: Set<Directory> = []
 	
+	/// The currently selected files.
 	@State private var fileSelection: Set<File> = []
 	
 	/// The style for displaying the image collection.
 	@AppStorage("imageCollectionViewStyle") private var imageCollectionViewStyle = ImageCollectionViewStyle.asList
 	
-	@AppStorage("showInspector") private var showInspector = true
+	/// Whether the inspector is currently shown.
+	@AppStorage("showInspector") private var isShowingInspector = true
 	
 	/// An updater instance.
 	///
@@ -33,44 +35,18 @@ struct PrimaryView: View {
 	var body: some View {
 		NavigationView {
 			SidebarView(selection: $sidebarSelection, updater: $updater)
-				.frame(minWidth: 150, idealWidth: 300, maxWidth: .infinity)
+				.frame(
+					minWidth: 150,
+					idealWidth: 300,
+					maxWidth: .infinity
+				)
+			
 			ZStack {
-				HStack(spacing: 0.0) {
-					CenterView(
-						fileSelection: $fileSelection,
-						sidebarSelection: $sidebarSelection,
-						updater: $updater,
-						imageCollectionViewStyle: imageCollectionViewStyle
-					)
-					.background(
-						Color(.controlBackgroundColor)
-					)
-					.manualUpdater($updater)
-					.animation(.easeInOut)
-					
-					Spacer()
-						.frame(
-							width: showInspector
-								? C.inspectorWidth
-								: 0
-						)
-				}
+				centerView
+					.zIndex(1.0)
 				
-				.zIndex(1.0)
-				
-				HStack(spacing: 0) {
-					Spacer()
-					
-					HStack(spacing: 0) {
-						Divider()
-						InspectorView(
-							fileSelection: fileSelection,
-							directorySelection: sidebarSelection
-						)
-					}
-					.frame(width: C.inspectorWidth)
-				}
-				.zIndex(0.0)
+				inspector
+					.zIndex(0.0)
 			}
 		}
 		.toolbar(id: "PrimaryToolbar") {
@@ -82,8 +58,54 @@ struct PrimaryView: View {
 	}
 }
 
+// MARK:- Subviews
+private extension PrimaryView {
+	/// The view of the inspector.
+	@ViewBuilder
+	var inspector: some View {
+		HStack(spacing: 0) {
+			Spacer()
+			
+			HStack(spacing: 0) {
+				Divider()
+				InspectorView(
+					fileSelection: fileSelection,
+					directorySelection: sidebarSelection
+				)
+			}
+			.frame(width: C.inspectorWidth)
+		}
+	}
+	
+	/// The view of the center view.
+	@ViewBuilder
+	var centerView: some View {
+		HStack(spacing: 0.0) {
+			CenterView(
+				fileSelection: $fileSelection,
+				sidebarSelection: $sidebarSelection,
+				updater: $updater,
+				imageCollectionViewStyle: imageCollectionViewStyle
+			)
+			.background(
+				Color(.controlBackgroundColor)
+			)
+			.manualUpdater($updater)
+			.animation(.easeInOut)
+			
+			// Add space for inspector if it is shown
+			Spacer()
+				.frame(
+					width: isShowingInspector
+						? C.inspectorWidth
+						: 0
+				)
+		}
+	}
+}
+
 // MARK:- Toolbar Items
-extension PrimaryView {
+private extension PrimaryView {
 	/// The toolbar item for hiding/showing the sidebar.
 	var sidebarToolbarItem: some CustomizableToolbarContent {
 		ToolbarItem(id: "Sidebar", placement: .navigation) {
@@ -109,10 +131,11 @@ extension PrimaryView {
 		}
 	}
 	
+	/// The toolbar item for hiding/showing the inspector.
 	var inspectorToolbarItem: some CustomizableToolbarContent {
 		ToolbarItem(id: "Inspector") {
 			Button {
-				showInspector.toggle()
+				isShowingInspector.toggle()
 			} label: {
 				Image(systemName: "sidebar.trailing")
 			}

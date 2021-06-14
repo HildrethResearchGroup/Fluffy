@@ -8,9 +8,15 @@
 import Cocoa
 import QuickLook
 
+/// A disk image loader which loads a thumbnail of an image.
 class ThumbnailDiskImageLoader: DiskImageLoader {
+	/// The size of the thumbnail to load.
 	let imageSize: CGSize
 	
+	/// Creates a new loader in the given group for the given thumbnail size.
+	/// - Parameters:
+	///   - group: The group to load the image in.
+	///   - imageSize: The size of the thumbnail to create.
 	init(in group: DiskImageLoaderGroup, imageSize: CGSize) {
 		self.imageSize = imageSize
 		super.init(in: group)
@@ -23,13 +29,13 @@ class ThumbnailDiskImageLoader: DiskImageLoader {
 }
 
 // MARK:- Image Loading
-extension ThumbnailDiskImageLoader {
+private extension ThumbnailDiskImageLoader {
 	/// Makes the image from QuickLook.
 	/// - Parameters:
 	///   - url: The URL of the image.
 	///   - imageSize: The size of the image.
 	/// - Returns: The image if it could be created by QuickLook.
-	private static func makeQuicklookImage(
+	static func makeQuicklookImage(
 		at url: URL,
 		imageSize: CGSize
 	) -> NSImage? {
@@ -38,15 +44,18 @@ extension ThumbnailDiskImageLoader {
 															 height: round(imageSize.height * 2.0))
 		
 		let options = [kQLThumbnailOptionIconModeKey: true]
-		guard let thumbnail = QLThumbnailImageCreate(kCFAllocatorDefault,
-																								 url as CFURL,
-																								 thumbnailSize,
-																								 options as CFDictionary)
-		else {
+		guard let thumbnail = QLThumbnailImageCreate(
+			kCFAllocatorDefault,
+			url as CFURL,
+			thumbnailSize,
+			options as CFDictionary
+		) else {
 			return nil
 		}
 
-		let bitmapImageRep = NSBitmapImageRep(cgImage: thumbnail.takeUnretainedValue())
+		let bitmapImageRep = NSBitmapImageRep(
+			cgImage: thumbnail.takeUnretainedValue()
+		)
 
 		let image = NSImage(size: bitmapImageRep.size)
 		image.addRepresentation(bitmapImageRep)
@@ -59,7 +68,7 @@ extension ThumbnailDiskImageLoader {
 	///   - url: The url of the image.
 	///   - imageSize: The size of the image.
 	/// - Returns: The image.
-	private static func makeFinderImage(
+	static func makeFinderImage(
 		at url: URL,
 		imageSize: CGSize
 	) -> NSImage {

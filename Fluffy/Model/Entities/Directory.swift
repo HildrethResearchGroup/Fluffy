@@ -11,28 +11,37 @@ import CoreData
 
 @objc(Directory)
 public class Directory: NSManagedObject {
+	/// Creates a fetch request for objects of type `Directory`.
+	/// - Returns: A fetch request for directory objects.
 	@nonobjc public class func fetchRequest() -> NSFetchRequest<Directory> {
 		return NSFetchRequest<Directory>(entityName: "Directory")
 	}
 	
+	/// The user defined name of the directory.
 	@objc(customName)
 	@NSManaged var customName: String?
 	
+	/// The file url of the directory if it was imported, otherwise `nil`.
 	@objc(url)
 	@NSManaged var url: URL?
 	
+	/// `true` if the directory is collapsed in the sidebar, otherwise `false`.
 	@objc(collapsed)
 	@NSManaged var collapsed: Bool
 	
+	/// The date and time the file was imported into the program.
 	@objc(dateImported)
 	@NSManaged var dateImported: Date?
 	
+	/// The directory's parent directory.
 	@objc(parent)
 	@NSManaged var parent: Directory?
 	
+	/// The directory's subdirectories.
 	@objc(subdirectories)
 	@NSManaged var subdirectories: NSOrderedSet
 	
+	/// The directory's files.
 	@objc(files)
 	@NSManaged var files: NSOrderedSet
 }
@@ -115,8 +124,8 @@ extension Directory {
 		}
 	}
 	
-	/// The name of the directory.
-	var name: String {
+	/// The display name to show the user for the directory.
+	var displayName: String {
 		return customName ?? url?.lastPathComponent ?? ""
 	}
 	
@@ -136,6 +145,11 @@ extension Directory {
 
 // MARK:- Methods
 extension Directory {
+	/// The files in the given selection of directories.
+	/// - Parameter selection: The selection of files.
+	/// - Returns: An array of files.
+	///
+	/// - Note: Files in subdirectories are included.
 	static func files(inSelection selection: Set<Directory>) -> [File] {
 		func filesToShow(in directory: Directory) -> [File] {
 			directory.files
@@ -160,10 +174,15 @@ extension Directory {
 		
 		return selection
 			.filter { !ancestor(of: $0, isContainedIn: selection) }
-			.sorted { $0.name < $1.name }
+			.sorted { $0.displayName < $1.displayName }
 			.flatMap { filesToShow(in: $0) }
 	}
 	
+	/// Inserts objects on disk into the directory.
+	/// - Parameters:
+	///   - urls: The urls of the items to insert.
+	///   - index: The index to insert directories into `subdirectories` at.
+	///   - includeSubdirectories: If `true`, subdirectories will also be inserted.
 	func insertFileSystemObjects(
 		at urls: [URL],
 		index: Int?,
@@ -185,6 +204,11 @@ extension Directory {
 		}
 	}
 	
+	/// Inserts an object on disk into the directory.
+	/// - Parameters:
+	///   - url: The url of the item to insert.
+	///   - index: The index to insert directories into `subdirectories` at.
+	///   - includeSubdirectories: If `true`, subdirectories will also be inserted.
 	private func insertFileSystemObject(
 		at url: URL,
 		index: Int?,

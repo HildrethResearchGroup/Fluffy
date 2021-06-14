@@ -7,6 +7,8 @@
 
 import Foundation
 
+// Needed to allow using arrays with @AppStorage
+// MARK: RawRepresentable
 extension Array: RawRepresentable where Element: Codable {
 	public init?(rawValue: String) {
 		guard let data = rawValue.data(using: .utf8),

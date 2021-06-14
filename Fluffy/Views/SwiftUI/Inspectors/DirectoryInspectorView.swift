@@ -76,7 +76,7 @@ extension DirectoryInspectorView {
 	
 	var customNameBinding: Binding<String> {
 		Binding {
-			return directory.name
+			return directory.displayName
 		} set: { newValue in
 			directory.customName = newValue
 			SidebarViewController.currentController.outlineView.reloadData()

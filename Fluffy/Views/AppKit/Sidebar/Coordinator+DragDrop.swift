@@ -201,14 +201,14 @@ extension SidebarViewController.Coordinator {
 }
 
 // MARK:- Helper Functions
-extension SidebarViewController.Coordinator {
+private extension SidebarViewController.Coordinator {
 	/// Returns true if the directories being dragged can be dropped at the given location. This checks to make sure that a directory is not placed inside one of its children.
 	/// - Parameters:
 	///   - draggingInfo: The dragging info passed to the delegate method.
 	///   - destinationItem: The directory that is being dropped onto.
 	///   - view: The view being dropped on.
 	/// - Returns: True if the drop is okay, and false otherwise.
-	private func okayToDropDirectories(
+	func okayToDropDirectories(
 		draggingInfo: NSDraggingInfo,
 		destinationItem: Directory?,
 		onView view: NSView?
@@ -244,7 +244,7 @@ extension SidebarViewController.Coordinator {
 	/// - Parameter item: The pasteboard item.
 	/// - Parameter outlineView: The outline view being dragged from.
 	/// - Returns: The directory associated with the pasteboard item if there is one.
-	private func directoryFromPasteboardItem(
+	func directoryFromPasteboardItem(
 		_ item: NSPasteboardItem,
 		forOutlineView outlineView: NSOutlineView?
 	) -> Directory? {
@@ -258,7 +258,7 @@ extension SidebarViewController.Coordinator {
 	/// Returns the file associated with a given pasteboard item.
 	/// - Parameter item: The pasteboard item.
 	/// - Returns: The file if it exists, otherwise `nil`.
-	private func fileFromPasteboardItem(_ item: NSPasteboardItem) -> File? {
+	func fileFromPasteboardItem(_ item: NSPasteboardItem) -> File? {
 		// Get the row number from the property list
 		guard let plist = item.propertyList(forType: .imagePasteboardType)
 						as? [String: Any],
@@ -278,7 +278,7 @@ extension SidebarViewController.Coordinator {
 	///   - draggingInfo: The dragging info.
 	///   - dropDirectory: The directory that the items are being dropped into.
 	///   - index: The child index of the directory that the items are being dropped at.
-	private func handleInternalDirectoryDrops(
+	func handleInternalDirectoryDrops(
 		_ outlineView: NSOutlineView,
 		draggingInfo: NSDraggingInfo,
 		dropDirectory: Directory,
@@ -353,7 +353,7 @@ extension SidebarViewController.Coordinator {
 	///   - draggingInfo: The dragging info.
 	///   - dropDirectory: The directory that the items are being dropped into.
 	///   - index: The child index of the directory that the items are being dropped at.
-	private func handleInternalFileDrops(
+	func handleInternalFileDrops(
 		_ outlineView: NSOutlineView,
 		draggingInfo: NSDraggingInfo,
 		dropDirectory: Directory,
@@ -377,7 +377,10 @@ extension SidebarViewController.Coordinator {
 		}
 	}
 	
-	private func externalDropContainsFiles(draggingInfo: NSDraggingInfo) -> Bool {
+	/// Returns whether the external drop contains files or directories.
+	/// - Parameter draggingInfo: The dragging info.
+	/// - Returns: `true` if the external drop contains files or directories, otherwise `false`.
+	func externalDropContainsFiles(draggingInfo: NSDraggingInfo) -> Bool {
 		// We look for file promises and urls
 		let supportedClasses = [NSFilePromiseReceiver.self, NSURL.self]
 		// For items dragged from outside the application, we want to seach for readable URLs
@@ -405,11 +408,11 @@ extension SidebarViewController.Coordinator {
 	
 	/// Handles dropping external items onto the sidebar.
 	/// - Parameters:
-	///   - outlineView: The outlineview being dropped onto.
+	///   - outlineView: The outline view being dropped onto.
 	///   - draggingInfo: The dragging info.
 	///   - dropDirectory: The directory that the items are being dropped into.
 	///   - index: The child index of the directory that the items are being dropped at.
-	private func handleExternalDrops(_ outlineView: NSOutlineView, draggingInfo: NSDraggingInfo, dropDirectory: Directory, childIndex index: Int) {
+	func handleExternalDrops(_ outlineView: NSOutlineView, draggingInfo: NSDraggingInfo, dropDirectory: Directory, childIndex index: Int) {
 		// We look for file promises and urls
 		let supportedClasses = [NSFilePromiseReceiver.self, NSURL.self]
 		// For items dragged from outside the application, we want to search for
@@ -452,7 +455,7 @@ extension SidebarViewController.Coordinator {
 	///   - dropDirectory: The directory that files are being added to. If `nil`, the root directory is used.
 	///   - childIndex: The index of the child inside the directory that files are being added at. If `nil`, the items are added to the end of the directory.
 	///   - includeSubdirectories: Whether or not to include subdirectories of the selection.
-	private func importURLs(
+	func importURLs(
 		_ urls: [URL],
 		in outlineView: NSOutlineView,
 		dropDirectory: Directory?,

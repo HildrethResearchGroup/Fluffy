@@ -53,7 +53,7 @@ extension SidebarViewController.Coordinator: NSOutlineViewDelegate {
 			.makeView(withIdentifier: identifier, owner: nil)
 			as? NSTableCellView
 		
-		view?.textField?.stringValue = directory.name
+		view?.textField?.stringValue = directory.displayName
 		
 		return view
 	}

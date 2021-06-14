@@ -15,9 +15,17 @@ extension URL {
 		return (resources.isDirectory ?? false) && !(resources.isPackage ?? false)
 	}
 	
-	/// Opens Finder and highlights the file at the given url's path.
+	/// Opens Finder and highlights the file at the url's path.
 	func showInFinder() {
 		NSWorkspace.shared
 			.activateFileViewerSelecting([self])
+	}
+}
+
+extension Collection where Element == URL {
+	/// Opens Finder and highlights the files at the urls' paths.
+	func showInFinder() {
+		NSWorkspace.shared
+			.activateFileViewerSelecting(map { $0 })
 	}
 }

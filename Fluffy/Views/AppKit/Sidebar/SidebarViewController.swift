@@ -26,6 +26,9 @@ struct SidebarViewController {
 
 // MARK:- NSViewControllerRepresentable {
 extension SidebarViewController: NSViewControllerRepresentable {
+	// This is a workaround to force the sidebar to update when the inspector
+	// changes the name of a directory.
+	/// The current controller.
 	static var currentController: SidebarOutlineViewController! = nil
 	
 	typealias NSViewControllerType = SidebarOutlineViewController

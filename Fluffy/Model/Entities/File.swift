@@ -11,19 +11,25 @@ import CoreData
 
 @objc(File)
 class File: NSManagedObject {
+	/// Creates a fetch request for objects of type `File`.
+	/// - Returns: A fetch request for file objects.
 	@nonobjc class func fetchRequest() -> NSFetchRequest<File> {
 			return NSFetchRequest<File>(entityName: "File")
 	}
 
+	/// A custom name for the file given by the user.
 	@objc(customName)
 	@NSManaged var customName: String?
 	
+	/// The file url of the file.
 	@objc(url)
 	@NSManaged var url: URL?
 	
+	/// The date and time the file was imported into the program.
 	@objc(dateImported)
 	@NSManaged var dateImported: Date?
 	
+	/// The parent directory of the file.
 	@objc(parent)
 	@NSManaged var parent: Directory?
 }

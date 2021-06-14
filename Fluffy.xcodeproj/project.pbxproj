@@ -32,7 +32,7 @@
 		5A36FAA42675A8250033C41B /* InspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A36FAA32675A8250033C41B /* InspectorView.swift */; };
 		5A36FAA62675ABCA0033C41B /* ImageTabItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A36FAA52675ABCA0033C41B /* ImageTabItemView.swift */; };
 		5A484B5A266423FF0007D565 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A484B59266423FF0007D565 /* DetailView.swift */; };
-		5A484B5C266431340007D565 /* ModifierGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A484B5B266431340007D565 /* ModifierGestures.swift */; };
+		5A484B5C266431340007D565 /* GestureViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A484B5B266431340007D565 /* GestureViewModifiers.swift */; };
 		5A8A978B261ADF6700FBE591 /* Coordinator+NSOutlineViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A978A261ADF6700FBE591 /* Coordinator+NSOutlineViewDelegate.swift */; };
 		5A8A9790261AE6BA00FBE591 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A978F261AE6BA00FBE591 /* SidebarView.swift */; };
 		5A8A979E261AF2A900FBE591 /* LazyDiskImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8A979D261AF2A900FBE591 /* LazyDiskImage.swift */; };
@@ -46,7 +46,6 @@
 		5ABE618F2652ED8A00308B11 /* ImageCollectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE618E2652ED8A00308B11 /* ImageCollectionListView.swift */; };
 		5ABE61912652F04C00308B11 /* ImageCollectionIconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE61902652F04C00308B11 /* ImageCollectionIconsView.swift */; };
 		5ABE619326531A2900308B11 /* DiskImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABE619226531A2900308B11 /* DiskImageLoader.swift */; };
-		5AC1F3D7267317CF009B6366 /* Commands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC1F3D6267317CF009B6366 /* Commands.swift */; };
 		5AC1F3D926731C9A009B6366 /* Coordinator+FirstResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC1F3D826731C9A009B6366 /* Coordinator+FirstResponder.swift */; };
 		5ACD136425FF3D1400E64523 /* ImageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACD136325FF3D1400E64523 /* ImageCollectionView.swift */; };
 		5ADDED19266472F500CF87B7 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADDED18266472F500CF87B7 /* ImageCache.swift */; };
@@ -104,7 +103,7 @@
 		5A36FAA32675A8250033C41B /* InspectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorView.swift; sourceTree = "<group>"; };
 		5A36FAA52675ABCA0033C41B /* ImageTabItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTabItemView.swift; sourceTree = "<group>"; };
 		5A484B59266423FF0007D565 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
-		5A484B5B266431340007D565 /* ModifierGestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifierGestures.swift; sourceTree = "<group>"; };
+		5A484B5B266431340007D565 /* GestureViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureViewModifiers.swift; sourceTree = "<group>"; };
 		5A8A978A261ADF6700FBE591 /* Coordinator+NSOutlineViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Coordinator+NSOutlineViewDelegate.swift"; sourceTree = "<group>"; };
 		5A8A978F261AE6BA00FBE591 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SidebarView.swift; path = ../../SidebarView.swift; sourceTree = "<group>"; };
 		5A8A979D261AF2A900FBE591 /* LazyDiskImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyDiskImage.swift; sourceTree = "<group>"; };
@@ -118,7 +117,6 @@
 		5ABE618E2652ED8A00308B11 /* ImageCollectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionListView.swift; sourceTree = "<group>"; };
 		5ABE61902652F04C00308B11 /* ImageCollectionIconsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionIconsView.swift; sourceTree = "<group>"; };
 		5ABE619226531A2900308B11 /* DiskImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskImageLoader.swift; sourceTree = "<group>"; };
-		5AC1F3D6267317CF009B6366 /* Commands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commands.swift; sourceTree = "<group>"; };
 		5AC1F3D826731C9A009B6366 /* Coordinator+FirstResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Coordinator+FirstResponder.swift"; sourceTree = "<group>"; };
 		5ACD136325FF3D1400E64523 /* ImageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionView.swift; sourceTree = "<group>"; };
 		5ADDED18266472F500CF87B7 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
@@ -279,16 +277,12 @@
 		5A4098AC261C3C44007F07D6 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				5ABE618D2652ED6E00308B11 /* ImageCollectionView */,
-				5A36FAA226759B0A0033C41B /* Inspectors */,
 				5A2F426B25E2297C000D70A8 /* PrimaryView.swift */,
 				5A1E2DD02671EE550080EF8B /* SettingsView.swift */,
-				5A2BAE36266EFB07006DD01C /* CenterView.swift */,
-				5A484B59266423FF0007D565 /* DetailView.swift */,
-				5AEE3145266ABE1700495FD6 /* BottomBarView.swift */,
-				5ABE618B2652EA8300308B11 /* ManualUpdatableView.swift */,
-				5A8A979D261AF2A900FBE591 /* LazyDiskImage.swift */,
-				5A2F427825E23245000D70A8 /* VisualEffectView.swift */,
+				5AB3CA4C2677F4CE005F01B0 /* Components */,
+				5ABE618D2652ED6E00308B11 /* ImageCollectionView */,
+				5A36FAA226759B0A0033C41B /* Inspectors */,
+				5AB3CA4D2677F529005F01B0 /* Center */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -302,6 +296,26 @@
 				5ADDED18266472F500CF87B7 /* ImageCache.swift */,
 			);
 			path = ImageLoading;
+			sourceTree = "<group>";
+		};
+		5AB3CA4C2677F4CE005F01B0 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5A2F427825E23245000D70A8 /* VisualEffectView.swift */,
+				5A8A979D261AF2A900FBE591 /* LazyDiskImage.swift */,
+				5ABE618B2652EA8300308B11 /* ManualUpdatableView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		5AB3CA4D2677F529005F01B0 /* Center */ = {
+			isa = PBXGroup;
+			children = (
+				5A2BAE36266EFB07006DD01C /* CenterView.swift */,
+				5A484B59266423FF0007D565 /* DetailView.swift */,
+				5AEE3145266ABE1700495FD6 /* BottomBarView.swift */,
+			);
+			path = Center;
 			sourceTree = "<group>";
 		};
 		5ABE618D2652ED6E00308B11 /* ImageCollectionView */ = {
@@ -318,12 +332,11 @@
 		5ADDED17266472B800CF87B7 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				5A8E6969266AE64800F7748B /* ImageLoading */,
-				5A484B5B266431340007D565 /* ModifierGestures.swift */,
+				5A484B5B266431340007D565 /* GestureViewModifiers.swift */,
 				5A1E2DD22671EFBA0080EF8B /* Array.swift */,
 				5A8E696A266AEB5E00F7748B /* Constants.swift */,
 				5A2BAE34266DABFB006DD01C /* URL.swift */,
-				5AC1F3D6267317CF009B6366 /* Commands.swift */,
+				5A8E6969266AE64800F7748B /* ImageLoading */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -484,7 +497,7 @@
 				5A8E6968266AE62000F7748B /* ThumbnailDiskImageLoader.swift in Sources */,
 				5A8E6966266AE3CA00F7748B /* DiskImageLoaderGroup.swift in Sources */,
 				5A1B1D5226774FD7002FF636 /* ImageCollectionItemContextMenu.swift in Sources */,
-				5A484B5C266431340007D565 /* ModifierGestures.swift in Sources */,
+				5A484B5C266431340007D565 /* GestureViewModifiers.swift in Sources */,
 				5ABE618C2652EA8300308B11 /* ManualUpdatableView.swift in Sources */,
 				5A2F420D25E20BE1000D70A8 /* FluffyApp.swift in Sources */,
 				5ACD136425FF3D1400E64523 /* ImageCollectionView.swift in Sources */,
@@ -496,7 +509,6 @@
 				5ADDED19266472F500CF87B7 /* ImageCache.swift in Sources */,
 				5A9CB74F2637365900D8488E /* Coordinator+DragDrop.swift in Sources */,
 				5A2F424625E20DF8000D70A8 /* Directory.swift in Sources */,
-				5AC1F3D7267317CF009B6366 /* Commands.swift in Sources */,
 				5A36FAA126759B070033C41B /* FileInspectorView.swift in Sources */,
 				5A1B1D54267764B6002FF636 /* DirectoryInspectorView.swift in Sources */,
 				5ABE61912652F04C00308B11 /* ImageCollectionIconsView.swift in Sources */,
