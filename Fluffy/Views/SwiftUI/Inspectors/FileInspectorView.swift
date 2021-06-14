@@ -24,6 +24,7 @@ struct FileInspectorView: View {
 					.padding(4.0)
 				}
 			}
+			.controlSize(.small)
 			.padding()
 		}
 	}
@@ -40,8 +41,19 @@ extension FileInspectorView {
 			.alignmentGuide(.trailing, computeValue: { dimension in
 				dimension[.top]
 			})
-		Text(file.url?.path ?? "")
-			.lineLimit(nil)
+		HStack(alignment: .bottom) {
+			Text(file.url?.path ?? "")
+				.lineLimit(nil)
+			if let url = file.url {
+				Spacer()
+				Button {
+					url.showInFinder()
+				} label: {
+					Image(systemName: "arrow.right.circle.fill")
+				}
+				.buttonStyle(BorderlessButtonStyle())
+			}
+		}
 	}
 }
 
@@ -50,7 +62,7 @@ extension FileInspectorView {
 	var columns: [GridItem] {
 		[
 			.init(
-				.fixed(64),
+				.fixed(50),
 				spacing: 6.0,
 				alignment: .trailing
 			),
