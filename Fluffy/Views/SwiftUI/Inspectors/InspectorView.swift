@@ -54,12 +54,30 @@ extension InspectorView {
 	}
 	
 	@ViewBuilder
+	var directoryInspector: some View {
+		switch directorySelection.count {
+		case 0:
+			Spacer()
+			Text("No Directory Selected")
+			Spacer()
+		case 1:
+			DirectoryInspectorView(
+				directory: directorySelection.first!
+			)
+		default:
+			Spacer()
+			Text("Multiple Selection")
+			Spacer()
+		}
+	}
+	
+	@ViewBuilder
 	var inspectorDetail: some View {
 		switch tabSelection {
 		case .file:
 			fileInspector
 		case .directory:
-			fileInspector
+			directoryInspector
 		}
 	}
 }

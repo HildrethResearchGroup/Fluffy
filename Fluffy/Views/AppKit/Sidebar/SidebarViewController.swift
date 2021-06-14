@@ -26,6 +26,8 @@ struct SidebarViewController {
 
 // MARK:- NSViewControllerRepresentable {
 extension SidebarViewController: NSViewControllerRepresentable {
+	static var currentController: SidebarOutlineViewController! = nil
+	
 	typealias NSViewControllerType = SidebarOutlineViewController
 	
 	func makeNSViewController(context: Context) -> NSViewControllerType {
@@ -41,6 +43,7 @@ extension SidebarViewController: NSViewControllerRepresentable {
 		
 		context.coordinator.controller = viewController
 		
+		SidebarViewController.currentController = viewController
 		return viewController
 	}
 	

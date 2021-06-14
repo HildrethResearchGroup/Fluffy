@@ -9,7 +9,8 @@ import SwiftUI
 
 struct FileInspectorView: View {
 	@ObservedObject var file: File
-	@AppStorage("NameLocationIsExpanded") var nameLocationIsExpanded = true
+	@AppStorage("FileNameLocationIsExpanded") var nameLocationIsExpanded = true
+	@Environment(\.managedObjectContext) var viewContext
 	
 	var body: some View {
 		ScrollView(.vertical) {
@@ -24,7 +25,6 @@ struct FileInspectorView: View {
 					.padding(4.0)
 				}
 			}
-			.controlSize(.small)
 			.padding()
 		}
 	}
@@ -79,6 +79,13 @@ extension FileInspectorView {
 			return file.displayName
 		} set: { newValue in
 			file.customName = newValue
+			
+			
+			do {
+				try viewContext.save()
+			} catch {
+				print("[WARNING] Failed to save model: \(error)")
+			}
 		}
 	}
 }
