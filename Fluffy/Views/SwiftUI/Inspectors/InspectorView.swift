@@ -29,6 +29,7 @@ struct InspectorView: View {
 			.frame(height: 26.0)
 			Divider()
 			inspectorDetail
+				.controlSize(.small)
 		}
 	}
 }
