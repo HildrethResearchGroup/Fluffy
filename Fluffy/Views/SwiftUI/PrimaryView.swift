@@ -21,7 +21,9 @@ struct PrimaryView: View {
 	@State private var fileSelection: Set<File> = []
 	
 	/// The style for displaying the image collection.
-	@State private var imageCollectionViewStyle = ImageCollectionViewStyle.asList
+	@AppStorage("imageCollectionViewStyle") private var imageCollectionViewStyle = ImageCollectionViewStyle.asList
+	
+	@AppStorage("showInspector") private var showInspector = true
 	
 	/// An updater instance.
 	///
@@ -32,22 +34,50 @@ struct PrimaryView: View {
 		NavigationView {
 			SidebarView(selection: $sidebarSelection, updater: $updater)
 				.frame(minWidth: 150, idealWidth: 300, maxWidth: .infinity)
-			CenterView(
-				fileSelection: $fileSelection,
-				sidebarSelection: $sidebarSelection,
-				updater: $updater,
-				imageCollectionViewStyle: imageCollectionViewStyle
-			)
-			.manualUpdater($updater)
-			InspectorView(
-				fileSelection: fileSelection,
-				directorySelection: sidebarSelection
-			)
+			ZStack {
+				HStack(spacing: 0.0) {
+					CenterView(
+						fileSelection: $fileSelection,
+						sidebarSelection: $sidebarSelection,
+						updater: $updater,
+						imageCollectionViewStyle: imageCollectionViewStyle
+					)
+					.background(
+						Color(.controlBackgroundColor)
+					)
+					.manualUpdater($updater)
+					.animation(.easeInOut)
+					
+					Spacer()
+						.frame(
+							width: showInspector
+								? C.inspectorWidth
+								: 0
+						)
+				}
+				
+				.zIndex(1.0)
+				
+				HStack(spacing: 0) {
+					Spacer()
+					
+					HStack(spacing: 0) {
+						Divider()
+						InspectorView(
+							fileSelection: fileSelection,
+							directorySelection: sidebarSelection
+						)
+					}
+					.frame(width: C.inspectorWidth)
+				}
+				.zIndex(0.0)
+			}
 		}
 		.toolbar(id: "PrimaryToolbar") {
 			sidebarToolbarItem
 			viewAsToolbarItem
 			flexibleSpaceToolbarItem
+			inspectorToolbarItem
 		}
 	}
 }
@@ -64,7 +94,7 @@ extension PrimaryView {
 					.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)),
 												with: nil)
 			} label: {
-				Image(systemName: "sidebar.left")
+				Image(systemName: "sidebar.leading")
 			}
 		}
 	}
@@ -76,6 +106,16 @@ extension PrimaryView {
 				Image(systemName: "list.bullet").tag(ImageCollectionViewStyle.asList)
 				Image(systemName: "square.grid.2x2").tag(ImageCollectionViewStyle.asIcons)
 			}.pickerStyle(InlinePickerStyle())
+		}
+	}
+	
+	var inspectorToolbarItem: some CustomizableToolbarContent {
+		ToolbarItem(id: "Inspector") {
+			Button {
+				showInspector.toggle()
+			} label: {
+				Image(systemName: "sidebar.trailing")
+			}
 		}
 	}
 	

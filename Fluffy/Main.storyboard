@@ -9,7 +9,7 @@
         <!--Sidebar Outline View Controller-->
         <scene sceneID="kkU-a9-Vfk">
             <objects>
-                <viewController storyboardIdentifier="sidebarViewController" id="pa2-Oy-BdR" customClass="SidebarOutlineViewController" customModule="Images" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="sidebarViewController" id="pa2-Oy-BdR" customClass="SidebarOutlineViewController" customModule="Fluffy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="rOY-6Q-S8R">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>

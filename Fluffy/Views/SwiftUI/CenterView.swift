@@ -44,9 +44,11 @@ struct CenterView: View {
 					imageViewType: imageCollectionViewStyle,
 					thumbnailSize: $thumbnailScale
 				)
+					.animation(nil)
 				detailView
 					.frame(maxWidth: .infinity,
 								 maxHeight: .infinity)
+					.animation(nil)
 			}
 			Divider()
 			BottomBarView(

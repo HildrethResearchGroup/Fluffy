@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5A1B1D5226774FD7002FF636 /* ImageCollectionItemContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1B1D5126774FD7002FF636 /* ImageCollectionItemContextMenu.swift */; };
+		5A1B1D54267764B6002FF636 /* DirectoryInspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1B1D53267764B6002FF636 /* DirectoryInspectorView.swift */; };
 		5A1B8C5526091D84000B2120 /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1B8C5426091D84000B2120 /* SidebarViewController.swift */; };
 		5A1B8C5A26092828000B2120 /* SidebarOutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1B8C5926092828000B2120 /* SidebarOutlineViewController.swift */; };
 		5A1B8C7326092C7B000B2120 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A1B8C7226092C7B000B2120 /* Main.storyboard */; };
@@ -72,6 +73,7 @@
 
 /* Begin PBXFileReference section */
 		5A1B1D5126774FD7002FF636 /* ImageCollectionItemContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionItemContextMenu.swift; sourceTree = "<group>"; };
+		5A1B1D53267764B6002FF636 /* DirectoryInspectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryInspectorView.swift; sourceTree = "<group>"; };
 		5A1B8C5426091D84000B2120 /* SidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarViewController.swift; sourceTree = "<group>"; };
 		5A1B8C5926092828000B2120 /* SidebarOutlineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarOutlineViewController.swift; sourceTree = "<group>"; };
 		5A1B8C7226092C7B000B2120 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				5A36FAA32675A8250033C41B /* InspectorView.swift */,
 				5A36FAA52675ABCA0033C41B /* ImageTabItemView.swift */,
 				5A36FAA026759B070033C41B /* FileInspectorView.swift */,
+				5A1B1D53267764B6002FF636 /* DirectoryInspectorView.swift */,
 			);
 			path = Inspectors;
 			sourceTree = "<group>";
@@ -495,6 +498,7 @@
 				5A2F424625E20DF8000D70A8 /* Directory.swift in Sources */,
 				5AC1F3D7267317CF009B6366 /* Commands.swift in Sources */,
 				5A36FAA126759B070033C41B /* FileInspectorView.swift in Sources */,
+				5A1B1D54267764B6002FF636 /* DirectoryInspectorView.swift in Sources */,
 				5ABE61912652F04C00308B11 /* ImageCollectionIconsView.swift in Sources */,
 				5ABE619326531A2900308B11 /* DiskImageLoader.swift in Sources */,
 				5A1E2DD12671EE550080EF8B /* SettingsView.swift in Sources */,

@@ -12,4 +12,5 @@ enum C {
 	static let maximumIconThumbnailSize = 200.0
 	static let defaultIconThumbnailSize = 120.0
 	static let listThumbnailSize: CGFloat = 24.0
+	static let inspectorWidth: CGFloat = 250.0
 }

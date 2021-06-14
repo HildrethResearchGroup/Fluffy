@@ -59,7 +59,7 @@ struct ImageCollectionView: View {
 
 // MARK:- ImageViewType
 /// The style for displaying the image selection view.
-enum ImageCollectionViewStyle: Hashable {
+enum ImageCollectionViewStyle: Int, Hashable {
 	/// Displays the images as a list.
 	case asList
 	/// Displays the images as a grid of icons.
