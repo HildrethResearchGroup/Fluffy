@@ -11,6 +11,7 @@ import SwiftUI
 struct VisualEffectView: NSViewRepresentable {
 	/// A value indicating how the view’s contents blend with the surrounding content.
 	var effect: NSVisualEffectView.BlendingMode
+	
 	/// The material shown by the visual effect view.
 	var material: NSVisualEffectView.Material
 	

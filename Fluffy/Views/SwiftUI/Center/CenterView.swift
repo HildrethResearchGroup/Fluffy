@@ -7,12 +7,24 @@
 
 import SwiftUI
 
+/// The center pane in the application.
 struct CenterView: View {
+	/// The  selected files.
 	@Binding var fileSelection: Set<File>
+	
+	/// The selected directories.
 	@Binding var sidebarSelection: Set<Directory>
+	
+	/// A manual updater for updating the files to show.
 	@Binding var updater: Updater
+	
+	/// The size of thumbnails in icons view.
 	@AppStorage("thumbnailScale") private var thumbnailScale = C.defaultIconThumbnailSize
+	
+	/// Whether or not to filter files by their file type.
 	@AppStorage("filterFileTypes") private var filterFileTypes = true
+	
+	/// The file types to filter for.
 	@AppStorage("fileTypes") private var fileTypes = [
 		"png",
 		"jpg",
@@ -41,7 +53,7 @@ struct CenterView: View {
 					filesToShow: filesToShow,
 					fileSelection: $fileSelection,
 					updater: $updater,
-					imageViewType: imageCollectionViewStyle,
+					style: imageCollectionViewStyle,
 					thumbnailSize: $thumbnailScale
 				)
 					.animation(nil)
@@ -62,7 +74,8 @@ struct CenterView: View {
 }
 
 // MARK: Subviews
-extension CenterView {
+private extension CenterView {
+	/// The detail view displaying the selected image.
 	@ViewBuilder
 	var detailView: some View {
 		switch fileSelection.count {
@@ -79,7 +92,8 @@ extension CenterView {
 }
 
 // MARK: Computed Properties
-extension CenterView {
+private extension CenterView {
+	/// The binding for the thumbnail scale if in icons view, otherwise `nil`.
 	var thumbnailScaleBinding: Binding<Double>? {
 		switch imageCollectionViewStyle {
 		case .asList:

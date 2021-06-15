@@ -7,8 +7,12 @@
 
 import SwiftUI
 
+/// The view for displaying the user's app preferences.
 struct SettingsView: View {
+	/// Wether the user would like to filter file types.
 	@AppStorage("filterFileTypes") private var filterFileTypes = true
+	
+	/// The file types the user would like to filter.
 	@AppStorage("fileTypes") private var fileTypes = [
 		"png",
 		"jpg",
@@ -17,6 +21,7 @@ struct SettingsView: View {
 		"gif"
 	]
 	
+	/// The files types selected.
 	@State private var fileTypeSelection: Set<Int> = []
 	
 	var body: some View {
@@ -34,7 +39,8 @@ struct SettingsView: View {
 }
 
 // MARK: Subviews
-extension SettingsView {
+private extension SettingsView {
+	/// The view for the file type preference.
 	@ViewBuilder
 	var fileTypeView: some View {
 		VStack(spacing: 0.0) {
@@ -66,6 +72,7 @@ extension SettingsView {
 		.border(SeparatorShapeStyle())
 	}
 	
+	/// The footer view for the file selection view.
 	@ViewBuilder
 	var fileSelectionFooterView: some View {
 		HStack {
@@ -91,11 +98,13 @@ extension SettingsView {
 }
 
 // MARK: Helper Functions
-extension SettingsView {
+private extension SettingsView {
+	/// Adds a new file type.
 	func addFileType() {
 		fileTypes.append("extension")
 	}
 	
+	/// Removes the selected file types.
 	func removeSelectedFileTypes() {
 		fileTypes.remove(
 			atOffsets: .init(fileTypeSelection)

@@ -7,9 +7,15 @@
 
 import SwiftUI
 
+/// The view for the file inspector.
 struct FileInspectorView: View {
+	/// The file to display info for.
 	@ObservedObject var file: File
+	
+	/// Whether the name and location disclosure group is expanded.
 	@AppStorage("FileNameLocationIsExpanded") var nameLocationIsExpanded = true
+	
+	/// The managed object context.
 	@Environment(\.managedObjectContext) var viewContext
 	
 	var body: some View {
@@ -19,6 +25,7 @@ struct FileInspectorView: View {
 					"Name and Location",
 					isExpanded: $nameLocationIsExpanded
 				) {
+					// Place in grid to align all labels
 					LazyVGrid(columns: columns, content: {
 						nameAndLocationView
 					})
@@ -31,7 +38,8 @@ struct FileInspectorView: View {
 }
 
 // MARK:- Subviews
-extension FileInspectorView {
+private extension FileInspectorView {
+	/// The name and location group.
 	@ViewBuilder
 	var nameAndLocationView: some View {
 		Text("Name")
@@ -58,7 +66,8 @@ extension FileInspectorView {
 }
 
 // MARK:- Helper Functions
-extension FileInspectorView {
+private extension FileInspectorView {
+	/// The columns for the inspector items.
 	var columns: [GridItem] {
 		[
 			.init(
@@ -74,6 +83,7 @@ extension FileInspectorView {
 		]
 	}
 	
+	/// The binding for the custom name text field.
 	var customNameBinding: Binding<String> {
 		Binding {
 			return file.displayName

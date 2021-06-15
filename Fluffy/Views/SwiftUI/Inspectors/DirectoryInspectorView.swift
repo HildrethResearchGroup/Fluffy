@@ -7,9 +7,15 @@
 
 import SwiftUI
 
+/// The view for the directory inspector.
 struct DirectoryInspectorView: View {
+	/// The directory to display info for.
 	@ObservedObject var directory: Directory
+	
+	/// Whether the name and location disclosure group is expanded.
 	@AppStorage("DirectoryNameLocationIsExpanded") var nameLocationIsExpanded = true
+	
+	/// The managed object context.
 	@Environment(\.managedObjectContext) var viewContext
 	
 	var body: some View {
@@ -19,6 +25,7 @@ struct DirectoryInspectorView: View {
 					"Name and Location",
 					isExpanded: $nameLocationIsExpanded
 				) {
+					// Place in grid to align labels
 					LazyVGrid(columns: columns, content: {
 						nameAndLocationView
 					})
@@ -31,7 +38,8 @@ struct DirectoryInspectorView: View {
 }
 
 // MARK:- Subviews
-extension DirectoryInspectorView {
+private extension DirectoryInspectorView {
+	/// The name and location view.
 	@ViewBuilder
 	var nameAndLocationView: some View {
 		Text("Name")
@@ -58,7 +66,8 @@ extension DirectoryInspectorView {
 }
 
 // MARK:- Helper Functions
-extension DirectoryInspectorView {
+private extension DirectoryInspectorView {
+	/// The grid's columns.s
 	var columns: [GridItem] {
 		[
 			.init(
@@ -74,6 +83,7 @@ extension DirectoryInspectorView {
 		]
 	}
 	
+	/// The binding for the directory's name.
 	var customNameBinding: Binding<String> {
 		Binding {
 			return directory.displayName

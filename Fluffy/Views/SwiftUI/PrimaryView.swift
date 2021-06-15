@@ -68,10 +68,13 @@ private extension PrimaryView {
 			
 			HStack(spacing: 0) {
 				Divider()
-				InspectorView(
-					fileSelection: fileSelection,
-					directorySelection: sidebarSelection
-				)
+				VStack(spacing: 0) {
+					Divider()
+					InspectorView(
+						fileSelection: fileSelection,
+						directorySelection: sidebarSelection
+					)
+				}
 			}
 			.frame(width: C.inspectorWidth)
 		}

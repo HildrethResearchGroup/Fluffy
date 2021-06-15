@@ -12,10 +12,16 @@ struct LazyDiskImage: View {
 	/// The instance for loading the image from disk.
 	@ObservedObject private var imageLoader: DiskImageLoader
 	
+	/// The url of the image.
 	private var url: URL
 	
+	/// The custom id of the image view.
 	private var id: AnyHashable?
 	
+	/// Creates a lazy disk image for the image at the given url using the given image loader.
+	/// - Parameters:
+	///   - url: The file url of the image.
+	///   - imageLoader: The image loader to use to load the image.
 	init(at url: URL, using imageLoader: DiskImageLoader) {
 		self.imageLoader = imageLoader
 		self.url = url
@@ -23,13 +29,21 @@ struct LazyDiskImage: View {
 		
 	}
 	
-	private init<ID>(at url: URL,
-									 using imageLoader: DiskImageLoader,
-									 id: ID) where ID : Hashable {
+	/// Creates a lazy disk image for the image at the given url using the given image loader and a custom id.
+	/// - Parameters:
+	///   - url: The file url of the image.
+	///   - imageLoader: The image loader to use to load the image.
+	///   - id: The custom id to use.
+	private init<ID>(
+		at url: URL,
+		using imageLoader: DiskImageLoader,
+		id: ID
+	) where ID : Hashable {
 		self.init(at: url, using: imageLoader)
 		self.id = AnyHashable(id)
 	}
 	
+	/// Binds a view's identity to the given proxy value.
 	func id<ID>(_ id: ID) -> some View where ID : Hashable {
 		LazyDiskImage(at: self.url,
 									using: self.imageLoader,
@@ -62,7 +76,7 @@ struct LazyDiskImage: View {
 
 
 // MARK:- Subviews
-extension LazyDiskImage {
+private extension LazyDiskImage {
 	/// The placeholder to display while the image loads.
 	var placeholder: some View {
 		Image(systemName: "photo")

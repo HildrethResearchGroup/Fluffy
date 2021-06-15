@@ -15,25 +15,37 @@ struct ImageCollectionView: View {
 	/// The view type for displaying the images.
 	var style: ImageCollectionViewStyle
 	
+	/// The currently selected files.
 	@Binding var fileSelection: Set<File>
 	
+	// This is needed because the context menu in nested views
+	// needs to update the view when files are deleted
+	/// The manual updater for forcing the list to update.
 	@Binding var updater: Updater
 	
 	/// The size of thumbnails when displaying images as icons.
 	@Binding var thumbnailScale: Double
 	
+	/// The files to show.
 	var filesToShow: [File]
 	
+	/// Creates a new image collection view.
+	/// - Parameters:
+	///   - filesToShow: The files to display.
+	///   - fileSelection: The files selected.
+	///   - updater: An updater for updating the collection view.
+	///   - style: The collection style.
+	///   - thumbnailSize: The size of thumbnails in icon view.
 	init(
 		filesToShow: [File],
 		fileSelection: Binding<Set<File>>,
 		updater: Binding<Updater>,
-		imageViewType: ImageCollectionViewStyle,
+		style: ImageCollectionViewStyle,
 		thumbnailSize: Binding<Double>
 	) {
 		self.filesToShow = filesToShow
 		_updater = updater
-		style = imageViewType
+		self.style = style
 		_fileSelection = fileSelection
 		_thumbnailScale = thumbnailSize
 	}
@@ -88,7 +100,7 @@ struct ImageCollectionView_Previews: PreviewProvider {
 		ImageCollectionView(filesToShow: makeFilesToShow(),
 												fileSelection: $fileSelection,
 												updater: .constant(Updater()),
-												imageViewType: .asList,
+												style: .asList,
 												thumbnailSize: $thumbnailSize)
 	}
 }

@@ -7,10 +7,18 @@
 
 import SwiftUI
 
+/// The context menu to show when secondary clicking a file.
 struct ImageCollectionItemContextMenu: View {
+	/// The file that was clicked on.
 	let file: File
+	
+	/// The files currently selected.
 	@Binding var fileSelection: Set<File>
+	
+	/// A manual updater for updating the files to show.
 	@Binding var updater: Updater
+	
+	/// The managed object context.
 	@Environment(\.managedObjectContext) var viewContext
 	
 	var body: some View {
@@ -20,7 +28,8 @@ struct ImageCollectionItemContextMenu: View {
 }
 
 // MARK:- Menu Items
-extension ImageCollectionItemContextMenu {
+private extension ImageCollectionItemContextMenu {
+	/// The show in Finder menu item.
 	@ViewBuilder
 	var showInFinderItem: some View {
 		if fileSelection.count > 1
@@ -42,6 +51,7 @@ extension ImageCollectionItemContextMenu {
 		}
 	}
 	
+	/// The remove menu item.
 	@ViewBuilder
 	var removeItem: some View {
 		if fileSelection.count > 1
@@ -68,7 +78,9 @@ extension ImageCollectionItemContextMenu {
 }
 
 // MARK:- Helper Functions
-extension ImageCollectionItemContextMenu {
+private extension ImageCollectionItemContextMenu {
+	/// Removes the given files.
+	/// - Parameter files: The files to remove.
 	func remove<C>(
 		files: C
 	) where C: Sequence,

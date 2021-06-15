@@ -12,10 +12,13 @@ struct ImageCollectionListView: View {
 	/// The files to display.
 	var filesToShow: [File]
 	
+	/// The files selected.
 	@Binding var fileSelection: Set<File>
 	
+	/// An updater for manually updating the files to show.
 	@Binding var updater: Updater
 	
+	/// The group to load images in.
 	@State var diskImageGroup: DiskImageLoaderGroup
 	
 	var body: some View {
@@ -27,6 +30,11 @@ struct ImageCollectionListView: View {
 		}
 	}
 	
+	/// Creates an image collection list view.
+	/// - Parameters:
+	///   - filesToShow: The files to show.
+	///   - fileSelection: The files selected.
+	///   - updater: An updater for manually updating the files to show.
 	init(
 		filesToShow: [File],
 		fileSelection: Binding<Set<File>>,
@@ -42,11 +50,17 @@ struct ImageCollectionListView: View {
 	}
 }
 
-// MARK:- Subviews
-extension ImageCollectionListView {
-	struct Item: View {
+// MARK: - ItemView
+private extension ImageCollectionListView {
+	/// A view displaying an image collection list row.
+	struct ItemView: View {
+		/// The file to display.
 		@ObservedObject var file: File
+		
+		/// The selected files.
 		@Binding var fileSelection: Set<File>
+		
+		/// The group to load the thumbnail image in.
 		let diskImageGroup: DiskImageLoaderGroup
 		
 		var body: some View {
@@ -85,15 +99,18 @@ extension ImageCollectionListView {
 			}
 		}
 	}
-	
+}
+
+// MARK:- Subviews
+private extension ImageCollectionListView {
 	/// The view for the given file.
 	/// - Parameter file: The file to display.
 	/// - Returns: The file's view.
 	@ViewBuilder
 	func item(forFile file: File) -> some View {
-		Item(file: file,
-				 fileSelection: $fileSelection,
-				 diskImageGroup: diskImageGroup)
+		ItemView(file: file,
+						 fileSelection: $fileSelection,
+						 diskImageGroup: diskImageGroup)
 			.contextMenu {
 				ImageCollectionItemContextMenu(
 					file: file,

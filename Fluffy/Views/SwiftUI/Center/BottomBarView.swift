@@ -7,10 +7,18 @@
 
 import SwiftUI
 
+/// A view displaying the bottom bar of the application.
 struct BottomBarView: View {
+	/// The number of files selected.
 	var numberOfFilesSelected: Int
+	
+	/// The number of files shown.
 	var numberOfFilesShown: Int
+	
+	/// The number of directories selected.
 	var numberOfDirectoriesSelected: Int
+	
+	/// The size of thumbnails to display if in icon view.
 	var thumbnailScale: Binding<Double>?
 	
 	var body: some View {
@@ -35,6 +43,7 @@ struct BottomBarView: View {
 
 // MARK:- Helper Functions
 private extension BottomBarView {
+	/// The text to display in the bar.
 	var bottomText: String {
 		let selectionText: String = {
 			if numberOfFilesSelected == 0 {

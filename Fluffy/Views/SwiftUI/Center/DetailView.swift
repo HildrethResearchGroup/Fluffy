@@ -7,11 +7,16 @@
 
 import SwiftUI
 
+/// A view displaying the given file.
 struct DetailView: View {
+	/// The file to display.
 	var file: File
 	
+	/// The group to load the image in.
 	var diskImageLoaderGroup: DiskImageLoaderGroup
 	
+	/// Creates a new detail view displaying the image of the given file.
+	/// - Parameter file: The file to display the image contents of.
 	init(file: File) {
 		self.file = file
 		diskImageLoaderGroup = .named("DetailGroup", cacheMegabyteCapacity: 512)
@@ -26,11 +31,6 @@ struct DetailView: View {
 			Text("No URL for image")
 		}
 	}
-}
-
-// MARK:- Helper Functions
-extension DetailView {
-	
 }
 
 // MARK:- Preview

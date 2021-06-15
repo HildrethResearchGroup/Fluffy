@@ -7,9 +7,15 @@
 
 import SwiftUI
 
+/// A view displaying the inspector pane.
 struct InspectorView: View {
+	/// The files selected.
 	var fileSelection: Set<File>
+	
+	/// The directories selected.
 	var directorySelection: Set<Directory>
+	
+	/// The inspector tab selected.
 	@State var tabSelection = Tab.file
 	
 	var body: some View {
@@ -35,7 +41,8 @@ struct InspectorView: View {
 }
 
 // MARK:- Subviews
-extension InspectorView {
+private extension InspectorView {
+	/// The view showing the file inspector.
 	@ViewBuilder
 	var fileInspector: some View {
 		switch fileSelection.count {
@@ -54,6 +61,7 @@ extension InspectorView {
 		}
 	}
 	
+	/// The view showing the directory inspector.
 	@ViewBuilder
 	var directoryInspector: some View {
 		switch directorySelection.count {
@@ -72,6 +80,7 @@ extension InspectorView {
 		}
 	}
 	
+	/// The view showing the currently selected inspector tab.
 	@ViewBuilder
 	var inspectorDetail: some View {
 		switch tabSelection {
@@ -85,8 +94,11 @@ extension InspectorView {
 
 // MARK:- Tab
 extension InspectorView {
+	/// A tab item of the inspector.
 	enum Tab {
+		/// The file inspector.
 		case file
+		/// The directory inspector.
 		case directory
 	}
 }

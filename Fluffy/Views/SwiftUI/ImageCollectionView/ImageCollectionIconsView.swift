@@ -12,17 +12,27 @@ struct ImageCollectionIconsView: View {
 	/// The files to display.
 	var filesToShow: [File]
 	
+	/// The currently selected files.
 	@Binding var fileSelection: Set<File>
 	
+	/// A manual updater for forcing the files to show to update.
 	@Binding var updater: Updater
 	
 	/// The size of images.
 	let thumbnailScale: Double
 	
+	/// The group to load images in.
 	let diskImageGroup: DiskImageLoaderGroup
 	
+	/// The size group of icons.
 	let sizeGroup: Int
 	
+	/// Creates an image collection icons view.
+	/// - Parameters:
+	///   - filesToShow: The files to display.
+	///   - fileSelection: The files selected.
+	///   - updater: An updater for updating the files to show.
+	///   - thumbnailScale: The size of thumbnails.
 	init(
 		filesToShow: [File],
 		fileSelection: Binding<Set<File>>,
@@ -69,13 +79,23 @@ struct ImageCollectionIconsView: View {
 	}
 }
 
-// MARK:- Subviews
-extension ImageCollectionIconsView {
-	struct Item: View {
+// MARK:- Item View
+private extension ImageCollectionIconsView {
+	/// A view for displaying an icon.
+	struct ItemView: View {
+		/// The file whose icon to display.
 		@ObservedObject var file: File
+		
+		/// Whether the icon is selected or not.
 		let isSelected: Bool
+		
+		/// The size group of the icon.
 		let sizeGroup: Int
+		
+		/// The size of the icon's thumbnail.
 		let thumbnailScale: Double
+		
+		/// The group to load the icon's image.
 		let diskImageGroup: DiskImageLoaderGroup
 		
 		var body: some View {
@@ -119,6 +139,7 @@ extension ImageCollectionIconsView {
 			}
 		}
 		
+		/// The thumbnail image of the icon.
 		@ViewBuilder
 		var thumbnail: some View {
 			if let url = file.url {
@@ -140,14 +161,19 @@ extension ImageCollectionIconsView {
 			}
 		}
 	}
-	
+}
+
+// MARK:- Subviews
+private extension ImageCollectionIconsView {
+	/// Returns the view for the collection item of the given file.
+	/// - Parameter file: The file to be displayed in the item.
 	@ViewBuilder
 	func item(forFile file: File) -> some View {
-		Item(file: file,
-					 isSelected: fileSelection.contains(file),
-					 sizeGroup: sizeGroup,
-					 thumbnailScale: thumbnailScale,
-					 diskImageGroup: diskImageGroup)
+		ItemView(file: file,
+						 isSelected: fileSelection.contains(file),
+						 sizeGroup: sizeGroup,
+						 thumbnailScale: thumbnailScale,
+						 diskImageGroup: diskImageGroup)
 			.contextMenu {
 				ImageCollectionItemContextMenu(
 					file: file,
@@ -159,7 +185,7 @@ extension ImageCollectionIconsView {
 }
 
 // MARK:- Helper Functions
-extension ImageCollectionIconsView {
+private extension ImageCollectionIconsView {
 	/// The grid's columns.
 	var columns: [GridItem] {
 		[
