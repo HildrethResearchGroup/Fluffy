@@ -72,6 +72,7 @@ extension PersistenceController {
 	/// A function that creates a new root directory. This is done if there is no root directory yet.
 	private func makeRootDirectory() throws -> Directory {
 		let directory = Directory(context: container.viewContext)
+        //directory.id = UUID()
 		try container.viewContext.save()
 		return directory
 	}
@@ -153,14 +154,17 @@ extension PersistenceController {
 		let diskRootPath = "/Users/connorbarnes/Desktop/Examples/Images/"
 		
 		let root = Directory(context: viewContext)
+        //root.id = UUID()
 		
 		let natureDirectory = Directory(context: viewContext)
 		natureDirectory.customName = "Nature"
 		natureDirectory.parent = root
+        //natureDirectory.id = UUID()
 		
 		let landmarksDirectory = Directory(context: viewContext)
 		landmarksDirectory.customName = "Landmarks"
 		landmarksDirectory.parent = root
+        //landmarksDirectory.id = UUID()
 		
 		let friendsDirectory = Directory(context: viewContext)
 		friendsDirectory.customName = "Friends"

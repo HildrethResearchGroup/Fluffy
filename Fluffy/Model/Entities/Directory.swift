@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 @objc(Directory)
-public class Directory: NSManagedObject {
+public class Directory: NSManagedObject, Identifiable {
 	/// Creates a fetch request for objects of type `Directory`.
 	/// - Returns: A fetch request for directory objects.
 	@nonobjc public class func fetchRequest() -> NSFetchRequest<Directory> {
@@ -31,7 +31,7 @@ public class Directory: NSManagedObject {
 	
 	/// The date and time the file was imported into the program.
 	@objc(dateImported)
-	@NSManaged var dateImported: Date?
+	@NSManaged var dateImported: Date
 	
 	/// The directory's parent directory.
 	@objc(parent)
@@ -44,6 +44,18 @@ public class Directory: NSManagedObject {
 	/// The directory's files.
 	@objc(files)
 	@NSManaged var files: NSOrderedSet
+    
+    /// The directory's id
+    @objc(id)
+    @NSManaged public var id: UUID
+    
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        setPrimitiveValue(UUID(), forKey: "id")
+        setPrimitiveValue(Date(), forKey: "dateImported")
+    }
+    
+    
 }
 
 // MARK:- Generated accessors for subdirectories
@@ -141,6 +153,21 @@ extension Directory {
 		
 		return ancestors
 	}
+    
+    var organizedPath: String {
+        if ancestors.count == 0 {
+            return "/" + self.displayName
+        }
+        
+        var pathString = ""
+        for nextAncestor in ancestors {
+            pathString.append("/" + nextAncestor.displayName)
+        }
+        
+        pathString.append(contentsOf: "/" + self.displayName)
+        
+        return pathString
+    }
 }
 
 // MARK:- Methods
@@ -220,6 +247,7 @@ extension Directory {
 			directory.url = url
 			directory.dateImported = Date()
 			directory.collapsed = true
+            //directory.id = UUID()
 			if let index = index {
 				insertIntoSubdirectories(directory, at: index)
 			} else {
@@ -261,17 +289,20 @@ extension Directory {
 			let file = File(context: managedObjectContext!)
 			file.url = url
 			file.dateImported = Date()
+            //file.id = UUID()
 			addToFiles(file)
 		}
 	}
 }
 
 // MARK:- Identifiable
+/**
 extension Directory: Identifiable {
 	public var id: NSManagedObjectID {
 		return self.objectID
 	}
 }
+ */
 
 // MARK:- Type Identifier
 extension Directory {

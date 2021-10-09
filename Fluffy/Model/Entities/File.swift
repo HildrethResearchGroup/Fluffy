@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 @objc(File)
-class File: NSManagedObject {
+class File: NSManagedObject, Identifiable {
 	/// Creates a fetch request for objects of type `File`.
 	/// - Returns: A fetch request for file objects.
 	@nonobjc class func fetchRequest() -> NSFetchRequest<File> {
@@ -27,19 +27,30 @@ class File: NSManagedObject {
 	
 	/// The date and time the file was imported into the program.
 	@objc(dateImported)
-	@NSManaged var dateImported: Date?
+	@NSManaged var dateImported: Date
 	
 	/// The parent directory of the file.
 	@objc(parent)
 	@NSManaged var parent: Directory?
+    
+    /// The id of the file
+    @objc(id)
+    @NSManaged public var id: UUID
+    
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        setPrimitiveValue(UUID(), forKey: "id")
+        setPrimitiveValue(Date(), forKey: "dateImported")
+    }
 }
 
 // MARK:- Identifiable
+/**
 extension File: Identifiable {
 	public var id: NSManagedObjectID {
 		return self.objectID
 	}
-}
+}*/
 
 // MARK:- Computed properties
 extension File {
@@ -54,4 +65,41 @@ extension File {
 			.deletingPathExtension()
 			.lastPathComponent
 	}
+    
+    /// The Imported date formated as a String
+    var dateImportedString: String {
+        let dateString = self.dateImported.formatted(date: .abbreviated, time: .omitted)
+        return dateString
+    }
+    
+    /// Organized path to file location within the application.
+    /// Note: this is not the stored file path
+    var organizedPath: String {
+        var path = parent?.organizedPath ?? ""
+        path.append("/" + self.displayName)
+        return path
+    }
+    
+    /// File size in MB
+    var fileSize: String {
+        var fileSizeString = ""
+
+        guard let urlPath = self.url?.path else {
+            return fileSizeString
+        }
+        
+        guard let attr = try? FileManager.default.attributesOfItem(atPath: urlPath) else {
+            return fileSizeString
+        }
+       
+        
+        guard let fileSize = attr[FileAttributeKey.size] as? UInt64 else {
+            return fileSizeString
+        }
+        
+        fileSizeString = String(format: "%0.03f", Double(fileSize)/1E6)
+        
+        return fileSizeString
+    }
+    
 }
