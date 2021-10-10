@@ -14,7 +14,10 @@ struct ImageCollectionItemContextMenu: View {
 	
 	/// The files currently selected.
 	@Binding var fileSelection: Set<File>
-	
+    
+    /// Manage the selection
+    @EnvironmentObject var selectionManager: SelectionManager
+    	
 	/// A manual updater for updating the files to show.
 	@Binding var updater: Updater
 	
@@ -32,14 +35,15 @@ private extension ImageCollectionItemContextMenu {
 	/// The show in Finder menu item.
 	@ViewBuilder
 	var showInFinderItem: some View {
-		if fileSelection.count > 1
-				&& fileSelection.contains(file) {
+        // Changed if fileSelection.count > 1
+        if selectionManager.fileSelection.count > 1
+				&& selectionManager.fileSelection.contains(file) {
 			Button {
-				fileSelection
+                selectionManager.fileSelection
 					.compactMap(\.url)
 					.showInFinder()
 			} label: {
-				Text("Show \(fileSelection.count) Files in Finder")
+				Text("Show \(selectionManager.fileSelection.count) Files in Finder")
 			}
 		} else {
 			Button {
@@ -54,20 +58,20 @@ private extension ImageCollectionItemContextMenu {
 	/// The remove menu item.
 	@ViewBuilder
 	var removeItem: some View {
-		if fileSelection.count > 1
-				&& fileSelection.contains(file) {
+		if selectionManager.fileSelection.count > 1
+				&& selectionManager.fileSelection.contains(file) {
 			Button {
-				remove(files: fileSelection)
-				fileSelection = []
+				remove(files: selectionManager.fileSelection)
+                selectionManager.fileSelection = []
 				updater.update()
 			} label: {
-				Text("Remove \(fileSelection.count) Files")
+				Text("Remove \(selectionManager.fileSelection.count) Files")
 			}
 		} else {
 			Button {
 				remove(files: [file])
-				if fileSelection.contains(file) {
-					fileSelection = []
+				if selectionManager.fileSelection.contains(file) {
+                    selectionManager.fileSelection = []
 				}
 				updater.update()
 			} label: {
@@ -97,7 +101,9 @@ private extension ImageCollectionItemContextMenu {
 	}
 }
 
-// MARK:- Previews
+
+
+// MARK: - Previews
 struct ImageCollectionItemContextMenu_Previews: PreviewProvider {
 	static let file: File = {
 		let context = PersistenceController.preview

@@ -17,6 +17,10 @@ struct ImageCollectionView: View {
 	
 	/// The currently selected files.
 	@Binding var fileSelection: Set<File>
+    
+    /// Manage the selection
+    @EnvironmentObject var selectionManager: SelectionManager
+    
 	
 	// This is needed because the context menu in nested views
 	// needs to update the view when files are deleted
@@ -65,6 +69,11 @@ struct ImageCollectionView: View {
 				updater: $updater,
 				thumbnailScale: thumbnailScale
 			)
+        case .asTable:
+            ImageCollectionTableView(
+                filesToShow: filesToShow,
+                fileSelection: $fileSelection,
+                updater: $updater)
 		}
 	}
 }
@@ -76,6 +85,8 @@ enum ImageCollectionViewStyle: Int, Hashable {
 	case asList
 	/// Displays the images as a grid of icons.
 	case asIcons
+    //// Displays the images as a table
+    case asTable
 }
 
 // MARK:- Previews
@@ -98,9 +109,9 @@ struct ImageCollectionView_Previews: PreviewProvider {
 	
 	static var previews: some View {
 		ImageCollectionView(filesToShow: makeFilesToShow(),
-												fileSelection: $fileSelection,
-												updater: .constant(Updater()),
-												style: .asList,
-												thumbnailSize: $thumbnailSize)
+                            fileSelection: $fileSelection,
+							updater: .constant(Updater()),
+							style: .asList,
+							thumbnailSize: $thumbnailSize)
 	}
 }

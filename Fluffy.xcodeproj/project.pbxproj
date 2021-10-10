@@ -51,6 +51,7 @@
 		5ADDED19266472F500CF87B7 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADDED18266472F500CF87B7 /* ImageCache.swift */; };
 		5ADDED1C266477C500CF87B7 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 5ADDED1B266477C500CF87B7 /* Collections */; };
 		5AEE3146266ABE1700495FD6 /* BottomBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEE3145266ABE1700495FD6 /* BottomBarView.swift */; };
+		CD71666727137106009630C5 /* SelectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD71666627137106009630C5 /* SelectionManager.swift */; };
 		CDF802B9270FEE750040FF04 /* ImageCollectionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF802B8270FEE750040FF04 /* ImageCollectionTableView.swift */; };
 /* End PBXBuildFile section */
 
@@ -122,6 +123,7 @@
 		5ACD136325FF3D1400E64523 /* ImageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionView.swift; sourceTree = "<group>"; };
 		5ADDED18266472F500CF87B7 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		5AEE3145266ABE1700495FD6 /* BottomBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBarView.swift; sourceTree = "<group>"; };
+		CD71666627137106009630C5 /* SelectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionManager.swift; sourceTree = "<group>"; };
 		CDF802B8270FEE750040FF04 /* ImageCollectionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionTableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -306,6 +308,7 @@
 				5A2F427825E23245000D70A8 /* VisualEffectView.swift */,
 				5A8A979D261AF2A900FBE591 /* LazyDiskImage.swift */,
 				5ABE618B2652EA8300308B11 /* ManualUpdatableView.swift */,
+				CD71666627137106009630C5 /* SelectionManager.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 				5A2F420D25E20BE1000D70A8 /* FluffyApp.swift in Sources */,
 				5ACD136425FF3D1400E64523 /* ImageCollectionView.swift in Sources */,
 				5A8A979E261AF2A900FBE591 /* LazyDiskImage.swift in Sources */,
+				CD71666727137106009630C5 /* SelectionManager.swift in Sources */,
 				5A2BAE35266DABFB006DD01C /* URL.swift in Sources */,
 				5A9CB759263743C900D8488E /* ImagePasteboardItem.swift in Sources */,
 				5ABE618F2652ED8A00308B11 /* ImageCollectionListView.swift in Sources */,
@@ -678,7 +682,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Fluffy/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -689,8 +693,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.connorbarnes.Fluffy;
+				MARKETING_VERSION = 1.5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.HRG.Fluffy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -706,7 +710,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Fluffy/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -718,8 +722,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.connorbarnes.Fluffy;
+				MARKETING_VERSION = 1.5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.HRG.Fluffy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

@@ -11,6 +11,7 @@ import SwiftUI
 struct PrimaryView: View {
 	/// The Core Data view context.
 	@Environment(\.managedObjectContext) private var viewContext
+    
 	
 	/// The app's root directory.
 	@EnvironmentObject private var rootDirectory: Directory
@@ -130,6 +131,7 @@ private extension PrimaryView {
 			Picker(selection: $imageCollectionViewStyle, label: Text("View")) {
 				Image(systemName: "list.bullet").tag(ImageCollectionViewStyle.asList)
 				Image(systemName: "square.grid.2x2").tag(ImageCollectionViewStyle.asIcons)
+                Image(systemName: "tablecells").tag(ImageCollectionViewStyle.asTable)
 			}.pickerStyle(InlinePickerStyle())
 		}
 	}

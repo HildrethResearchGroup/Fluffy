@@ -4,7 +4,6 @@
         <attribute name="collapsed" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="customName" optional="YES" attributeType="String"/>
         <attribute name="dateImported" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="url" optional="YES" attributeType="URI"/>
         <relationship name="files" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="File" inverseName="parent" inverseEntity="File"/>
         <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Directory" inverseName="subdirectories" inverseEntity="Directory"/>
@@ -13,12 +12,11 @@
     <entity name="File" representedClassName="File" syncable="YES">
         <attribute name="customName" optional="YES" attributeType="String"/>
         <attribute name="dateImported" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="url" optional="YES" attributeType="URI"/>
         <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Directory" inverseName="files" inverseEntity="Directory"/>
     </entity>
     <elements>
-        <element name="Directory" positionX="-63" positionY="-18" width="128" height="149"/>
-        <element name="File" positionX="-63" positionY="-18" width="128" height="104"/>
+        <element name="Directory" positionX="-63" positionY="-18" width="128" height="134"/>
+        <element name="File" positionX="-63" positionY="-18" width="128" height="89"/>
     </elements>
 </model>

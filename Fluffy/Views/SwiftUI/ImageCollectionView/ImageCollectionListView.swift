@@ -14,6 +14,10 @@ struct ImageCollectionListView: View {
 	
 	/// The files selected.
 	@Binding var fileSelection: Set<File>
+    
+    /// Manage the selection
+    @EnvironmentObject var selectionManager: SelectionManager
+    
 	
 	/// An updater for manually updating the files to show.
 	@Binding var updater: Updater
@@ -22,7 +26,7 @@ struct ImageCollectionListView: View {
 	@State var diskImageGroup: DiskImageLoaderGroup
 	
 	var body: some View {
-		List(selection: $fileSelection) {
+        List(selection: $selectionManager.fileSelection) {
 			ForEach(filesToShow, id: \.self) { file in
 				item(forFile: file)
 					.tag(file)
@@ -30,6 +34,7 @@ struct ImageCollectionListView: View {
 		}
 	}
 	
+    
 	/// Creates an image collection list view.
 	/// - Parameters:
 	///   - filesToShow: The files to show.
@@ -50,6 +55,7 @@ struct ImageCollectionListView: View {
 	}
 }
 
+
 // MARK: - ItemView
 private extension ImageCollectionListView {
 	/// A view displaying an image collection list row.
@@ -59,6 +65,9 @@ private extension ImageCollectionListView {
 		
 		/// The selected files.
 		@Binding var fileSelection: Set<File>
+        
+        /// Manage the selection
+        @EnvironmentObject var selectionManager: SelectionManager
 		
 		/// The group to load the thumbnail image in.
 		let diskImageGroup: DiskImageLoaderGroup
@@ -73,10 +82,10 @@ private extension ImageCollectionListView {
 					)
 					
 					LazyDiskImage(at: url,
-												using: imageLoader)
+                                  using: imageLoader)
 						.scaledToFit()
 						.frame(width: C.listThumbnailSize,
-									 height: C.listThumbnailSize)
+                               height: C.listThumbnailSize)
 				} else {
 					Text("X")
 				}
@@ -84,14 +93,14 @@ private extension ImageCollectionListView {
 			}
 			// TODO: Add proper shift clicking
 			.onCommandTapGesture {
-				if fileSelection.contains(file) {
-					fileSelection.remove(file)
+                if selectionManager.fileSelection.contains(file) {
+                    selectionManager.fileSelection.remove(file)
 				} else {
-					fileSelection.insert(file)
+                    selectionManager.fileSelection.insert(file)
 				}
 			}
 			.onTapGesture {
-				fileSelection = [file]
+                selectionManager.fileSelection = [file]
 			}
 			.onDrag {
 				let uri = file.objectID.uriRepresentation() as NSURL

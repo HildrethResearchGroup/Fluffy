@@ -12,11 +12,11 @@ struct ImageCollectionTableView: View {
     /// The files to display
     var filesToShow: [File]
     
+    /// Manage the selection
+    @EnvironmentObject var selectionManager: SelectionManager
+    
     /// The files selected
     @Binding var fileSelection: Set<File>
-    
-    ///  Local storage for files selected.  Table only
-    @State var localFileSelection: Set<File.ID> = []
     
     
     /// An updater for manually updating the files to show
@@ -25,18 +25,61 @@ struct ImageCollectionTableView: View {
     /// The group to load images in
     @State var diskImageGroup: DiskImageLoaderGroup
     
+    init(filesToShow: [File],
+         fileSelection: Binding<Set<File>>,
+         updater: Binding<Updater>
+    ) {
+        self.filesToShow = filesToShow
+        _fileSelection = fileSelection
+        _updater = updater
+        diskImageGroup = .named(
+            "ListView",
+            cacheMegabyteCapacity: 128
+        )
+    }
+    
     
     var body: some View {
-        Table(filesToShow) {
+        Table(filesToShow, selection: $selectionManager.tableSelection) {
             TableColumn("Name", value: \.displayName)
             TableColumn("Location", value: \.organizedPath)
             TableColumn("Date Imported", value: \.dateImportedString)
-            TableColumn("Size", value: \.fileSize)
+            TableColumn("Size [MB]", value: \.fileSize)
         }
     }
     
-    func updateFileSelection() {
+    
+}
+
+
+// MARK: - Icon View
+private extension ImageCollectionTableView {
+    /// Returns an icon image of the given file
+    /// - Parameter file: The file to be displayed in the item
+    
+    struct IconView: View {
+        /// The file whose icon to display.
+        var url: URL
         
+        /// The group to load the icon's image.
+        let diskImageGroup: DiskImageLoaderGroup = .named(
+            "ListView",
+            cacheMegabyteCapacity: 128
+        )
+        
+        
+        var body: some View {
+            let size = 36
+            let imageLoader = ThumbnailDiskImageLoader(
+                in: diskImageGroup,
+                imageSize: CGSize(
+                    width: size,
+                    height: size)
+            )
+            
+            LazyDiskImage(at: url, using: imageLoader)
+                .scaledToFit()
+        }
     }
 }
 
@@ -44,15 +87,6 @@ struct ImageCollectionTableView: View {
 struct ImageCollectionTableView_Previews: PreviewProvider {
     static var previews: some View {
         ImageCollectionTableView()
-    }
-}
- 
- 
- rows: {
-    ForEach(filesToShow) {
-        TableRow($0)
-    }.onChange(of: localFileSelection) {
-        print("Changed Selection")
     }
 }
  */

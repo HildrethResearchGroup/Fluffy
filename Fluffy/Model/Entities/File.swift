@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 @objc(File)
-class File: NSManagedObject, Identifiable {
+class File: NSManagedObject {
 	/// Creates a fetch request for objects of type `File`.
 	/// - Returns: A fetch request for file objects.
 	@nonobjc class func fetchRequest() -> NSFetchRequest<File> {
@@ -33,24 +33,19 @@ class File: NSManagedObject, Identifiable {
 	@objc(parent)
 	@NSManaged var parent: Directory?
     
-    /// The id of the file
-    @objc(id)
-    @NSManaged public var id: UUID
     
     public override func awakeFromInsert() {
         super.awakeFromInsert()
-        setPrimitiveValue(UUID(), forKey: "id")
         setPrimitiveValue(Date(), forKey: "dateImported")
     }
 }
 
 // MARK:- Identifiable
-/**
 extension File: Identifiable {
 	public var id: NSManagedObjectID {
 		return self.objectID
 	}
-}*/
+}
 
 // MARK:- Computed properties
 extension File {
@@ -97,7 +92,7 @@ extension File {
             return fileSizeString
         }
         
-        fileSizeString = String(format: "%0.03f", Double(fileSize)/1E6)
+        fileSizeString = String(format: "%0.02f", Double(fileSize)/1E6)
         
         return fileSizeString
     }

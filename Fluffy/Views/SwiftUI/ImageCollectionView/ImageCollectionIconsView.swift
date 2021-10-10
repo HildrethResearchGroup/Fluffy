@@ -14,6 +14,9 @@ struct ImageCollectionIconsView: View {
 	
 	/// The currently selected files.
 	@Binding var fileSelection: Set<File>
+    
+    /// Manage the selection
+    @EnvironmentObject var selectionManager: SelectionManager
 	
 	/// A manual updater for forcing the files to show to update.
 	@Binding var updater: Updater
@@ -55,21 +58,21 @@ struct ImageCollectionIconsView: View {
 				ForEach(filesToShow) { file in
 					item(forFile: file)
 						.onShiftTapGesture {
-							if fileSelection.contains(file) {
-								fileSelection.remove(file)
+                            if selectionManager.fileSelection.contains(file) {
+                                selectionManager.fileSelection.remove(file)
 							} else {
-								fileSelection.insert(file)
+                                selectionManager.fileSelection.insert(file)
 							}
 						}
 						.onCommandTapGesture {
-							if fileSelection.contains(file) {
-								fileSelection.remove(file)
+                            if selectionManager.fileSelection.contains(file) {
+                                selectionManager.fileSelection.remove(file)
 							} else {
-								fileSelection.insert(file)
+                                selectionManager.fileSelection.insert(file)
 							}
 						}
 						.onTapGesture {
-							fileSelection = [file]
+                            selectionManager.fileSelection = [file]
 						}
 				}
 			}
@@ -154,7 +157,7 @@ private extension ImageCollectionIconsView {
 				)
 				
 				LazyDiskImage(at: url,
-											using: imageLoader)
+                              using: imageLoader)
 					.scaledToFit()
 			} else {
 				Text("X")
@@ -163,17 +166,17 @@ private extension ImageCollectionIconsView {
 	}
 }
 
-// MARK:- Subviews
+// MARK: - Subviews
 private extension ImageCollectionIconsView {
 	/// Returns the view for the collection item of the given file.
 	/// - Parameter file: The file to be displayed in the item.
 	@ViewBuilder
 	func item(forFile file: File) -> some View {
 		ItemView(file: file,
-						 isSelected: fileSelection.contains(file),
-						 sizeGroup: sizeGroup,
-						 thumbnailScale: thumbnailScale,
-						 diskImageGroup: diskImageGroup)
+                 isSelected: fileSelection.contains(file),
+                 sizeGroup: sizeGroup,
+                 thumbnailScale: thumbnailScale,
+                 diskImageGroup: diskImageGroup)
 			.contextMenu {
 				ImageCollectionItemContextMenu(
 					file: file,
@@ -201,7 +204,9 @@ private extension ImageCollectionIconsView {
 	}
 }
 
-// MARK:- Previews
+
+
+// MARK: - Previews
 struct ImageCollectionIconsView_Previews: PreviewProvider {
 	@State static var fileSelection: Set<File> = []
 	static var filesToShow: [File] {

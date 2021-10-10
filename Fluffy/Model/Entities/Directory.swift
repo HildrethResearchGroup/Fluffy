@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 @objc(Directory)
-public class Directory: NSManagedObject, Identifiable {
+public class Directory: NSManagedObject {
 	/// Creates a fetch request for objects of type `Directory`.
 	/// - Returns: A fetch request for directory objects.
 	@nonobjc public class func fetchRequest() -> NSFetchRequest<Directory> {
@@ -44,14 +44,10 @@ public class Directory: NSManagedObject, Identifiable {
 	/// The directory's files.
 	@objc(files)
 	@NSManaged var files: NSOrderedSet
-    
-    /// The directory's id
-    @objc(id)
-    @NSManaged public var id: UUID
+
     
     public override func awakeFromInsert() {
         super.awakeFromInsert()
-        setPrimitiveValue(UUID(), forKey: "id")
         setPrimitiveValue(Date(), forKey: "dateImported")
     }
     
@@ -296,13 +292,11 @@ extension Directory {
 }
 
 // MARK:- Identifiable
-/**
 extension Directory: Identifiable {
 	public var id: NSManagedObjectID {
 		return self.objectID
 	}
 }
- */
 
 // MARK:- Type Identifier
 extension Directory {

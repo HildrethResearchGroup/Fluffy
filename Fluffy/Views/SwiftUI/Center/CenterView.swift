@@ -11,6 +11,9 @@ import SwiftUI
 struct CenterView: View {
 	/// The  selected files.
 	@Binding var fileSelection: Set<File>
+    
+    /// Manage the selection
+    @EnvironmentObject var selectionManager: SelectionManager
 	
 	/// The selected directories.
 	@Binding var sidebarSelection: Set<Directory>
@@ -59,12 +62,12 @@ struct CenterView: View {
 					.animation(nil)
 				detailView
 					.frame(maxWidth: .infinity,
-								 maxHeight: .infinity)
+                           maxHeight: .infinity)
 					.animation(nil)
 			}
 			Divider()
 			BottomBarView(
-				numberOfFilesSelected: fileSelection.count,
+                numberOfFilesSelected: selectionManager.fileSelection.count,
 				numberOfFilesShown: filesToShow.count,
 				numberOfDirectoriesSelected: sidebarSelection.count,
 				thumbnailScale: thumbnailScaleBinding
@@ -78,12 +81,12 @@ private extension CenterView {
 	/// The detail view displaying the selected image.
 	@ViewBuilder
 	var detailView: some View {
-		switch fileSelection.count {
+        switch selectionManager.fileSelection.count {
 		case 0:
 			Text("No Selection")
 				.id("DetailImage")
 		case 1:
-			DetailView(file: fileSelection.first!)
+            DetailView(file: selectionManager.fileSelection.first!)
 		default:
 			Text("Multiple Selection")
 				.id("DetailImage")
@@ -100,6 +103,8 @@ private extension CenterView {
 			return nil
 		case .asIcons:
 			return $thumbnailScale
+        case .asTable:
+            return nil
 		}
 	}
 }
