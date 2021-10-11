@@ -52,6 +52,7 @@
 		5ADDED1C266477C500CF87B7 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 5ADDED1B266477C500CF87B7 /* Collections */; };
 		5AEE3146266ABE1700495FD6 /* BottomBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEE3145266ABE1700495FD6 /* BottomBarView.swift */; };
 		CD71666727137106009630C5 /* SelectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD71666627137106009630C5 /* SelectionManager.swift */; };
+		CD7166692713B876009630C5 /* DetailGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7166682713B876009630C5 /* DetailGridView.swift */; };
 		CDF802B9270FEE750040FF04 /* ImageCollectionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF802B8270FEE750040FF04 /* ImageCollectionTableView.swift */; };
 /* End PBXBuildFile section */
 
@@ -124,6 +125,7 @@
 		5ADDED18266472F500CF87B7 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		5AEE3145266ABE1700495FD6 /* BottomBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBarView.swift; sourceTree = "<group>"; };
 		CD71666627137106009630C5 /* SelectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionManager.swift; sourceTree = "<group>"; };
+		CD7166682713B876009630C5 /* DetailGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGridView.swift; sourceTree = "<group>"; };
 		CDF802B8270FEE750040FF04 /* ImageCollectionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionTableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -319,6 +321,7 @@
 				5A2BAE36266EFB07006DD01C /* CenterView.swift */,
 				5A484B59266423FF0007D565 /* DetailView.swift */,
 				5AEE3145266ABE1700495FD6 /* BottomBarView.swift */,
+				CD7166682713B876009630C5 /* DetailGridView.swift */,
 			);
 			path = Center;
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 				5A2F424525E20DF8000D70A8 /* File.swift in Sources */,
 				5AEE3146266ABE1700495FD6 /* BottomBarView.swift in Sources */,
 				5A1E2DD32671EFBA0080EF8B /* Array.swift in Sources */,
+				CD7166692713B876009630C5 /* DetailGridView.swift in Sources */,
 				5A36FAA62675ABCA0033C41B /* ImageTabItemView.swift in Sources */,
 				5AC1F3D926731C9A009B6366 /* Coordinator+FirstResponder.swift in Sources */,
 				5A8A9790261AE6BA00FBE591 /* SidebarView.swift in Sources */,

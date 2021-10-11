@@ -18,6 +18,10 @@ struct ImageCollectionTableView: View {
     /// The files selected
     @Binding var fileSelection: Set<File>
     
+    /// The sort order
+    @State private var order: [KeyPathComparator<File>] = [
+        .init(\.organizedPath, order: SortOrder.forward)
+    ]
     
     /// An updater for manually updating the files to show
     @Binding var updater: Updater
@@ -40,7 +44,7 @@ struct ImageCollectionTableView: View {
     
     
     var body: some View {
-        Table(filesToShow, selection: $selectionManager.tableSelection) {
+        Table(filesToShow, selection: $selectionManager.tableSelection, sortOrder: $order) {
             TableColumn("Name", value: \.displayName)
             TableColumn("Location", value: \.organizedPath)
             TableColumn("Date Imported", value: \.dateImportedString)

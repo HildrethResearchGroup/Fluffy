@@ -60,7 +60,8 @@ struct CenterView: View {
 					thumbnailSize: $thumbnailScale
 				)
 					.animation(nil)
-				detailView
+				//detailView
+                DetailGridView()
 					.frame(maxWidth: .infinity,
                            maxHeight: .infinity)
 					.animation(nil)
