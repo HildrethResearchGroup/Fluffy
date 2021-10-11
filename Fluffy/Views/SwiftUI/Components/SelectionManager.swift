@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OrderedCollections
 import SwiftUI
 
 class SelectionManager: ObservableObject {
@@ -23,7 +24,7 @@ class SelectionManager: ObservableObject {
     
     @Published var fileSelectionArray: Array<File> = []
     
-    private var selectionTruth: Set<File.ID> = []
+    
     
     enum SelectionChanged {
         case tableSelection

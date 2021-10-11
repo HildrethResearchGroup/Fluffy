@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import OrderedCollections
 
 /// A view for displaying a collection of images as a table
 struct ImageCollectionTableView: View {
@@ -20,7 +21,8 @@ struct ImageCollectionTableView: View {
     
     /// The sort order
     @State private var order: [KeyPathComparator<File>] = [
-        .init(\.organizedPath, order: SortOrder.forward)
+        .init(\.organizedPath, order: SortOrder.forward),
+        .init(\.displayName, order: .forward)
     ]
     
     /// An updater for manually updating the files to show

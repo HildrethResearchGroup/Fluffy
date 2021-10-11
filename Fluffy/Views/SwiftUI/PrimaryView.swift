@@ -95,7 +95,8 @@ private extension PrimaryView {
 				Color(.controlBackgroundColor)
 			)
 			.manualUpdater($updater)
-			.animation(.easeInOut)
+            .animation(.easeInOut, value: true)
+			//.animation(.easeInOut)
 			
 			// Add space for inspector if it is shown
 			Spacer()

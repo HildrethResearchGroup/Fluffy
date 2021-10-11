@@ -38,6 +38,11 @@ struct CenterView: View {
 	
 	/// The style for displaying the image collection.
 	var imageCollectionViewStyle: ImageCollectionViewStyle
+    
+    @State private var sortOrder: [KeyPathComparator<File>] = [
+        .init(\.organizedPath, order: .forward),
+        .init(\.displayName, order: .forward)
+    ]
 	
 	var body: some View {
 		let filesToShow = Directory.files(inSelection: sidebarSelection)
@@ -49,6 +54,7 @@ struct CenterView: View {
 					return true
 				}
 			}
+            .sorted(using: sortOrder)
 		
 		VStack(spacing: 0) {
 			VSplitView {
@@ -59,12 +65,11 @@ struct CenterView: View {
 					style: imageCollectionViewStyle,
 					thumbnailSize: $thumbnailScale
 				)
-					.animation(nil)
-				//detailView
+					.animation(nil, value: false)
                 DetailGridView()
 					.frame(maxWidth: .infinity,
                            maxHeight: .infinity)
-					.animation(nil)
+                    .animation(nil, value: false)
 			}
 			Divider()
 			BottomBarView(
@@ -110,7 +115,10 @@ private extension CenterView {
 	}
 }
 
-// MARK: Previews
+
+
+
+// MARK: - Previews
 struct CenterView_Previews: PreviewProvider {
 	@State static var fileSelection: Set<File> = []
 	@State static var sidebarSelection: Set<Directory> = []

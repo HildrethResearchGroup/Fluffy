@@ -151,13 +151,16 @@ extension Directory {
 	}
     
     var organizedPath: String {
-        if ancestors.count == 0 {
+        
+        guard let subdirectories = subdirectoriesArray else {return "/" + self.displayName}
+        
+        if subdirectories.count == 0 {
             return "/" + self.displayName
         }
         
         var pathString = ""
-        for nextAncestor in ancestors {
-            pathString.append("/" + nextAncestor.displayName)
+        for nextDirectory in subdirectories {
+            pathString.append("/" + nextDirectory.displayName)
         }
         
         pathString.append(contentsOf: "/" + self.displayName)
