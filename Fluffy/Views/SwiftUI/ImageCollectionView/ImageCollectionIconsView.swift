@@ -12,7 +12,6 @@ struct ImageCollectionIconsView: View {
 	/// The files to display.
 	var filesToShow: [File]
 	
-    
     /// Manage the selection
     @EnvironmentObject var selectionManager: SelectionManager
 	
@@ -40,7 +39,6 @@ struct ImageCollectionIconsView: View {
 	) {
 		self.filesToShow = filesToShow
 		self.thumbnailScale = thumbnailScale
-		//_fileSelection = fileSelection
 		_updater = updater
 		sizeGroup = Int(log2(thumbnailScale)) + 1
 		

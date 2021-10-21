@@ -11,14 +11,10 @@ import SwiftUI
 struct ImageCollectionListView: View {
 	/// The files to display.
 	var filesToShow: [File]
-	
-	/// The files selected.
-	//@Binding var fileSelection: Set<File>
-    
+	    
     /// Manage the selection
     @EnvironmentObject var selectionManager: SelectionManager
     
-	
 	/// An updater for manually updating the files to show.
 	@Binding var updater: Updater
 	
@@ -38,15 +34,12 @@ struct ImageCollectionListView: View {
 	/// Creates an image collection list view.
 	/// - Parameters:
 	///   - filesToShow: The files to show.
-	///   - fileSelection: The files selected.
 	///   - updater: An updater for manually updating the files to show.
 	init(
 		filesToShow: [File],
-		//fileSelection: Binding<Set<File>>,
 		updater: Binding<Updater>
 	) {
 		self.filesToShow = filesToShow
-		//_fileSelection = fileSelection
 		_updater = updater
 		diskImageGroup = .named(
 			"ListView",
@@ -62,7 +55,6 @@ private extension ImageCollectionListView {
 	struct ItemView: View {
 		/// The file to display.
 		@ObservedObject var file: File
-		
         
         /// Manage the File and Directory selections
         @EnvironmentObject var selectionManager: SelectionManager

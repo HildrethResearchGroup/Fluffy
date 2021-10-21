@@ -40,7 +40,6 @@ struct ImageCollectionView: View {
 	///   - thumbnailSize: The size of thumbnails in icon view.
 	init(
 		filesToShow: [File],
-		//fileSelection: Binding<Set<File>>,
 		updater: Binding<Updater>,
 		style: ImageCollectionViewStyle,
 		thumbnailSize: Binding<Double>
@@ -48,7 +47,6 @@ struct ImageCollectionView: View {
 		self.filesToShow = filesToShow
 		_updater = updater
 		self.style = style
-		//_fileSelection = fileSelection
 		_thumbnailScale = thumbnailSize
 	}
 	
@@ -57,20 +55,17 @@ struct ImageCollectionView: View {
 		case .asList:
 			ImageCollectionListView(
 				filesToShow: filesToShow,
-                //fileSelection: $fileSelection,
 				updater: $updater
 			)
 		case .asIcons:
 			ImageCollectionIconsView(
 				filesToShow: filesToShow,
-				//fileSelection: $fileSelection,
 				updater: $updater,
 				thumbnailScale: thumbnailScale
 			)
         case .asTable:
             ImageCollectionTableView(
                 filesToShow: filesToShow,
-                //fileSelection: $fileSelection,
                 updater: $updater)
 		}
 	}
@@ -89,7 +84,6 @@ enum ImageCollectionViewStyle: Int, Hashable {
 
 // MARK:- Previews
 struct ImageCollectionView_Previews: PreviewProvider {
-	@State private static var fileSelection: Set<File> = []
 	@State private static var thumbnailSize = C.defaultIconThumbnailSize
 	
 	private static func makeFilesToShow() -> [File] {
@@ -107,7 +101,6 @@ struct ImageCollectionView_Previews: PreviewProvider {
 	
 	static var previews: some View {
 		ImageCollectionView(filesToShow: makeFilesToShow(),
-                            //fileSelection: $fileSelection,
 							updater: .constant(Updater()),
 							style: .asList,
 							thumbnailSize: $thumbnailSize)

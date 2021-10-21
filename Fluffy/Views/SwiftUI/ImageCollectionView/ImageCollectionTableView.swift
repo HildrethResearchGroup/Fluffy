@@ -13,14 +13,25 @@ struct ImageCollectionTableView: View {
     /// The files to display
     var filesToShow: [File]
     
+    /// Sortable files to display
+    private var sortableFilesToShow: [File] {
+        return  self.filesToShow
+            .filter {
+                searchText.isEmpty ? true : $0.organizedPath.localizedCaseInsensitiveContains(searchText)
+            }
+            .sorted(using: sortOrder)
+    }
+    
     /// Manage the File and Directory selections
     @EnvironmentObject var selectionManager: SelectionManager
     
+    /// Search Text for Files
+    @State var searchText = ""
     
     /// The sort order
-    @State private var order: [KeyPathComparator<File>] = [
+    @State private var sortOrder: [KeyPathComparator<File>] = [
         .init(\.organizedPath, order: SortOrder.forward),
-        .init(\.displayName, order: .forward)
+        .init(\.displayName, order: SortOrder.forward)
     ]
     
     /// An updater for manually updating the files to show
@@ -42,7 +53,7 @@ struct ImageCollectionTableView: View {
     
     
     var body: some View {
-        Table(filesToShow, selection: $selectionManager.tableSelection, sortOrder: $order) {
+        Table(sortableFilesToShow, selection: $selectionManager.tableSelection, sortOrder: $sortOrder) {
             TableColumn("Name", value: \.displayName)
             TableColumn("Location", value: \.organizedPath)
             TableColumn("Date Imported", value: \.dateImportedString)
@@ -54,7 +65,7 @@ struct ImageCollectionTableView: View {
                     ShowInFinderButton(file.url)
                 }
             }
-        }
+        }.searchable(text: $searchText)
     }
     
     
