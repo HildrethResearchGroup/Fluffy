@@ -54,12 +54,7 @@ private extension FileInspectorView {
 				.lineLimit(nil)
 			if let url = file.url {
 				Spacer()
-				Button {
-					url.showInFinder()
-				} label: {
-					Image(systemName: "arrow.right.circle.fill")
-				}
-				.buttonStyle(BorderlessButtonStyle())
+				ShowInFinderButton(url)
 			}
 		}
 	}

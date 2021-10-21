@@ -13,7 +13,7 @@ struct ImageCollectionItemContextMenu: View {
 	let file: File
 	
 	/// The files currently selected.
-	@Binding var fileSelection: Set<File>
+	//@Binding var fileSelection: Set<File>
     
     /// Manage the selection
     @EnvironmentObject var selectionManager: SelectionManager
@@ -121,7 +121,7 @@ struct ImageCollectionItemContextMenu_Previews: PreviewProvider {
 	static var previews: some View {
 		ImageCollectionItemContextMenu(
 			file: file,
-			fileSelection: $fileSelection,
+			//fileSelection: $fileSelection,
 			updater: .constant(Updater())
 		)
 	}

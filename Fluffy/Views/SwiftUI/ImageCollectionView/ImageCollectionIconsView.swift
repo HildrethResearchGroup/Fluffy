@@ -13,7 +13,7 @@ struct ImageCollectionIconsView: View {
 	var filesToShow: [File]
 	
 	/// The currently selected files.
-	@Binding var fileSelection: Set<File>
+	//@Binding var fileSelection: Set<File>
     
     /// Manage the selection
     @EnvironmentObject var selectionManager: SelectionManager
@@ -38,13 +38,13 @@ struct ImageCollectionIconsView: View {
 	///   - thumbnailScale: The size of thumbnails.
 	init(
 		filesToShow: [File],
-		fileSelection: Binding<Set<File>>,
+		//fileSelection: Binding<Set<File>>,
 		updater: Binding<Updater>,
 		thumbnailScale: Double
 	) {
 		self.filesToShow = filesToShow
 		self.thumbnailScale = thumbnailScale
-		_fileSelection = fileSelection
+		//_fileSelection = fileSelection
 		_updater = updater
 		sizeGroup = Int(log2(thumbnailScale)) + 1
 		
@@ -173,14 +173,14 @@ private extension ImageCollectionIconsView {
 	@ViewBuilder
 	func item(forFile file: File) -> some View {
 		ItemView(file: file,
-                 isSelected: fileSelection.contains(file),
+                 isSelected: selectionManager.fileSelection.contains(file),
                  sizeGroup: sizeGroup,
                  thumbnailScale: thumbnailScale,
                  diskImageGroup: diskImageGroup)
 			.contextMenu {
 				ImageCollectionItemContextMenu(
 					file: file,
-					fileSelection: $fileSelection,
+					//fileSelection: $selectionManager.fileSelection,
 					updater: $updater
 				)
 			}
@@ -226,7 +226,7 @@ struct ImageCollectionIconsView_Previews: PreviewProvider {
 	static var previews: some View {
 		ImageCollectionIconsView(
 			filesToShow: filesToShow,
-			fileSelection: $fileSelection,
+			//fileSelection: $fileSelection,
 			updater: .constant(Updater()),
 			thumbnailScale: C.defaultIconThumbnailSize
 		)

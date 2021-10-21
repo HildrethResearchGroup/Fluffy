@@ -11,6 +11,9 @@ import SwiftUI
 struct SidebarView: View {
 	/// The selected directories in the sidebar.
 	@Binding var selection: Set<Directory>
+    
+    /// Manage the selection
+    @EnvironmentObject var selectionManager: SelectionManager
 	
 	/// An updater instance for manual updating.
 	///

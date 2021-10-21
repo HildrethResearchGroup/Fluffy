@@ -60,7 +60,7 @@ struct CenterView: View {
 			VSplitView {
 				ImageCollectionView(
 					filesToShow: filesToShow,
-					fileSelection: $fileSelection,
+					//fileSelection: $fileSelection,
 					updater: $updater,
 					style: imageCollectionViewStyle,
 					thumbnailSize: $thumbnailScale

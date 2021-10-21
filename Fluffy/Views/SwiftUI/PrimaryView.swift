@@ -72,7 +72,7 @@ private extension PrimaryView {
 				VStack(spacing: 0) {
 					Divider()
 					InspectorView(
-						fileSelection: fileSelection,
+						//fileSelection: fileSelection,
 						directorySelection: sidebarSelection
 					)
 				}

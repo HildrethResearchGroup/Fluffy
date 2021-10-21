@@ -17,7 +17,7 @@ struct ImageCollectionTableView: View {
     @EnvironmentObject var selectionManager: SelectionManager
     
     /// The files selected
-    @Binding var fileSelection: Set<File>
+    //@Binding var fileSelection: Set<File>
     
     /// The sort order
     @State private var order: [KeyPathComparator<File>] = [
@@ -32,11 +32,11 @@ struct ImageCollectionTableView: View {
     @State var diskImageGroup: DiskImageLoaderGroup
     
     init(filesToShow: [File],
-         fileSelection: Binding<Set<File>>,
+         //fileSelection: Binding<Set<File>>,
          updater: Binding<Updater>
     ) {
         self.filesToShow = filesToShow
-        _fileSelection = fileSelection
+        //_fileSelection = fileSelection
         _updater = updater
         diskImageGroup = .named(
             "ListView",
@@ -51,6 +51,13 @@ struct ImageCollectionTableView: View {
             TableColumn("Location", value: \.organizedPath)
             TableColumn("Date Imported", value: \.dateImportedString)
             TableColumn("Size [MB]", value: \.fileSize)
+            TableColumn("File Name", value: \.fileName) {file in
+                HStack {
+                    Text(file.fileName)
+                    Spacer()
+                    ShowInFinderButton(file.url)
+                }
+            }
         }
     }
     

@@ -51,14 +51,14 @@ extension File: Identifiable {
 extension File {
 	/// The display name to show the user for the file.
 	var displayName: String {
-		return customName ?? fileName ?? ""
+		return customName ?? fileName
 	}
 	
 	/// The name of the file as determined from its URL. `nil` if the image has no URL.
-	var fileName: String? {
+	var fileName: String {
 		return url?
 			.deletingPathExtension()
-			.lastPathComponent
+			.lastPathComponent ?? ""
 	}
     
     /// The Imported date formated as a String

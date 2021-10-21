@@ -10,10 +10,14 @@ import SwiftUI
 /// A view displaying the inspector pane.
 struct InspectorView: View {
 	/// The files selected.
-	var fileSelection: Set<File>
+	//var fileSelection: Set<File>
 	
 	/// The directories selected.
 	var directorySelection: Set<Directory>
+    
+    /// Manage the selection
+    @EnvironmentObject var selectionManager: SelectionManager
+    
 	
 	/// The inspector tab selected.
 	@State var tabSelection = Tab.file
@@ -45,14 +49,15 @@ private extension InspectorView {
 	/// The view showing the file inspector.
 	@ViewBuilder
 	var fileInspector: some View {
-		switch fileSelection.count {
+        switch selectionManager.fileSelection.count {
 		case 0:
 			Spacer()
 			Text("No File Selected")
 			Spacer()
 		case 1:
 			FileInspectorView(
-				file: fileSelection.first!
+				//file: fileSelection.first!
+                file: selectionManager.fileSelection.first!
 			)
 		default:
 			Spacer()
@@ -110,7 +115,7 @@ struct InspectorView_Previews: PreviewProvider {
 	
 	static var previews: some View {
 		InspectorView(
-			fileSelection: fileSelection,
+			//fileSelection: fileSelection,
 			directorySelection: directorySelection
 		)
 	}

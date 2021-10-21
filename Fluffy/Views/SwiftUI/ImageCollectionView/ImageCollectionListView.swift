@@ -13,7 +13,7 @@ struct ImageCollectionListView: View {
 	var filesToShow: [File]
 	
 	/// The files selected.
-	@Binding var fileSelection: Set<File>
+	//@Binding var fileSelection: Set<File>
     
     /// Manage the selection
     @EnvironmentObject var selectionManager: SelectionManager
@@ -42,11 +42,11 @@ struct ImageCollectionListView: View {
 	///   - updater: An updater for manually updating the files to show.
 	init(
 		filesToShow: [File],
-		fileSelection: Binding<Set<File>>,
+		//fileSelection: Binding<Set<File>>,
 		updater: Binding<Updater>
 	) {
 		self.filesToShow = filesToShow
-		_fileSelection = fileSelection
+		//_fileSelection = fileSelection
 		_updater = updater
 		diskImageGroup = .named(
 			"ListView",
@@ -64,7 +64,7 @@ private extension ImageCollectionListView {
 		@ObservedObject var file: File
 		
 		/// The selected files.
-		@Binding var fileSelection: Set<File>
+		//@Binding var fileSelection: Set<File>
         
         /// Manage the selection
         @EnvironmentObject var selectionManager: SelectionManager
@@ -118,12 +118,12 @@ private extension ImageCollectionListView {
 	@ViewBuilder
 	func item(forFile file: File) -> some View {
 		ItemView(file: file,
-						 fileSelection: $fileSelection,
+						 //fileSelection: $selectionManager.fileSelection,
 						 diskImageGroup: diskImageGroup)
 			.contextMenu {
 				ImageCollectionItemContextMenu(
 					file: file,
-					fileSelection: $fileSelection,
+					//fileSelection: $selectionManager.fileSelection,
 					updater: $updater
 				)
 			}
@@ -156,7 +156,7 @@ struct ImageCollectionListView_Previews: PreviewProvider {
 	static var previews: some View {
 		ImageCollectionListView(
 			filesToShow: filesToShow,
-			fileSelection: $fileSelection,
+			//fileSelection: $fileSelection,
 			updater: .constant(Updater())
 		)
 	}

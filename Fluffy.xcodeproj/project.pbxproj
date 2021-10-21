@@ -51,6 +51,7 @@
 		5ADDED19266472F500CF87B7 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADDED18266472F500CF87B7 /* ImageCache.swift */; };
 		5ADDED1C266477C500CF87B7 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 5ADDED1B266477C500CF87B7 /* Collections */; };
 		5AEE3146266ABE1700495FD6 /* BottomBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AEE3145266ABE1700495FD6 /* BottomBarView.swift */; };
+		CD38B2612721DD050065A1CD /* ShowInFinderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD38B2602721DD050065A1CD /* ShowInFinderButton.swift */; };
 		CD71666727137106009630C5 /* SelectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD71666627137106009630C5 /* SelectionManager.swift */; };
 		CD7166692713B876009630C5 /* DetailGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7166682713B876009630C5 /* DetailGridView.swift */; };
 		CDF802B9270FEE750040FF04 /* ImageCollectionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF802B8270FEE750040FF04 /* ImageCollectionTableView.swift */; };
@@ -124,6 +125,7 @@
 		5ACD136325FF3D1400E64523 /* ImageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionView.swift; sourceTree = "<group>"; };
 		5ADDED18266472F500CF87B7 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		5AEE3145266ABE1700495FD6 /* BottomBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBarView.swift; sourceTree = "<group>"; };
+		CD38B2602721DD050065A1CD /* ShowInFinderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowInFinderButton.swift; sourceTree = "<group>"; };
 		CD71666627137106009630C5 /* SelectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionManager.swift; sourceTree = "<group>"; };
 		CD7166682713B876009630C5 /* DetailGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGridView.swift; sourceTree = "<group>"; };
 		CDF802B8270FEE750040FF04 /* ImageCollectionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionTableView.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				5A8A979D261AF2A900FBE591 /* LazyDiskImage.swift */,
 				5ABE618B2652EA8300308B11 /* ManualUpdatableView.swift */,
 				CD71666627137106009630C5 /* SelectionManager.swift */,
+				CD38B2602721DD050065A1CD /* ShowInFinderButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -505,6 +508,7 @@
 				CDF802B9270FEE750040FF04 /* ImageCollectionTableView.swift in Sources */,
 				5A2F421925E20BE3000D70A8 /* Fluffy.xcdatamodeld in Sources */,
 				5A8E696B266AEB5E00F7748B /* Constants.swift in Sources */,
+				CD38B2612721DD050065A1CD /* ShowInFinderButton.swift in Sources */,
 				5A8E6968266AE62000F7748B /* ThumbnailDiskImageLoader.swift in Sources */,
 				5A8E6966266AE3CA00F7748B /* DiskImageLoaderGroup.swift in Sources */,
 				5A1B1D5226774FD7002FF636 /* ImageCollectionItemContextMenu.swift in Sources */,

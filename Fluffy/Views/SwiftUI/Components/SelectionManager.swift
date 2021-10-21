@@ -24,7 +24,7 @@ class SelectionManager: ObservableObject {
     
     @Published var fileSelectionArray: Array<File> = []
     
-    
+    @Published var directorySelection: Set<Directory> = []
     
     enum SelectionChanged {
         case tableSelection
