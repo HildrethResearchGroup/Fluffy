@@ -9,14 +9,9 @@ import SwiftUI
 
 /// The center pane in the application.
 struct CenterView: View {
-	/// The  selected files.
-	//@Binding var fileSelection: Set<File>
-    
     /// Manage the selection
     @EnvironmentObject var selectionManager: SelectionManager
 	
-	/// The selected directories.
-	//@Binding var sidebarSelection: Set<Directory>
 	
 	/// A manual updater for updating the files to show.
 	@Binding var updater: Updater
@@ -60,7 +55,6 @@ struct CenterView: View {
 			VSplitView {
 				ImageCollectionView(
 					filesToShow: filesToShow,
-					//fileSelection: $fileSelection,
 					updater: $updater,
 					style: imageCollectionViewStyle,
 					thumbnailSize: $thumbnailScale
@@ -125,8 +119,6 @@ struct CenterView_Previews: PreviewProvider {
 	
 	static var previews: some View {
 		CenterView(
-			//fileSelection: $fileSelection,
-			//sidebarSelection: $sidebarSelection,
 			updater: .constant(Updater()),
 			imageCollectionViewStyle: .asList
 		)

@@ -11,11 +11,8 @@ import SwiftUI
 struct ImageCollectionItemContextMenu: View {
 	/// The file that was clicked on.
 	let file: File
-	
-	/// The files currently selected.
-	//@Binding var fileSelection: Set<File>
-    
-    /// Manage the selection
+	   
+    /// Manage the File and Directory selections
     @EnvironmentObject var selectionManager: SelectionManager
     	
 	/// A manual updater for updating the files to show.
@@ -116,12 +113,10 @@ struct ImageCollectionItemContextMenu_Previews: PreviewProvider {
 		return file
 	}()
 	
-	@State static var fileSelection: Set = [file]
 	
 	static var previews: some View {
 		ImageCollectionItemContextMenu(
 			file: file,
-			//fileSelection: $fileSelection,
 			updater: .constant(Updater())
 		)
 	}

@@ -63,10 +63,8 @@ private extension ImageCollectionListView {
 		/// The file to display.
 		@ObservedObject var file: File
 		
-		/// The selected files.
-		//@Binding var fileSelection: Set<File>
         
-        /// Manage the selection
+        /// Manage the File and Directory selections
         @EnvironmentObject var selectionManager: SelectionManager
 		
 		/// The group to load the thumbnail image in.
@@ -118,12 +116,10 @@ private extension ImageCollectionListView {
 	@ViewBuilder
 	func item(forFile file: File) -> some View {
 		ItemView(file: file,
-						 //fileSelection: $selectionManager.fileSelection,
-						 diskImageGroup: diskImageGroup)
+                 diskImageGroup: diskImageGroup)
 			.contextMenu {
 				ImageCollectionItemContextMenu(
 					file: file,
-					//fileSelection: $selectionManager.fileSelection,
 					updater: $updater
 				)
 			}
@@ -156,7 +152,6 @@ struct ImageCollectionListView_Previews: PreviewProvider {
 	static var previews: some View {
 		ImageCollectionListView(
 			filesToShow: filesToShow,
-			//fileSelection: $fileSelection,
 			updater: .constant(Updater())
 		)
 	}

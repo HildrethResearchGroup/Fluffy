@@ -15,8 +15,6 @@ struct ImageCollectionView: View {
 	/// The view type for displaying the images.
 	var style: ImageCollectionViewStyle
 	
-	/// The currently selected files.
-	//@Binding var fileSelection: Set<File>
     
     /// Manage the selection
     @EnvironmentObject var selectionManager: SelectionManager

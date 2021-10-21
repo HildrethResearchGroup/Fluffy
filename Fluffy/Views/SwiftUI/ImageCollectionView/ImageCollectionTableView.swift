@@ -13,11 +13,9 @@ struct ImageCollectionTableView: View {
     /// The files to display
     var filesToShow: [File]
     
-    /// Manage the selection
+    /// Manage the File and Directory selections
     @EnvironmentObject var selectionManager: SelectionManager
     
-    /// The files selected
-    //@Binding var fileSelection: Set<File>
     
     /// The sort order
     @State private var order: [KeyPathComparator<File>] = [
@@ -32,11 +30,9 @@ struct ImageCollectionTableView: View {
     @State var diskImageGroup: DiskImageLoaderGroup
     
     init(filesToShow: [File],
-         //fileSelection: Binding<Set<File>>,
          updater: Binding<Updater>
     ) {
         self.filesToShow = filesToShow
-        //_fileSelection = fileSelection
         _updater = updater
         diskImageGroup = .named(
             "ListView",

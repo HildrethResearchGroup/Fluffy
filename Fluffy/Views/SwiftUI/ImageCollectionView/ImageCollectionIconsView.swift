@@ -12,8 +12,6 @@ struct ImageCollectionIconsView: View {
 	/// The files to display.
 	var filesToShow: [File]
 	
-	/// The currently selected files.
-	//@Binding var fileSelection: Set<File>
     
     /// Manage the selection
     @EnvironmentObject var selectionManager: SelectionManager
@@ -33,12 +31,10 @@ struct ImageCollectionIconsView: View {
 	/// Creates an image collection icons view.
 	/// - Parameters:
 	///   - filesToShow: The files to display.
-	///   - fileSelection: The files selected.
 	///   - updater: An updater for updating the files to show.
 	///   - thumbnailScale: The size of thumbnails.
 	init(
 		filesToShow: [File],
-		//fileSelection: Binding<Set<File>>,
 		updater: Binding<Updater>,
 		thumbnailScale: Double
 	) {
@@ -49,7 +45,7 @@ struct ImageCollectionIconsView: View {
 		sizeGroup = Int(log2(thumbnailScale)) + 1
 		
 		diskImageGroup = .named("IconsView\(sizeGroup)",
-														cacheMegabyteCapacity: 512)
+                                cacheMegabyteCapacity: 512)
 	}
 	
 	var body: some View {
@@ -226,7 +222,6 @@ struct ImageCollectionIconsView_Previews: PreviewProvider {
 	static var previews: some View {
 		ImageCollectionIconsView(
 			filesToShow: filesToShow,
-			//fileSelection: $fileSelection,
 			updater: .constant(Updater()),
 			thumbnailScale: C.defaultIconThumbnailSize
 		)

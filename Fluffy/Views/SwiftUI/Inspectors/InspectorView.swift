@@ -9,13 +9,11 @@ import SwiftUI
 
 /// A view displaying the inspector pane.
 struct InspectorView: View {
-	/// The files selected.
-	//var fileSelection: Set<File>
 	
 	/// The directories selected.
 	var directorySelection: Set<Directory>
     
-    /// Manage the selection
+    /// Manage the File and Directory selections
     @EnvironmentObject var selectionManager: SelectionManager
     
 	
@@ -56,7 +54,6 @@ private extension InspectorView {
 			Spacer()
 		case 1:
 			FileInspectorView(
-				//file: fileSelection.first!
                 file: selectionManager.fileSelection.first!
 			)
 		default:
@@ -110,12 +107,10 @@ extension InspectorView {
 
 // MARK:- Previews
 struct InspectorView_Previews: PreviewProvider {
-	static var fileSelection: Set<File> = []
 	static var directorySelection: Set<Directory> = []
 	
 	static var previews: some View {
 		InspectorView(
-			//fileSelection: fileSelection,
 			directorySelection: directorySelection
 		)
 	}
