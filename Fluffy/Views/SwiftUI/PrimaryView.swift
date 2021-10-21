@@ -15,12 +15,16 @@ struct PrimaryView: View {
 	
 	/// The app's root directory.
 	@EnvironmentObject private var rootDirectory: Directory
+    
+    /// Manage the selection
+    @EnvironmentObject var selectionManager: SelectionManager
+    
 	
 	/// The currently selected directories in the sidebar.
-	@State private var sidebarSelection: Set<Directory> = []
+	//@State private var sidebarSelection: Set<Directory> = []
 	
 	/// The currently selected files.
-	@State private var fileSelection: Set<File> = []
+	//@State private var fileSelection: Set<File> = []
 	
 	/// The style for displaying the image collection.
 	@AppStorage("imageCollectionViewStyle") private var imageCollectionViewStyle = ImageCollectionViewStyle.asList
@@ -35,7 +39,8 @@ struct PrimaryView: View {
 	
 	var body: some View {
 		NavigationView {
-			SidebarView(selection: $sidebarSelection, updater: $updater)
+			//SidebarView(selection: $sidebarSelection, updater: $updater)
+            SidebarView(updater: $updater)
 				.frame(
 					minWidth: 150,
 					idealWidth: 300,
@@ -73,7 +78,7 @@ private extension PrimaryView {
 					Divider()
 					InspectorView(
 						//fileSelection: fileSelection,
-						directorySelection: sidebarSelection
+                        directorySelection: selectionManager.directorySelection
 					)
 				}
 			}
@@ -86,8 +91,8 @@ private extension PrimaryView {
 	var centerView: some View {
 		HStack(spacing: 0.0) {
 			CenterView(
-				fileSelection: $fileSelection,
-				sidebarSelection: $sidebarSelection,
+				//fileSelection: $fileSelection,
+				//sidebarSelection: $sidebarSelection,
 				updater: $updater,
 				imageCollectionViewStyle: imageCollectionViewStyle
 			)

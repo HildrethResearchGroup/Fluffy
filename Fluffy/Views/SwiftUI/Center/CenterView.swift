@@ -10,13 +10,13 @@ import SwiftUI
 /// The center pane in the application.
 struct CenterView: View {
 	/// The  selected files.
-	@Binding var fileSelection: Set<File>
+	//@Binding var fileSelection: Set<File>
     
     /// Manage the selection
     @EnvironmentObject var selectionManager: SelectionManager
 	
 	/// The selected directories.
-	@Binding var sidebarSelection: Set<Directory>
+	//@Binding var sidebarSelection: Set<Directory>
 	
 	/// A manual updater for updating the files to show.
 	@Binding var updater: Updater
@@ -45,7 +45,7 @@ struct CenterView: View {
     ]
 	
 	var body: some View {
-		let filesToShow = Directory.files(inSelection: sidebarSelection)
+        let filesToShow = Directory.files(inSelection: selectionManager.directorySelection)
 			.filter { file in
 				if filterFileTypes {
 					let `extension` = file.url?.pathExtension ?? ""
@@ -75,7 +75,7 @@ struct CenterView: View {
 			BottomBarView(
                 numberOfFilesSelected: selectionManager.fileSelection.count,
 				numberOfFilesShown: filesToShow.count,
-				numberOfDirectoriesSelected: sidebarSelection.count,
+                numberOfDirectoriesSelected: selectionManager.directorySelection.count,
 				thumbnailScale: thumbnailScaleBinding
 			)
 		}
@@ -125,8 +125,8 @@ struct CenterView_Previews: PreviewProvider {
 	
 	static var previews: some View {
 		CenterView(
-			fileSelection: $fileSelection,
-			sidebarSelection: $sidebarSelection,
+			//fileSelection: $fileSelection,
+			//sidebarSelection: $sidebarSelection,
 			updater: .constant(Updater()),
 			imageCollectionViewStyle: .asList
 		)

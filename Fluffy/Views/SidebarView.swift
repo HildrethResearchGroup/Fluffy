@@ -10,7 +10,7 @@ import SwiftUI
 /// The app's sidebar view, which displays the imported directories.
 struct SidebarView: View {
 	/// The selected directories in the sidebar.
-	@Binding var selection: Set<Directory>
+	//@Binding var selection: Set<Directory>
     
     /// Manage the selection
     @EnvironmentObject var selectionManager: SelectionManager
@@ -27,8 +27,8 @@ struct SidebarView: View {
 		switch rootDirectory {
 		case .success(let root):
 			SidebarViewController(rootDirectory: root,
-														selection: $selection,
-														updater: $updater)
+                                  selection: $selectionManager.directorySelection,
+                                  updater: $updater)
 		case .failure(let error):
 			failureView(forError: error)
 		}
@@ -73,6 +73,7 @@ struct SidebarView_Previews: PreviewProvider {
 	@State static var updater = Updater()
 	
 	static var previews: some View {
-		SidebarView(selection: $selection, updater: $updater)
+		//SidebarView(selection: $selection, updater: $updater)
+        SidebarView(updater: $updater)
 	}
 }
